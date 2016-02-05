@@ -4,3 +4,9 @@ C:\Users\Claudia\Documents\Visual Studio 2015\Projects\Domino\Domino\bin\Domino.
 C:\Users\Claudia\Documents\Visual Studio 2015\Projects\Domino\Domino\obj\Debug\Domino.dll
 C:\Users\Claudia\Documents\Visual Studio 2015\Projects\Domino\Domino\obj\Debug\Domino.pdb
 C:\Users\Claudia\Documents\Visual Studio 2015\Projects\Domino\Domino\obj\Debug\Domino.csprojResolveAssemblyReference.cache
+E:\Git\DominoX\Domino\bin\Domino.dll.config
+E:\Git\DominoX\Domino\bin\Domino.dll
+E:\Git\DominoX\Domino\bin\Domino.pdb
+E:\Git\DominoX\Domino\obj\Debug\Domino.csprojResolveAssemblyReference.cache
+E:\Git\DominoX\Domino\obj\Debug\Domino.dll
+E:\Git\DominoX\Domino\obj\Debug\Domino.pdb
