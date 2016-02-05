@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Start page</title>
+    
+    <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/freeuniversal" type="text/css" />
+    <link href="../app.css" rel="stylesheet" type="text/css" />   
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="render.js"></script>
+</head>
+
+<body>
+    <div class="mainContainer">
+
+        <div id="cont" class="backgroundImage">
+            <div class="menuBox" id="mainMenu">
+                <div class="buttonsOptions">
+                    <button id="play" type="button" onclick="play()"><strong>Play a new game</strong></button>
+                    <br>
+                    <button id="resume" type="button" onclick="restore()"><strong>Restore a game</strong></button>
+                    <br>
+                    <button id="viewScores" type="button" onclick="viewScores()"><strong>View scores</strong></button>
+                    <br>
+                    <button type="button"><strong>About</strong></button>
+                </div>
+
+            </div>
+
+
+            <div id="newGame">
+                <button class="back" type="button" onclick="goToMainMenu()"><strong><</strong></button>
+                <br>
+
+                <div class="menuBox">
+                    <div class="buttonsOptions">
+                        <button class="gameType" type="button" onclick="goToInsertPlayers()">
+                            <strong>Muggins</strong>
+                        </button>
+                        <br>
+                        <button class="gameType" type="button" onclick="goToInsertPlayers()"><strong>Block</strong></button>
+                        <br>
+                        <button class="gameType" type="button" onclick="goToInsertPlayers()">
+                            <strong>Bendomino</strong>
+                        </button>
+                        <br>
+                        <button class="gameType" type="button" onclick="goToInsertPlayers()"><strong>Draw</strong></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="insertPlayers">
+                <button class="back" type="button" onclick="goToMainMenu()"><strong><</strong></button>
+                <br>
+
+                <div class="menuBox">
+                    <div class="options">
+                        <strong class="askName">First player:</strong><br>
+                        <input type="text" name="username"><br>
+                        <strong class="askName">Second player:</strong><br>
+                        <input type="text" name="username"><br>
+                        <button type="button" onclick="startGame()"><strong>Play</strong></button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resumeGame">
+                <button class="back" type="button" onclick="goToMainMenu()"><strong><</strong></button>
+                <br>
+
+                <div class="menuBox">
+                    <div class="options">
+                        <ul id="buttons">
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button">
+                                    <strong>Gigel vs Vasile</strong><br><strong>12 April, 23:43</strong>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="scores">
+                <button class="back" id="backBtn3" type="button" onclick="goToMainMenu()"><strong><</strong></button>
+                <br>
+
+                <div class="menuBox">
+                    <div class="options">
+                        <ul id="scoresList">
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                            <li><strong>Gigel vs Vasile</strong><br><strong>20/30</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(window).resize(function () {
+
+            $('.menuBox').css({
+                position: 'absolute',
+                left: ($(window).width()
+                        - $('.menuBox').outerWidth()) / 2,
+                top: ($(window).height()
+                        - $('.menuBox').outerHeight()) / 2
+            });
+
+        });
+
+        // To initially run the function:
+        $(window).resize();
+
+    });
+    </script>
+</body>
+</html>
