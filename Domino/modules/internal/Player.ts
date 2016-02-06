@@ -1,14 +1,14 @@
 ﻿/// <reference path="dominoModels/DominoTile.ts"/>
 
-module com.dominox.internal {
+module dominox {
 
     export class Player
     {
         private name: String;
-        private score: Number;
-        private tileList: dominoModels.DominoTile[];
+        private score: number;
+        private tileList: dominox.DominoTile[];
 
-        constructor(name: String, tileList: dominoModels.DominoTile[])
+        constructor(name: String, tileList: dominox.DominoTile[])
         {
             this.tileList = tileList;
             this.name = name;
@@ -20,24 +20,24 @@ module com.dominox.internal {
             return this.name;
         }
 
-        public getScore(): Number {
+        public getScore(): number {
             return this.score;
         }
 
-        public setScore(newScore: Number): void {
+        public setScore(newScore: number): void {
             this.score = newScore;
         }
 
 
-        public getTileList(): dominoModels.DominoTile[] {
+        public getTileList(): dominox.DominoTile[]{
             return this.tileList;
         }
 
-        public addTile(tile: dominoModels.DominoTile): void {
+        public addTile(tile: dominox.DominoTile): void {
             this.tileList.push(tile);
         }
 
-        public removeTile(tile: dominoModels.DominoTile): void {
+        public removeTile(tile: dominox.DominoTile): void {
             var index = this.tileList.indexOf(tile, 0);
             if (index != undefined && index != null) {
                 this.tileList.splice(index, 1);

@@ -1,11 +1,11 @@
 ﻿/// <reference path="../../dominoModels/DominoTile.ts" />
 /// <reference path="../../Interfaces.ts"/>
 /// <reference path="../../Player.ts"/>
-module com.dominox.internal.useCases.playTileUseCase {
+module dominox {
     export class PlayTileUseCaseInput {
 
         public player: Player;
-        public tile: dominoModels.DominoTile;
+        public tile: dominox.DominoTile;
         public tileBoard: TileBoard;
         public tileView: TileBoardView;
         public dominoGame: DominoGame;

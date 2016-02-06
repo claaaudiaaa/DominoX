@@ -1,20 +1,21 @@
-var com;
-(function (com) {
-    var dominox;
-    (function (dominox) {
-        var internal;
-        (function (internal) {
-            var dominoModels;
-            (function (dominoModels) {
-                (function (DominoTileOrientation) {
-                    DominoTileOrientation[DominoTileOrientation["VerticalFirstUp"] = 0] = "VerticalFirstUp";
-                    DominoTileOrientation[DominoTileOrientation["VerticalSecondUp"] = 1] = "VerticalSecondUp";
-                    DominoTileOrientation[DominoTileOrientation["HorizontalFirstLeft"] = 2] = "HorizontalFirstLeft";
-                    DominoTileOrientation[DominoTileOrientation["HorizontalSecondLeft"] = 3] = "HorizontalSecondLeft";
-                })(dominoModels.DominoTileOrientation || (dominoModels.DominoTileOrientation = {}));
-                var DominoTileOrientation = dominoModels.DominoTileOrientation;
-            })(dominoModels = internal.dominoModels || (internal.dominoModels = {}));
-        })(internal = dominox.internal || (dominox.internal = {}));
-    })(dominox = com.dominox || (com.dominox = {}));
-})(com || (com = {}));
+var dominox;
+(function (dominox) {
+    (function (DominoTileOrientation) {
+        DominoTileOrientation[DominoTileOrientation["VerticalFirstUp"] = 0] = "VerticalFirstUp";
+        DominoTileOrientation[DominoTileOrientation["VerticalSecondUp"] = 1] = "VerticalSecondUp";
+        DominoTileOrientation[DominoTileOrientation["HorizontalFirstLeft"] = 2] = "HorizontalFirstLeft";
+        DominoTileOrientation[DominoTileOrientation["HorizontalSecondLeft"] = 3] = "HorizontalSecondLeft";
+    })(dominox.DominoTileOrientation || (dominox.DominoTileOrientation = {}));
+    var DominoTileOrientation = dominox.DominoTileOrientation;
+    function isHorizontal(orientation) {
+        return orientation == DominoTileOrientation.HorizontalFirstLeft ||
+            orientation == DominoTileOrientation.HorizontalSecondLeft;
+    }
+    dominox.isHorizontal = isHorizontal;
+    function isVertical(orientation) {
+        return orientation == DominoTileOrientation.VerticalFirstUp ||
+            orientation == DominoTileOrientation.VerticalSecondUp;
+    }
+    dominox.isVertical = isVertical;
+})(dominox || (dominox = {}));
 //# sourceMappingURL=DominoTileOrientation.js.map

@@ -2,89 +2,219 @@
 /// <reference path="../Interfaces.ts"/>
 
 
-module com.dominox.internal.concreteImplementations {
+module dominox
+{
 
-    export enum TileMatchType {
-        FirstFirst,
-        FirstSecond,
-        SecondFirst,
-        SecondSecond,
-        NoMatch
-    }
-
-    export class ConcreteTileBoard implements internal.TileBoard
+    export class ConcreteTileBoard implements dominox.TileBoard
     {
-        private dominoTileList: dominoModels.DominoTile[];
+        private dominoTileList: dominox.DominoTile[];
 
         constructor() {
-            this.dominoTileList = new Array<dominoModels.DominoTile>();
+            this.dominoTileList = new Array<dominox.DominoTile>();
         }
 
-        public addTileAsNeighbourToTile(tile: dominoModels.DominoTile, neighbourTile: dominoModels.DominoTile)
+        public getTileList(): dominox.DominoTile[] {
+            return this.dominoTileList;
+        }
+
+        public addTileAsNeighbourToTile(tile: dominox.DominoTile, neighbourTile: dominox.DominoTile)
         {
             this.checkTileExistsOrThrow(neighbourTile);
             this.checkTilesForMatchingOrThrow(tile, neighbourTile);
+            this.setOrientationOfTileAccordingToNeighbour(tile, neighbourTile);
+            this.dominoTileList.push(tile);
 
         }
 
-        public addFirstTile(tile: dominoModels.DominoTile): void
+        public addFirstTile(tile: dominox.DominoTile): void
         {
             this.checkListEmptyOrThrow(); 
             this.setOrientationOfFirstTile(tile);
             this.dominoTileList.push(tile);
         }
 
+        public getExternalTilesListMatchingTile(matchingTile: dominox.DominoTile): dominox.DominoTile[]{
+            var tileList: dominox.DominoTile[] = [];
 
-        setOrientationOfTileAccordingToNeighbour(tile: dominModels.DominoTile, neighbour: dominModels.DominoTile)
+            for (var i = 0; i < this.dominoTileList.length; i++) {
+                var tile: dominox.DominoTile = this.dominoTileList[i];
+                var matchingType = dominox.getTilesMatchType(matchingTile, tile);
+                if (matchingType == dominox.TileMatchType.NoMatch)
+                    continue;
+                var tileOrientation = tile.getOrientation();
+                
+                    if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeft){
+                        if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
+                            tile.getLeftNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+
+                        if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
+                            tile.getRightNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+                    }
+
+                    if (tileOrientation == dominox.DominoTileOrientation.HorizontalSecondLeft) {
+                        if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
+                            tile.getRightNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+
+                        if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
+                            tile.getLeftNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+                    }
+
+                    if (tileOrientation == dominox.DominoTileOrientation.VerticalFirstUp) {
+
+                        if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
+                            tile.getUpNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+
+                        if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
+                            tile.getDownNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+                    }
+
+                    if (tileOrientation == dominox.DominoTileOrientation.VerticalSecondUp) {
+                        if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
+                            tile.getDownNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+
+                        if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
+                            tile.getUpNeighbour() == null) {
+                            tileList.push(tile);
+                            continue;
+                        }
+                    }
+                }
+
+            return tileList;
+        }
+
+        setOrientationOfTileAccordingToNeighbour(tile: dominox.DominoTile, neighbour: dominox.DominoTile)
         {
-            var orientation: dominModels.DominoTileOrientation = dominModels.DominoTileOrientation.HorizontalFirstLeft;
-            if (neighbour.isDoubleTile()) {
+            var matchType: TileMatchType = dominox.getTilesMatchType(tile, neighbour);
+            var orientation: dominox.DominoTileOrientation = dominox.DominoTileOrientation.HorizontalFirstLeft;
+
+            if (neighbour.isDoubleTile())
+            {
+                if (!dominox.isVertical(neighbour.getOrientation()))
+                    throw "Epected double tile to be vertical " + neighbour.toString();
+                {
+
+                    if (neighbour.getRightNeighbour() == null) {
+                        neighbour.setRightNeighbour(tile);
+                        tile.setLeftNeighbour(neighbour);
+
+                        tile.setOrientation(dominox.DominoTileOrientation.HorizontalSecondLeft);
+
+                        if (TileMatchType.FirstFirst == matchType ||
+                            TileMatchType.FirstSecond == matchType)
+                                tile.setOrientation(dominox.DominoTileOrientation.HorizontalFirstLeft);
+                        return;
+                    }
+
+                    if (neighbour.getLeftNeighbour() == null) {
+                        neighbour.setLeftNeighbour(tile);
+                        tile.setRightNeighbour(neighbour);
+
+                        tile.setOrientation(dominox.DominoTileOrientation.HorizontalFirstLeft);
+
+                        if (TileMatchType.FirstFirst == matchType ||
+                            TileMatchType.FirstSecond == matchType)
+                                tile.setOrientation(dominox.DominoTileOrientation.HorizontalSecondLeft);
+                        return;
+                    }
+
+                    if (neighbour.getUpNeighbour() == null) {
+                        neighbour.setUpNeighbour(tile);
+                        tile.setDownNeighbour(neighbour);
+
+                        tile.setOrientation(dominox.DominoTileOrientation.VerticalFirstUp);
+
+                        if (TileMatchType.FirstFirst == matchType ||
+                            TileMatchType.FirstSecond == matchType)
+                            tile.setOrientation(dominox.DominoTileOrientation.VerticalSecondUp);
+                        return;
+                    }
+
+                    if (neighbour.getDownNeighbour() == null) {
+                        neighbour.setDownNeighbour(tile);
+                        tile.setUpNeighbour(neighbour);
+
+                        tile.setOrientation(dominox.DominoTileOrientation.VerticalSecondUp);
+
+                        if (TileMatchType.FirstFirst == matchType ||
+                            TileMatchType.FirstSecond == matchType)
+                            tile.setOrientation(dominox.DominoTileOrientation.VerticalFirstUp);
+                        return;
+                    }
+
+                }
+                
             }
             else {
 
-                var matchType: TileMatchType = this.getTilesMatchType(tile, neighbour);
-                switch (matchType) {
+                if (!dominox.isHorizontal(orientation))
+                    throw "Expected tile to be horizontal";
+
+                if (TileMatchType.FirstFirst == matchType || TileMatchType.SecondFirst == matchType)
+                        {
+                            if (neighbour.getLeftNeighbour() != null)
+                                throw "Expected left neighbour of a tile to be null";
+                            neighbour.setLeftNeighbour(tile);
+                            tile.setRightNeighbour(neighbour);
+                            if (TileMatchType.FirstFirst == matchType)
+                                tile.setOrientation(dominox.DominoTileOrientation.HorizontalSecondLeft);
+                            else
+                                tile.setOrientation(dominox.DominoTileOrientation.HorizontalFirstLeft);
+                        } 
+
+               if (TileMatchType.FirstSecond == matchType || TileMatchType.SecondSecond == matchType)
+                {
+                            if (neighbour.getRightNeighbour() != null)
+                                throw "Expected right neighbour of a tile to be null";
+                            neighbour.setRightNeighbour(tile);
+                            tile.setLeftNeighbour(neighbour);
+                            if (TileMatchType.FirstSecond == matchType)
+                                tile.setOrientation(dominox.DominoTileOrientation.HorizontalFirstLeft);
+                            else
+                                tile.setOrientation(dominox.DominoTileOrientation.HorizontalSecondLeft);
                 }
             }
         }
 
-        setOrientationOfFirstTile(tile: dominModels.DominoTile) {
+        setOrientationOfFirstTile(tile: dominox.DominoTile) {
             if (tile.isDoubleTile())
-                tile.setOrientation(dominModels.DominoTileOrientation.VerticalFirstUp);
+                tile.setOrientation(dominox.DominoTileOrientation.VerticalFirstUp);
             else
-                tile.setOrientation(dominModels.DominoTileOrientation.HorizontalFirstLeft);
+                tile.setOrientation(dominox.DominoTileOrientation.HorizontalFirstLeft);
         }
 
 
-        getTilesMatchType(first: dominModels.DominoTile, second: dominModels.DominoTile) : TileMatchType
+        
+
+        checkTilesForMatchingOrThrow(tileOne: dominox.DominoTile, tileTwo: dominox.DominoTile)
         {
-            var tileOne = first;
-            var tileTwo = second;
-
-            // first == first
-            if (tileOne.getBone().getFirst() == tileTwo.getBone().getFirst())
-                return TileMatchType.FirstFirst;
-            //first - second
-            if (tileOne.getBone().getFirst() == tileTwo.getBone().getSecond())
-                return TileMatchType.FirstSecond;
-            //second - first
-            if (tileOne.getBone().getSecond() == tileTwo.getBone().getFirst())
-                return TileMatchType.SecondFirst;
-            //second - second
-            if (tileOne.getBone().getSecond() == tileTwo.getBone().getSecond())
-                return TileMatchType.SecondSecond;
-
-            return TileMatchType.NoMatch;
-        }
-
-        checkTilesForMatchingOrThrow(tileOne: dominModels.DominoTile, tileTwo: dominModels.DominoTile)
-        {
-            if (this.getTilesMatchType(tileOne, tileTwo) == TileMatchType.NoMatch)
+            if (dominox.getTilesMatchType(tileOne, tileTwo) == TileMatchType.NoMatch)
                 throw "Tile " + tileOne.toString() + ", and tileTwo " + tileTwo.toString() + " are expected to match";
         }
 
 
-        checkTileExistsOrThrow(tile: dominModels.DominoTile) {
+        checkTileExistsOrThrow(tile: dominox.DominoTile) {
             if (this.dominoTileList.indexOf(tile, 0) < 0) {
                 throw "ConcreteTileBoard tile" + tile.toString() + " expected to be in the board";
             }

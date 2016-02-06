@@ -1,4 +1,5 @@
-﻿module com.dominox.internal.dominoModels {
+﻿module dominox
+{
     export class DominoBone {
         private firstNumber: Number;
         private secondNumber: Number;

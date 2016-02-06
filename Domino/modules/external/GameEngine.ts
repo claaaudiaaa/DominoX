@@ -6,27 +6,25 @@
 /// <reference path = "../internal/useCases/playTileUseCase/PlayTileUseCaseInput.ts"/>
 /// <reference path = "../internal/useCases/playTileUseCase/PlayTileUseCaseOutput.ts"/>
 /// <reference path = "../internal/Player.ts"/>
+/// <reference path = "../internal/concreteImplementations/ConcreteTileBoard.ts"/>
+/// <reference path = "../internal/concreteImplementations/SimpleAlertHelper.ts"/>
+/// <reference path = "../internal/concreteImplementations/ConsoleTileBoardView.ts"/>
+/// <reference path = "../internal/concreteImplementations/ConsolePlayerTileListView.ts"/>
+/// <reference path = "../internal/concreteImplementations/DummyDominoGame.ts"/>
+/// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
+/// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
+/// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
 
 
-import internal = com.dominox.internal;
-import useCases = internal.useCases;
-import playTileUseCase = useCases.playTileUseCase;
-import dominModels = internal.dominoModels;
-
-module com.dominox.external
+module dominox
 {
 
-    export function callPseudoAsync(fun: internal.VoidCallback) {
-        setTimeout(function () {
-            fun();
-        }, 1);
-    }
 
     class PlayerTurnData {
-        public player: internal.Player;
-        public playerTileListView: internal.PlayerTileListView;
+        public player: dominox.Player;
+        public playerTileListView: dominox.PlayerTileListView;
 
-        constructor(player: internal.Player, tileView: internal.PlayerTileListView) {
+        constructor(player: dominox.Player, tileView: dominox.PlayerTileListView) {
             this.player = player;
             this.playerTileListView = tileView;
         }
@@ -35,8 +33,8 @@ module com.dominox.external
 
     export class GameEngine
     {
-        firstPlayer: internal.Player;
-        secondPlayer: internal.Player;
+        firstPlayer: dominox.Player;
+        secondPlayer: dominox.Player;
         //probably some player variables
 
         firstPlayerTurnData: PlayerTurnData;
@@ -45,21 +43,24 @@ module com.dominox.external
         currentPlayerTurnData: PlayerTurnData;
         otherPlayerTurnData: PlayerTurnData;
 
-        firstPlayerTileListView: internal.PlayerTileListView;
-        secondPlayerTileListView: internal.PlayerTileListView;
-        tileBoardView: internal.TileBoardView;
+        firstPlayerTileListView: dominox.PlayerTileListView;
+        secondPlayerTileListView: dominox.PlayerTileListView;
+        tileBoardView: dominox.TileBoardView;
 
-        dominoTilesProvider: internal.DominoTileProvider;
-        tileBoard: internal.TileBoard;
+        dominoTilesProvider: dominox.DominoTileProvider;
+        tileBoard: dominox.TileBoard;
 
-        userIntentionsObserver: internal.UserIntentionsObserver;
-        alertHelper: internal.AlertHelper;
+        userIntentionsObserver: dominox.DebugUserIntentionsObserver;
+        alertHelper: dominox.AlertHelper;
 
-        dominoGame: internal.DominoGame;
-        playerTurnHelper: internal.PlayerTurnHelper;
+        dominoGame: dominox.DominoGame;
+        playerTurnHelper: dominox.PlayerTurnHelper;
 
-        playTileUseCase: playTileUseCase.PlayTileUseCase;
+        playTileUseCase: dominox.PlayTileUseCase;
 
+        constructor() {
+            console.log("GAME ENGINE CREATED SUCCESFULLY");
+        }
 
         createItems() {
             this.dominoTilesProvider = this.createDominoTileProvider();
@@ -69,7 +70,7 @@ module com.dominox.external
             this.secondPlayerTileListView = this.createPlayerTileView();
             this.tileBoardView = this.createTileView();
 
-            this.userIntentionsObserver = this.createUserIntentionsObserver();
+            this.userIntentionsObserver = <DebugUserIntentionsObserver>this.createUserIntentionsObserver();
             this.alertHelper = this.createAlertHelper();
 
             this.playerTurnHelper = this.createPlayerTurnHelper();
@@ -78,8 +79,13 @@ module com.dominox.external
 
         public runWithParameters(params: GameEngineParameters): void
         {
+            console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
+
             this.createItems();
+            console.log("created items");
+
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
+            console.log("created domino game");
 
             //1. set up the domino tiles for each player 
             this.firstPlayer = this.createPlayerWithNameAndProvider(params.firstPlayerName, this.dominoTilesProvider);
@@ -93,6 +99,9 @@ module com.dominox.external
             this.firstPlayerTurnData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
             this.secondPlayerTurnData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
 
+            //4. Start the game
+            console.log("BEGINNING THE GAME");
+            this.beginGame();
         }
 
         public stopGame(): void
@@ -103,18 +112,25 @@ module com.dominox.external
 
         beginGame()
         {
-            this.currentPlayerTurnData = this.firstPlayerTurnData;
-            this.otherPlayerTurnData = this.secondPlayerTurnData;
+            this.firstPlayer.setScore(0);
+            this.secondPlayer.setScore(0);
+
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
+            this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
+
+            console.log("Playing the game");
+            this.playGame(this.firstPlayerTurnData, this.secondPlayerTurnData);
         }
 
         playGame(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData): void {
 
             var gameEngineSelf: GameEngine = this;
+            console.log("In playGame");
             this.startNewTurn(currentPlayerTurnData, otherPlayerTurnData, function ()
             {
                 // now we must swap them and begin a new round
                 // and so on
-                callPseudoAsync(function () {
+                dominox.callPseudoAsync(function () {
                     gameEngineSelf.playGame(otherPlayerTurnData, currentPlayerTurnData);
                 });
             });
@@ -122,18 +138,28 @@ module com.dominox.external
         }
 
         startNewTurn(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData,
-            callbackWhenDone: com.dominox.internal.VoidCallback)
+            callbackWhenDone: dominox.VoidCallback)
         {
+            this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
+
             var message: String = "It is [currentPlayerName]'s turn, [otherPlayerName] please move aside n__n";
             var gameEngineSelf: GameEngine = this;
 
+            console.log("STARTING NEW TURN");
+            //hide other player tile list
+            otherPlayerTurnData.playerTileListView.setInvisible(null);
+            currentPlayerTurnData.playerTileListView.setInvisible(null);
+
             this.alertHelper.displayOkAlertWithMessage(message, function () {
 
-                otherPlayerTurnData.playerTileListView.setInvisible(null);
+                //show current player tile list 
+
+                
                 currentPlayerTurnData.playerTileListView.setVisible(null);
 
                 gameEngineSelf.playerTurnHelper.replenishTilesSoPlayerCanMakeMove(currentPlayerTurnData.player,
                     currentPlayerTurnData.playerTileListView, gameEngineSelf.dominoGame, gameEngineSelf.tileBoard,
+                    gameEngineSelf.dominoTilesProvider,
                     function ()
                     {
                         gameEngineSelf.playUseCaseTillCompleted(currentPlayerTurnData, callbackWhenDone);   
@@ -143,34 +169,36 @@ module com.dominox.external
         }
 
 
-        playUseCaseTillCompleted(currentPlayerTurnData: PlayerTurnData, callbackWhenDone: internal.VoidCallback): void
+        playUseCaseTillCompleted(currentPlayerTurnData: PlayerTurnData, callbackWhenDone: dominox.VoidCallback): void
         {
             var gameEngineSelf: GameEngine = this;
             gameEngineSelf.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromPlayerTileList(
-                function (selectedTile: com.dominox.internal.dominoModels.DominoTile) {
+                function (selectedTile: dominox.DominoTile) {
 
-                    var input: com.dominox.internal.useCases.playTileUseCase.PlayTileUseCaseInput;
-                    input = new com.dominox.internal.useCases.playTileUseCase.PlayTileUseCaseInput();
+                    var input: dominox.PlayTileUseCaseInput;
+                    input = new dominox.PlayTileUseCaseInput();
 
                     input.userIntentionsObserver = gameEngineSelf.userIntentionsObserver;
                     input.dominoGame = gameEngineSelf.dominoGame;
                     input.player = currentPlayerTurnData.player;
                     input.tileView = gameEngineSelf.tileBoardView;
+                    input.tileBoard = gameEngineSelf.tileBoard;
+                    input.tile = selectedTile;
 
                     gameEngineSelf.playTileUseCase.beginWithInputAndCallback(input, function (output:
-                        com.dominox.internal.useCases.playTileUseCase.PlayTileUseCaseOutput) {
+                        dominox.PlayTileUseCaseOutput) {
 
                         if (output.resultOfUseCase ===
-                            com.dominox.internal.useCases.playTileUseCase.PlayTileUseCaseResult.Completed)
+                            dominox.PlayTileUseCaseResult.Completed)
                         {
-                            callPseudoAsync(function () {
+                            dominox.callPseudoAsync(function () {
                                 callbackWhenDone();
                             });
 
                         } else {
 
                             //a better way to handle this requirement isn't known at the moment
-                            callPseudoAsync(function () {
+                            dominox.callPseudoAsync(function () {
                                 gameEngineSelf.playUseCaseTillCompleted(currentPlayerTurnData, callbackWhenDone);
                             });
                         }
@@ -180,53 +208,69 @@ module com.dominox.external
                 });
         }
 
-        createPlayerWithNameAndProvider(name: String, tileProvider: com.dominox.internal.DominoTileProvider):
-            com.dominox.internal.Player
+        createPlayerWithNameAndProvider(name: String, tileProvider: dominox.DominoTileProvider):
+            dominox.Player
         {
-            var randomTiles: com.dominox.internal.dominoModels.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(5);
-            return new com.dominox.internal.Player(name, randomTiles);
+            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(5);
+            console.log("Tiles for player: " + name + " are " + dominox.stringifyTileList(randomTiles));
+            return new dominox.Player(name, randomTiles);
         }
 
 
-        createTileView(): com.dominox.internal.TileBoardView {
-            return null;
+        createTileView(): dominox.TileBoardView {
+            return new dominox.ConsoleTileBoardView();
         }
 
-        createTileBoard(): com.dominox.internal.TileBoard {
-            return null;
+        createTileBoard(): dominox.TileBoard {
+            return new dominox.ConcreteTileBoard();
         }
 
-        createUserIntentionsObserver(): com.dominox.internal.UserIntentionsObserver {
-            return null;
+        createUserIntentionsObserver(): dominox.UserIntentionsObserver {
+
+            var divButtons = document.getElementById("DebugUserIntentions");
+
+            var selectFromBoardButton: HTMLButtonElement = <HTMLButtonElement>divButtons.getElementsByClassName
+                ("debugSelectFirstFromBoard")[0];
+            var selectFromListButton: HTMLButtonElement = <HTMLButtonElement>divButtons.getElementsByClassName("debugSelectFirstFromList")[0];
+            var defaultButton: HTMLButtonElement = <HTMLButtonElement> divButtons.getElementsByClassName("debugDefaultAction")[0];
+
+            var intentionsObserver: dominox.DebugUserIntentionsObserver =
+                new dominox.DebugUserIntentionsObserver(selectFromBoardButton,
+                    selectFromListButton, defaultButton);
+
+            intentionsObserver.tileBoard = this.tileBoard;
+            intentionsObserver.currentPlayer = this.firstPlayer;
+
+            return intentionsObserver;
         }
 
-        createDominoTileProvider(): com.dominox.internal.DominoTileProvider {
-            return null;
+        createDominoTileProvider(): dominox.DominoTileProvider {
+            return new dominox.DummyTileProvider();
         }
 
-        createDominoGameBasedOnName(name: String): com.dominox.internal.DominoGame {
-            return null;
+        createDominoGameBasedOnName(name: String): dominox.DominoGame {
+            return new dominox.DummyDominoGame();
         }
 
-        createPlayerTileView(): com.dominox.internal.PlayerTileListView {
-            return null;
+        createPlayerTileView(): dominox.PlayerTileListView {
+            return new dominox.ConsolePlayerTileListView();
         }
 
-        createAlertHelper(): com.dominox.internal.AlertHelper {
-            return null;
+        createAlertHelper(): dominox.AlertHelper {
+            return new dominox.SimpleAlertHelper();
         }
 
-        createPlayerTurnHelper(): com.dominox.internal.PlayerTurnHelper {
-            return null;
+        createPlayerTurnHelper(): dominox.PlayerTurnHelper {
+            return new dominox.SimplePlayerTurnHelper();
         }
 
-        createPlayTileUseCase(): com.dominox.internal.useCases.playTileUseCase.PlayTileUseCase {
-            return new com.dominox.internal.useCases.playTileUseCase.PlayTileUseCase();
+        createPlayTileUseCase(): dominox.PlayTileUseCase {
+            return new dominox.PlayTileUseCase();
         }
 
-        setupTileListViewForPlayer(tileListView: com.dominox.internal.PlayerTileListView,
-            player: com.dominox.internal.Player): void {
-            tileListView.setOverallTileList(player.getTileList());
+        setupTileListViewForPlayer(tileListView: dominox.PlayerTileListView,
+            player: dominox.Player): void {
+            tileListView.setAndDisplayOverallTileList(player.getTileList(), null);
             tileListView.setPlayerName(player.getName());
             tileListView.setPlayerScore(0);
         }

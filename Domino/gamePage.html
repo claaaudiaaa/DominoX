@@ -4,6 +4,24 @@
     <title>Game</title>
 	<meta charset="utf-8" />
     <link href="../gamePage.css" rel="stylesheet" type="text/css" />
+    <script src="modules/internal/Player.js"></script>
+    <script src="modules/external/GameEngineParameters.js"></script>
+    <script src="modules/internal/concreteImplementations/ConcreteTileBoard.js"></script>
+    <script src="modules/internal/concreteImplementations/ConsolePlayerTileListView.js"></script>
+    <script src="modules/internal/concreteImplementations/ConsoleTileBoardView.js"></script>
+    <script src="modules/internal/concreteImplementations/DebugUserIntentionsObserver.js"></script>
+    <script src="modules/internal/concreteImplementations/DummyDominoGame.js"></script>
+    <script src="modules/internal/concreteImplementations/DummyTileProvider.js"></script>
+    <script src="modules/internal/concreteImplementations/SimpleAlertHelper.js"></script>
+    <script src="modules/internal/concreteImplementations/SimplePlayerTurnHelper.js"></script>
+    <script src="modules/internal/dominoModels/DominoBone.js"></script>
+    <script src="modules/internal/dominoModels/DominoTile.js"></script>
+    <script src="modules/internal/dominoModels/DominoTileOrientation.js"></script>
+    <script src="modules/internal/useCases/playTileUseCase/PlayTileUseCase.js"></script>
+    <script src="modules/internal/useCases/playTileUseCase/PlayTileUseCaseInput.js"></script>
+    <script src="modules/internal/useCases/playTileUseCase/PlayTileUseCaseOutput.js"></script>
+    <script src="modules/internal/Interfaces.js"></script>
+    <script src="modules/external/GameEngine.js"></script>
     <script src="app.js"></script>
 </head>
 <body>
@@ -13,5 +31,12 @@
             
         </canvas>
     </div>
+
+    <div id="DebugUserIntentions">
+        <button type="button" class="debugSelectFirstFromList">Select first tile from player list</button>
+        <button type="button" class="debugSelectFirstFromBoard">Select first tile from board</button>
+        <button type="button" class="debugDefaultAction">Default action</button>
+    </div>
+
 </body>
 </html>

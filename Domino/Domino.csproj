@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="app.js" />
     <Content Include="bin\Domino.dll" />
     <Content Include="bin\Domino.pdb" />
     <Content Include="gamePage.css" />
@@ -60,41 +61,11 @@
     <Content Include="images\tile5-6.png" />
     <Content Include="images\tile6-6.png" />
     <Content Include="index.html" />
-    <Content Include="modules\external\external.js" />
-    <Content Include="modules\external\file1.js" />
-    <Content Include="modules\external\GameEngine.js" />
-    <Content Include="modules\external\GameEngineParameters.js" />
-    <Content Include="modules\internal\concreteImplementations\ConcreteTileBoard.js" />
-    <Content Include="modules\internal\dominoModels\DominoBone.js" />
-    <Content Include="modules\internal\dominoModels\DominoTile.js" />
-    <Content Include="modules\internal\dominoModels\DominoTileOrientation.js" />
-    <Content Include="modules\internal\dominoModels\file1.js" />
-    <Content Include="modules\internal\Interfaces.js" />
-    <Content Include="modules\internal\Player.js" />
-    <Content Include="modules\internal\useCases\playTileUseCase\file1.js" />
-    <Content Include="modules\internal\useCases\playTileUseCase\PlayTileUseCase.js" />
-    <Content Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseInput.js" />
-    <Content Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseOutput.js" />
     <Content Include="render.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Domino.dll.config" />
-    <Content Include="modules\external\external.js.map" />
-    <Content Include="modules\external\file1.js.map" />
-    <Content Include="modules\external\GameEngine.js.map" />
-    <Content Include="modules\external\GameEngineParameters.js.map" />
-    <Content Include="modules\internal\concreteImplementations\ConcreteTileBoard.js.map" />
-    <Content Include="modules\internal\dominoModels\DominoBone.js.map" />
-    <Content Include="modules\internal\dominoModels\DominoTile.js.map" />
-    <Content Include="modules\internal\dominoModels\DominoTileOrientation.js.map" />
-    <Content Include="modules\internal\dominoModels\file1.js.map" />
-    <Content Include="modules\internal\Interfaces.js.map" />
-    <Content Include="modules\internal\Player.js.map" />
-    <Content Include="modules\internal\useCases\playTileUseCase\file1.js.map" />
-    <Content Include="modules\internal\useCases\playTileUseCase\PlayTileUseCase.js.map" />
-    <Content Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseInput.js.map" />
-    <Content Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseOutput.js.map" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -103,9 +74,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="mainGameEngine.ts" />
     <TypeScriptCompile Include="modules\external\GameEngine.ts" />
     <TypeScriptCompile Include="modules\external\GameEngineParameters.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\ConcreteTileBoard.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\ConsoleTileBoardView.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\ConsolePlayerTileListView.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\DummyDominoGame.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\DummyTileProvider.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\DebugUserIntentionsObserver.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\SimplePlayerTurnHelper.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\SimpleAlertHelper.ts" />
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoBone.ts" />
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoTile.ts" />
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoTileOrientation.ts" />

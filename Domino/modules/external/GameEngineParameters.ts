@@ -1,4 +1,4 @@
-﻿module com.dominox.external
+﻿module dominox
 {
     export class GameEngineParameters
     {

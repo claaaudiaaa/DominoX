@@ -1,4 +1,4 @@
-﻿module com.dominox.internal.useCases.playTileUseCase {
+﻿module dominox {
 
     export enum PlayTileUseCaseResult {
         Completed,

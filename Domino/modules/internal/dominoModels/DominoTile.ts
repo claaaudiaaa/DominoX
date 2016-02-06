@@ -1,7 +1,7 @@
 ﻿/// <reference path="DominoBone.ts"/>
 /// <reference path="DominoTileOrientation.ts"/>
 
-module com.dominox.internal.dominoModels {
+module dominox {
     export class DominoTile {
         private bone: DominoBone;
         private orientation: DominoTileOrientation;
@@ -18,6 +18,11 @@ module com.dominox.internal.dominoModels {
             this.upNeighbour = null;
             this.leftNeighbour = null;
             this.rightNeighbour = null;
+        }
+
+        public toString(): String
+        {
+            return "{" + this.bone.getFirst() + ", " + this.bone.getSecond() + "}";
         }
 
         public isDoubleTile(): boolean {

@@ -1,13 +1,38 @@
 (function () {
 
+    var gameEngine = new dominox.GameEngine();
+    if (gameEngine == null) {
+        console.log("GAME ENGINE IS NULL WTF");
+    }
+
+    window.gameEngine = gameEngine;
+    var gameEngineParameters = new dominox.GameEngineParameters();
+    gameEngineParameters.firstPlayerName = "FirstPlayer";
+    gameEngineParameters.secondPlayerName = "SecondPlayer";
+    gameEngine.runWithParameters(gameEngineParameters);
+
     var canvas = document.getElementById("canv");
-    var gl = canvas.getContext("experimental-webgl") || canvas.getContext("webgl") || canvas.getContext("moz-webgl") || canvas.getContext("webkit-3d");
+    var gl = canvas.getContext("experimental-webgl") || canvas.getContext("webgl") ||
+        canvas.getContext("moz-webgl") || canvas.getContext("webkit-3d");
+
+    if (gl) {
+
+        var extensions = gl.getSupportedExtensions();
+        //console.log(gl);
+        //console.log(extensions);
+
+    }
+    else {
+       
+        console.log("Browser does not support webgl");
+        
+    }
     var context = canvas.getContext("2d");
     var img = new Image();
     
     img.src = "../images/tile6-6.png";
-    console.log("creating webgl");
-    console.log(img);
+    //console.log("creating webgl");
+    //console.log(img);
     context.drawImage(img, 10, 10);
     
     //cubeTexture = context.createTexture();
@@ -17,18 +42,8 @@
     
     //cubeImage.src = "../images/tile6-6.png";
 
-    if (gl) {
 
-        var extensions = gl.getSupportedExtensions();
-        console.log(gl);
-        console.log(extensions);
-            
-    }
-    else {
 
-        console.log("Browser does not support webgl");
-    }
-    
 })();
 
 

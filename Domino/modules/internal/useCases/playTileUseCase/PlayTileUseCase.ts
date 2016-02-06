@@ -1,7 +1,7 @@
 ﻿/// <reference path="PlayTileUseCaseInput.ts"/>
 /// <reference path="PlayTileUseCaseOutput.ts"/>
 
-module com.dominox.internal.useCases.playTileUseCase {
+module dominox {
     export interface PlayTileUseCaseCallback {
         (output: PlayTileUseCaseOutput): void
     }
@@ -10,7 +10,7 @@ module com.dominox.internal.useCases.playTileUseCase {
         public beginWithInputAndCallback(input: PlayTileUseCaseInput, callbackWhenDone: PlayTileUseCaseCallback): void
         {
             var output: PlayTileUseCaseOutput = new PlayTileUseCaseOutput();
-            var availableNeighbours: dominoModels.DominoTile[] = input.dominoGame.getNeighbourListForTileFromBoard(input.tile,
+            var availableNeighbours: dominox.DominoTile[] = input.dominoGame.getNeighbourListForTileFromBoard(input.tile,
                 input.tileBoard);
 
             if (availableNeighbours.length == 0) {
@@ -19,13 +19,15 @@ module com.dominox.internal.useCases.playTileUseCase {
                 return;
             }
 
+            var self = this;
+
             input.tileView.highlightListOfTilesFromBoard(availableNeighbours, input.tileBoard, null);
 
-            input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(function (tile: dominoModels.DominoTile) {
+            input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(function (tile: dominox.DominoTile) {
 
-                input.tileView.displayAsNormal(null);
+                input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
 
-                if (this.isTileInArray(tile, availableNeighbours) == false) {
+                if (self.isTileInArray(tile, availableNeighbours) == false) {
                     output.resultOfUseCase = PlayTileUseCaseResult.Canceled;
                     callbackWhenDone(output);
                     return;
@@ -44,7 +46,7 @@ module com.dominox.internal.useCases.playTileUseCase {
 
             input.userIntentionsObserver.setCallbackCaseDefault(function () {
 
-                input.tileView.displayAsNormal(null);
+                input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
 
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
                 input.userIntentionsObserver.setCallbackCaseDefault(null);
@@ -56,9 +58,11 @@ module com.dominox.internal.useCases.playTileUseCase {
 
         }
 
-        public isTileInArray(tile: dominoModels.DominoTile, array: dominoModels.DominoTile[]): boolean
+        public isTileInArray(tile: dominox.DominoTile, array: dominox.DominoTile[]): boolean
         {
-            for (var otherTile in array) {
+            for (var i = 0; i < array.length; i++)
+            {
+                var otherTile = array[i];
                 if (otherTile.isEqualToTile(tile)) {
                     return true;
                 }

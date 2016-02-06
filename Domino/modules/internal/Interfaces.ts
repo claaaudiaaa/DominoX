@@ -1,16 +1,18 @@
 ﻿/// <reference path="dominoModels/DominoTile.ts"/>
 /// <reference path="Player.ts"/>
 
-module com.dominox.internal {
+module dominox {
+
+
     export interface TileBoardView
     {
-        drawTileAsNeighbourOfTileFromBoard(tile: dominoModels.DominoTile, neighbour: dominoModels.DominoTile,
+        drawTileAsNeighbourOfTileFromBoard(tile: dominox.DominoTile, neighbour: dominox.DominoTile,
             board: TileBoard, callbackWhenDone: VoidCallback);
 
-        highlightListOfTilesFromBoard(tiles: dominoModels.DominoTile[], board: TileBoard,
+        highlightListOfTilesFromBoard(tiles: dominox.DominoTile[], board: TileBoard,
             callbackWhenDone: VoidCallback): void;
 
-        displayAsNormal(callbackWhenDone: VoidCallback);
+        displayAsNormalTileBoard(tileBoard: TileBoard, callbackWhenDone: VoidCallback);
     }
 
     export interface PlayerTileListView
@@ -18,9 +20,10 @@ module com.dominox.internal {
         setPlayerName(playerName: String);
         setPlayerScore(playerScore: number);
 
-        setOverallTileList(tileList: dominoModels.DominoTile[]);
-        displayTileAsSelected(tile: dominoModels.DominoTile, callbackWhenDone: VoidCallback): void;
-        removeTile(tile: dominoModels.DominoTile, callbackWhenDone: VoidCallback);
+        setAndDisplayOverallTileList(tileList: dominox.DominoTile[], callbackWhenDone: VoidCallback);
+        displayTileAsSelected(tile: dominox.DominoTile, callbackWhenDone: VoidCallback): void;
+        removeTile(tile: dominox.DominoTile, callbackWhenDone: VoidCallback);
+        addTile(tile: dominox.DominoTile, callbackWhenDone: VoidCallback);
 
         displayAsNormal(callbackWhenDone: VoidCallback): void;
         setInvisible(callbackWhenDone: VoidCallback);
@@ -28,17 +31,21 @@ module com.dominox.internal {
     }
 
     export interface TileBoard {
-        addTileAsNeighbourToTile(tile: dominoModels.DominoTile, neighbourTile: dominoModels.DominoTile): void;
-        addFirstTile(tile: dominoModels.DominoTile): void;
+        addTileAsNeighbourToTile(tile: dominox.DominoTile, neighbourTile: dominox.DominoTile): void;
+        addFirstTile(tile: dominox.DominoTile): void;
+        getTileList(): dominox.DominoTile[];
+        getExternalTilesListMatchingTile(tile: dominox.DominoTile): dominox.DominoTile[];
     }
 
     export interface DominoGame {
-        getNeighbourListForTileFromBoard(tile: dominoModels.DominoTile, board: TileBoard): dominoModels.DominoTile[];
+        getNeighbourListForTileFromBoard(tile: dominox.DominoTile, board: TileBoard): dominox.DominoTile[];
         playerDidAddTileAsNeighbourToTileInBoard(player: Player,
-            neighbour: dominoModels.DominoTile,
-            tile: dominoModels.DominoTile, board: TileBoard);
+            neighbour: dominox.DominoTile,
+            tile: dominox.DominoTile, board: TileBoard);
 
-        canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominoModels.DominoTile[], board: TileBoard): boolean;
+        isGameOverWithPlayersAndBoard(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean;
+
+        canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean;
     }
 
     export interface VoidCallback {
@@ -46,7 +53,7 @@ module com.dominox.internal {
     }
 
     export interface TileCallback {
-        (tile: dominoModels.DominoTile): void
+        (tile: dominox.DominoTile): void
     }
 
     export interface UserIntentionsObserver {
@@ -56,8 +63,8 @@ module com.dominox.internal {
     }
 
     export interface DominoTileProvider {
-        getListOfRandomTilesOfCount(count: Number): dominoModels.DominoTile[];
-        getRandomTile(): dominoModels.DominoTile;
+        getListOfRandomTilesOfCount(count: Number): dominox.DominoTile[];
+        getRandomTile(): dominox.DominoTile;
     }
 
     export interface AlertHelper {
@@ -66,11 +73,91 @@ module com.dominox.internal {
 
     export interface PlayerTurnHelper
     {
-        replenishTilesSoPlayerCanMakeMove(player: com.dominox.internal.Player,
+        replenishTilesSoPlayerCanMakeMove(player: dominox.Player,
             playerTileListView: PlayerTileListView,
             dominoGame: DominoGame,
             tileBoard: TileBoard,
+            tileProvider: DominoTileProvider,
             callbackWhenDone: VoidCallback): void;
 
     }
+
+    export function callIfNotNull(callback: VoidCallback)
+    {
+        if (callback != null)
+            callback();
+    }
+
+    export function stringifyTileList(tileList: dominox.DominoTile[]): String {
+        var str: String = "";
+
+        for (var i = 0; i < tileList.length; i++)
+        {
+            var tile = tileList[i];
+            str = str + " " + tile.toString() + ",";
+        }
+        return str;
+    }
+
+    export function randomIntFromInterval(min, max): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+
+    export function callPseudoAsync(fun: dominox.VoidCallback) {
+        setTimeout(function () {
+            fun();
+        }, 1);
+    }
+
+    export enum TileMatchType {
+        FirstFirst,
+        FirstSecond,
+        SecondFirst,
+        SecondSecond,
+        NoMatch
+    }
+
+    export function getTilesMatchType(first: dominox.DominoTile, second: dominox.DominoTile): TileMatchType {
+        var tileOne = first;
+        var tileTwo = second;
+
+        // first == first
+        if (tileOne.getBone().getFirst() == tileTwo.getBone().getFirst())
+            return TileMatchType.FirstFirst;
+        //first - second
+        if (tileOne.getBone().getFirst() == tileTwo.getBone().getSecond())
+            return TileMatchType.FirstSecond;
+        //second - first
+        if (tileOne.getBone().getSecond() == tileTwo.getBone().getFirst())
+            return TileMatchType.SecondFirst;
+        //second - second
+        if (tileOne.getBone().getSecond() == tileTwo.getBone().getSecond())
+            return TileMatchType.SecondSecond;
+
+        return TileMatchType.NoMatch;
+    }
+
+    export function tileHastMatchOnFirstOnTile(tileA: dominox.DominoTile, tileB: dominox.DominoTile): boolean
+    {
+        var matchType = getTilesMatchType(tileA, tileB);
+        return matchType == TileMatchType.FirstFirst || matchType == TileMatchType.SecondFirst;
+    }
+
+    export function tileHasMatchOnSecondOnTile(tileA: dominox.DominoTile, tileB: dominox.DominoTile): boolean {
+        var matchType = getTilesMatchType(tileA, tileB);
+        return matchType == TileMatchType.FirstSecond || matchType == TileMatchType.SecondSecond;
+    }
+
+    export  function  getMatchableTilesForTile(tile: dominox.DominoTile, tileList: dominox.DominoTile[]): dominox.DominoTile[]
+    {
+        var matchableTiles: dominox.DominoTile[] = [];
+
+        for (var i = 0; i < tileList.length; i++) {
+            var iTile = tileList[i];
+            if (dominox.getTilesMatchType(iTile, tile) != dominox.TileMatchType.NoMatch)
+                matchableTiles.push(iTile);
+        }
+        return matchableTiles;
+    }
+
 }
