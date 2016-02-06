@@ -91,9 +91,6 @@ module dominox
             this.firstPlayer = this.createPlayerWithNameAndProvider(params.firstPlayerName, this.dominoTilesProvider);
             this.secondPlayer = this.createPlayerWithNameAndProvider(params.secondPlayerName, this.dominoTilesProvider);
 
-            //2. prepare their views
-            this.setupTileListViewForPlayer(this.firstPlayerTileListView, this.firstPlayer);
-            this.setupTileListViewForPlayer(this.secondPlayerTileListView, this.secondPlayer);
 
             //3. Create the turn datas
             this.firstPlayerTurnData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
@@ -115,10 +112,29 @@ module dominox
             this.firstPlayer.setScore(0);
             this.secondPlayer.setScore(0);
 
-            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
+            //this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
+
+            var tileBoard = <ConcreteTileBoard>this.tileBoard;
+            var tile21 = new DominoTile(new DominoBone(2, 1), DominoTileOrientation.HorizontalFirstLeftSecondRight);
+            var tile12 = new DominoTile(new DominoBone(1, 2), DominoTileOrientation.HorizontalFirstLeftSecondRight);
+            tile21.setRightNeighbour(tile12);
+            tile12.setLeftNeighbour(tile21);
+
+            tileBoard.setTileList([tile12, tile21]);
+
+            var tile01 = new DominoTile(new DominoBone(0, 1), DominoTileOrientation.HorizontalFirstLeftSecondRight);
+
+            this.firstPlayer.addTile(tile01);
+            this.secondPlayer.addTile(tile01);
+
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
 
             console.log("Playing the game");
+
+            //2. prepare their views
+            this.setupTileListViewForPlayer(this.firstPlayerTileListView, this.firstPlayer);
+            this.setupTileListViewForPlayer(this.secondPlayerTileListView, this.secondPlayer);
+
             this.playGame(this.firstPlayerTurnData, this.secondPlayerTurnData);
         }
 
@@ -142,7 +158,8 @@ module dominox
         {
             this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
 
-            var message: String = "It is [currentPlayerName]'s turn, [otherPlayerName] please move aside n__n";
+            var message: String = "It is " + currentPlayerTurnData.player.getName()
+                + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
             var gameEngineSelf: GameEngine = this;
 
             console.log("STARTING NEW TURN");
@@ -212,8 +229,8 @@ module dominox
             dominox.Player
         {
             var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(5);
-            console.log("Tiles for player: " + name + " are " + dominox.stringifyTileList(randomTiles));
-            return new dominox.Player(name, randomTiles);
+            //console.log("Tiles for player: " + name + " are " + dominox.stringifyTileList(randomTiles));
+            return new dominox.Player(name, []);
         }
 
 

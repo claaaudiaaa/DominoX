@@ -1,18 +1,18 @@
 ﻿module dominox {
     export enum DominoTileOrientation {
-        VerticalFirstUp,
-        VerticalSecondUp,
-        HorizontalFirstLeft,
-        HorizontalSecondLeft
+        VerticalFirstUpSecondDown,
+        VerticalSecondUpFirstDown,
+        HorizontalFirstLeftSecondRight,
+        HorizontalSecondLeftFirstRight
     }
 
     export function isHorizontal(orientation: DominoTileOrientation): boolean {
-        return orientation == DominoTileOrientation.HorizontalFirstLeft ||
-            orientation == DominoTileOrientation.HorizontalSecondLeft;
+        return orientation == DominoTileOrientation.HorizontalFirstLeftSecondRight ||
+            orientation == DominoTileOrientation.HorizontalSecondLeftFirstRight;
     }
 
     export function isVertical(orientation: DominoTileOrientation): boolean {
-        return orientation == DominoTileOrientation.VerticalFirstUp ||
-            orientation == DominoTileOrientation.VerticalSecondUp;
+        return orientation == DominoTileOrientation.VerticalFirstUpSecondDown ||
+            orientation == DominoTileOrientation.VerticalSecondUpFirstDown;
     }
 }

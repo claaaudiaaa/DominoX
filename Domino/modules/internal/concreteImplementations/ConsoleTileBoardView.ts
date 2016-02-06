@@ -7,6 +7,7 @@ module dominox
             board: TileBoard, callbackWhenDone: VoidCallback)
         {
             console.log("Drawn " + tile.toString() + " as neighbour of tile on board: " + neighbour.toString());
+            this.displayAsNormalTileBoard(board, null);
             callIfNotNull(callbackWhenDone);
         }
 
@@ -14,6 +15,7 @@ module dominox
             callbackWhenDone: VoidCallback): void
         {
             console.log("Highlighting list of tiles: " + stringifyTileList(tiles));
+            this.displayAsNormalTileBoard(board, null);
             callIfNotNull(callbackWhenDone);
         }
 
