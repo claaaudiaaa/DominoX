@@ -20,6 +20,7 @@ module dominox {
             this.rightNeighbour = null;
         }
 
+
         public toString(): String
         {
             return "{" + this.bone.getFirst() + ", " + this.bone.getSecond() + "}";

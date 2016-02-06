@@ -19,7 +19,7 @@ module dominox {
             var second: number = dominox.randomIntFromInterval(0, 6);
 
             var bone: dominox.DominoBone = new dominox.DominoBone(first, second);
-            var tile: dominox.DominoTile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeft);
+            var tile: dominox.DominoTile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
 
             return tile;
         }

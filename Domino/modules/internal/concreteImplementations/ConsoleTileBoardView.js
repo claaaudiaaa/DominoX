@@ -6,10 +6,12 @@ var dominox;
         }
         ConsoleTileBoardView.prototype.drawTileAsNeighbourOfTileFromBoard = function (tile, neighbour, board, callbackWhenDone) {
             console.log("Drawn " + tile.toString() + " as neighbour of tile on board: " + neighbour.toString());
+            this.displayAsNormalTileBoard(board, null);
             dominox.callIfNotNull(callbackWhenDone);
         };
         ConsoleTileBoardView.prototype.highlightListOfTilesFromBoard = function (tiles, board, callbackWhenDone) {
             console.log("Highlighting list of tiles: " + dominox.stringifyTileList(tiles));
+            this.displayAsNormalTileBoard(board, null);
             dominox.callIfNotNull(callbackWhenDone);
         };
         ConsoleTileBoardView.prototype.displayAsNormalTileBoard = function (tileBoard, callbackWhenDone) {

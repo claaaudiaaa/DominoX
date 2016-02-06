@@ -14,7 +14,7 @@ var dominox;
             var first = dominox.randomIntFromInterval(0, 6);
             var second = dominox.randomIntFromInterval(0, 6);
             var bone = new dominox.DominoBone(first, second);
-            var tile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeft);
+            var tile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
             return tile;
         };
         return DummyTileProvider;
