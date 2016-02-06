@@ -22,7 +22,7 @@ module dominox {
             return tile;
         }
         createAllDominoTiles(): dominox.DominoTile[] {
-            var allTiles: dominox.DominoTile[];
+            var allTiles: dominox.DominoTile[] = [];
             for (var i = 0; i < 7; i++) {
                 for (var j = i; j < 7; j++) {
                     var bone: dominox.DominoBone = new dominox.DominoBone(i, j);

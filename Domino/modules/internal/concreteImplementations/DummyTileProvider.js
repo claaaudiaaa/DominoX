@@ -18,7 +18,7 @@ var dominox;
             return tile;
         };
         DummyTileProvider.prototype.createAllDominoTiles = function () {
-            var allTiles;
+            var allTiles = [];
             for (var i = 0; i < 7; i++) {
                 for (var j = i; j < 7; j++) {
                     var bone = new dominox.DominoBone(i, j);
