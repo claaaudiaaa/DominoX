@@ -25,20 +25,24 @@ var dominox;
         };
         ConcreteTileBoard.prototype.getExternalTilesListMatchingTile = function (matchingTile) {
             var tileList = [];
+            console.log("for tile + " + matchingTile.toString() + " checking matches");
             for (var i = 0; i < this.dominoTileList.length; i++) {
                 var tile = this.dominoTileList[i];
                 var matchingType = dominox.getTilesMatchType(matchingTile, tile);
                 if (matchingType == dominox.TileMatchType.NoMatch)
                     continue;
                 var tileOrientation = tile.getOrientation();
+                console.log("Found a match with " + tile.toString());
                 if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight) {
                     if (dominox.tileHastMatchOnFirstOnTile(matchingTile, tile) &&
                         tile.getLeftNeighbour() == null) {
+                        console.log("added on: HFLSR, leftNeighbour null, matchOnFirst");
                         tileList.push(tile);
                         continue;
                     }
                     if (dominox.tileHasMatchOnSecondOnTile(matchingTile, tile) &&
                         tile.getRightNeighbour() == null) {
+                        console.log("added on HFLSR rightNeighbour null matchOnSecond");
                         tileList.push(tile);
                         continue;
                     }
@@ -46,11 +50,13 @@ var dominox;
                 if (tileOrientation == dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight) {
                     if (dominox.tileHastMatchOnFirstOnTile(matchingTile, tile) &&
                         tile.getRightNeighbour() == null) {
+                        console.log("added on HSLFR, right neighbour null, match on First");
                         tileList.push(tile);
                         continue;
                     }
                     if (dominox.tileHasMatchOnSecondOnTile(matchingTile, tile) &&
                         tile.getLeftNeighbour() == null) {
+                        console.log("added on HSLFR, left neighbour null, match on second");
                         tileList.push(tile);
                         continue;
                     }
@@ -58,11 +64,13 @@ var dominox;
                 if (tileOrientation == dominox.DominoTileOrientation.VerticalFirstUpSecondDown) {
                     if (dominox.tileHastMatchOnFirstOnTile(matchingTile, tile) &&
                         tile.getUpNeighbour() == null) {
+                        console.log("added on VFUSD, up neighbour null, match on first");
                         tileList.push(tile);
                         continue;
                     }
                     if (dominox.tileHasMatchOnSecondOnTile(matchingTile, tile) &&
                         tile.getDownNeighbour() == null) {
+                        console.log("added on VFUSD, down null, match on second");
                         tileList.push(tile);
                         continue;
                     }
@@ -70,11 +78,13 @@ var dominox;
                 if (tileOrientation == dominox.DominoTileOrientation.VerticalSecondUpFirstDown) {
                     if (dominox.tileHastMatchOnFirstOnTile(matchingTile, tile) &&
                         tile.getDownNeighbour() == null) {
+                        console.log("added on VSUFD, down neighbour null, match on first");
                         tileList.push(tile);
                         continue;
                     }
                     if (dominox.tileHasMatchOnSecondOnTile(matchingTile, tile) &&
                         tile.getUpNeighbour() == null) {
+                        console.log("added on VSUFD, up neighbour null, match on second");
                         tileList.push(tile);
                         continue;
                     }

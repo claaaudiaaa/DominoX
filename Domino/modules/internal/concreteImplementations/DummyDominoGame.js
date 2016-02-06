@@ -5,7 +5,7 @@ var dominox;
         function DummyDominoGame() {
         }
         DummyDominoGame.prototype.getNeighbourListForTileFromBoard = function (tile, board) {
-            return dominox.getMatchableTilesForTile(tile, board.getExternalTilesListMatchingTile(tile));
+            return board.getExternalTilesListMatchingTile(tile);
         };
         DummyDominoGame.prototype.playerDidAddTileAsNeighbourToTileInBoard = function (player, neighbour, tile, board) {
             player.setScore(player.getScore() + 1);
@@ -20,6 +20,7 @@ var dominox;
             for (var i = 0; i < playerTileList.length; i++) {
                 var iTile = playerTileList[i];
                 var matchableTiles = board.getExternalTilesListMatchingTile(iTile);
+                console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + dominox.stringifyTileList(matchableTiles));
                 if (matchableTiles.length > 0)
                     return true;
             }

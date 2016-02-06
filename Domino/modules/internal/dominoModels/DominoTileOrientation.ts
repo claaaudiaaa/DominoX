@@ -15,4 +15,25 @@
         return orientation == DominoTileOrientation.VerticalFirstUpSecondDown ||
             orientation == DominoTileOrientation.VerticalSecondUpFirstDown;
     }
+
+    export function stringOrientation(orientation: DominoTileOrientation): String
+    {
+        switch (orientation) {
+            case DominoTileOrientation.HorizontalFirstLeftSecondRight:
+                return "H:[F,S]";
+                break;
+            case DominoTileOrientation.HorizontalSecondLeftFirstRight:
+                return "H:[S,F]";
+                break;
+            case DominoTileOrientation.VerticalFirstUpSecondDown:
+                return "V:[F,S]";
+                break;
+            case DominoTileOrientation.VerticalSecondUpFirstDown:
+                return "V:[S,F]";
+                break;
+            default:
+                return "[X]";
+        }
+    }
+
 }

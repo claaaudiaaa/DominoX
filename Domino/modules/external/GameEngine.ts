@@ -156,6 +156,7 @@ module dominox
         startNewTurn(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData,
             callbackWhenDone: dominox.VoidCallback)
         {
+            this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
 
             var message: String = "It is " + currentPlayerTurnData.player.getName()
