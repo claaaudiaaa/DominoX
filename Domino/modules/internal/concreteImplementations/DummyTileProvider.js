@@ -11,11 +11,27 @@ var dominox;
             return tileList;
         };
         DummyTileProvider.prototype.getRandomTile = function () {
-            var first = dominox.randomIntFromInterval(0, 6);
-            var second = dominox.randomIntFromInterval(0, 6);
-            var bone = new dominox.DominoBone(first, second);
-            var tile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeft);
+            var allTiles = this.createAllDominoTiles();
+            var randomNo = dominox.randomIntFromInterval(0, 28);
+            var tile = allTiles[randomNo];
+            delete allTiles[randomNo];
             return tile;
+        };
+        DummyTileProvider.prototype.createAllDominoTiles = function () {
+            var allTiles;
+            for (var i = 0; i < 7; i++) {
+                for (var j = i; j < 7; j++) {
+                    console.log("j = " + j);
+                    var bone = new dominox.DominoBone(i, j);
+                    var tile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeft);
+                    console.log(tile);
+                    allTiles.push(tile);
+                }
+            }
+            for (var k = 0; k < 28; k++) {
+                console.log(allTiles[k]);
+            }
+            return allTiles;
         };
         return DummyTileProvider;
     })();
