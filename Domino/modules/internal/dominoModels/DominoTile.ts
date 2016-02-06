@@ -23,7 +23,7 @@ module dominox {
 
         public toString(): String
         {
-            return "{" + this.bone.getFirst() + ", " + this.bone.getSecond() + "}";
+            return "{" + this.bone.getFirst() + ", " + this.bone.getSecond() + "}" + stringOrientation(this.orientation);
         }
 
         public isDoubleTile(): boolean {

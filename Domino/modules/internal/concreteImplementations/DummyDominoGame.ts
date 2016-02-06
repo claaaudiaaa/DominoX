@@ -4,8 +4,9 @@ module dominox {
 
     export class DummyDominoGame implements dominox.DominoGame {
 
-        getNeighbourListForTileFromBoard(tile: dominox.DominoTile, board: TileBoard): dominox.DominoTile[]{
-            return dominox.getMatchableTilesForTile(tile, board.getExternalTilesListMatchingTile(tile));
+        getNeighbourListForTileFromBoard(tile: dominox.DominoTile, board: TileBoard): dominox.DominoTile[]
+        {
+            return board.getExternalTilesListMatchingTile(tile);
         }
         playerDidAddTileAsNeighbourToTileInBoard(player: Player,
             neighbour: dominox.DominoTile,
@@ -28,6 +29,7 @@ module dominox {
             {
                 var iTile = playerTileList[i];
                 var matchableTiles: dominox.DominoTile[] = board.getExternalTilesListMatchingTile(iTile);
+                console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + stringifyTileList(matchableTiles));
                 if (matchableTiles.length > 0)
                     return true;
             }

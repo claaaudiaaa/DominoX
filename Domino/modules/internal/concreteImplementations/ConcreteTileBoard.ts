@@ -40,36 +40,49 @@ module dominox
         public getExternalTilesListMatchingTile(matchingTile: dominox.DominoTile): dominox.DominoTile[]{
             var tileList: dominox.DominoTile[] = [];
 
-            for (var i = 0; i < this.dominoTileList.length; i++) {
+            console.log("for tile + " + matchingTile.toString() + " checking matches");
+            for (var i = 0; i < this.dominoTileList.length; i++)
+            {
                 var tile: dominox.DominoTile = this.dominoTileList[i];
                 var matchingType = dominox.getTilesMatchType(matchingTile, tile);
                 if (matchingType == dominox.TileMatchType.NoMatch)
                     continue;
                 var tileOrientation = tile.getOrientation();
-                
+
+                console.log("Found a match with " + tile.toString());
+
                     if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight){
                         if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
-                            tile.getLeftNeighbour() == null) {
+                            tile.getLeftNeighbour() == null)
+                        {
+                            console.log("added on: HFLSR, leftNeighbour null, matchOnFirst");
                             tileList.push(tile);
                             continue;
                         }
 
                         if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
-                            tile.getRightNeighbour() == null) {
+                            tile.getRightNeighbour() == null)
+                        {
+                            console.log("added on HFLSR rightNeighbour null matchOnSecond");
                             tileList.push(tile);
                             continue;
                         }
                     }
 
-                    if (tileOrientation == dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight) {
+                    if (tileOrientation == dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight)
+                    {
                         if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
-                            tile.getRightNeighbour() == null) {
+                            tile.getRightNeighbour() == null)
+                        {
+                            console.log("added on HSLFR, right neighbour null, match on First");
                             tileList.push(tile);
                             continue;
                         }
 
                         if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
-                            tile.getLeftNeighbour() == null) {
+                            tile.getLeftNeighbour() == null)
+                        {
+                            console.log("added on HSLFR, left neighbour null, match on second");
                             tileList.push(tile);
                             continue;
                         }
@@ -78,13 +91,16 @@ module dominox
                     if (tileOrientation == dominox.DominoTileOrientation.VerticalFirstUpSecondDown) {
 
                         if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
-                            tile.getUpNeighbour() == null) {
+                            tile.getUpNeighbour() == null)
+                        {
+                            console.log("added on VFUSD, up neighbour null, match on first");
                             tileList.push(tile);
                             continue;
                         }
 
                         if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
                             tile.getDownNeighbour() == null) {
+                            console.log("added on VFUSD, down null, match on second");
                             tileList.push(tile);
                             continue;
                         }
@@ -92,13 +108,17 @@ module dominox
 
                     if (tileOrientation == dominox.DominoTileOrientation.VerticalSecondUpFirstDown) {
                         if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
-                            tile.getDownNeighbour() == null) {
+                            tile.getDownNeighbour() == null)
+                        {
+                            console.log("added on VSUFD, down neighbour null, match on first");
                             tileList.push(tile);
                             continue;
                         }
 
                         if (tileHasMatchOnSecondOnTile(matchingTile, tile) &&
-                            tile.getUpNeighbour() == null) {
+                            tile.getUpNeighbour() == null)
+                        {
+                            console.log("added on VSUFD, up neighbour null, match on second");
                             tileList.push(tile);
                             continue;
                         }

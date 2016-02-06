@@ -12,7 +12,7 @@ var dominox;
             this.rightNeighbour = null;
         }
         DominoTile.prototype.toString = function () {
-            return "{" + this.bone.getFirst() + ", " + this.bone.getSecond() + "}";
+            return "{" + this.bone.getFirst() + ", " + this.bone.getSecond() + "}" + dominox.stringOrientation(this.orientation);
         };
         DominoTile.prototype.isDoubleTile = function () {
             return this.bone.getFirst() === this.bone.getSecond();

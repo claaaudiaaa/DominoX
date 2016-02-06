@@ -87,6 +87,7 @@ var dominox;
             });
         };
         GameEngine.prototype.startNewTurn = function (currentPlayerTurnData, otherPlayerTurnData, callbackWhenDone) {
+            this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
             var message = "It is " + currentPlayerTurnData.player.getName()
                 + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
