@@ -34,6 +34,8 @@ module dominox
         private tileWidth: number = 32;
         private tileHeight: number = 64;
 
+        private cellSize: number;
+
         private context: CanvasRenderingContext2D;
         private canvas: HTMLCanvasElement;
         private imagesContainer: HTMLDivElement;
@@ -41,6 +43,8 @@ module dominox
 
         constructor(canvas: HTMLCanvasElement, imagesContainer: HTMLDivElement, matrixPresenter: TileMatrixPresenter)
         {
+            this.cellSize = this.computeCellSizeGivenWidthAndHeight(canvas.width, canvas.height);
+
             this.canvas = canvas;
             this.context = canvas.getContext("2d");
             this.imagesContainer = imagesContainer;
@@ -93,13 +97,20 @@ module dominox
 
             var rotationAngle = this.getRotationAngleInDegreesForTile(tile);
             var image = this.getImageForTile(tile);
-
-            this.drawImageOnContext(this.context, image, rectangle, rotationAngle);
+            var cell = this.getCellAtIndex(line, column);
+            this.drawImageOnContext(this.context, tile.getOrientation(), image,
+                cell, this.tileWidth, this.tileHeight, rotationAngle);
         }
 
         computeCellSizeGivenWidthAndHeight(width: number, height: number): number
         {
             return 64;
+        }
+
+        getCellAtIndex(line: number, column: number): TileRectangle
+        {
+            return new TileRectangle(column * this.cellSize + this.paddingLeft,
+                line * this.cellSize + this.paddingTop, this.cellSize, this.cellSize);
         }
 
         getRectangleForIndex(line: number, column: number): TileRectangle
@@ -168,20 +179,21 @@ module dominox
         }
 
 
-        drawImageOnContext(context: CanvasRenderingContext2D,
-            image: HTMLImageElement, rectangle: TileRectangle, rotatedAroundCenter: number): void
+        drawImageOnContext(context: CanvasRenderingContext2D, tileOrientation: DominoTileOrientation,
+            image: HTMLImageElement, cell: TileRectangle, width: number, height: number,
+            rotatedAroundCenter: number): void
         {
 
             var self = this;
 
             var imageCallback = function (event: any)
             {
-                image.width = rectangle.width;
-                image.height = rectangle.height;
+                image.width = width;
+                image.height = height;
 
-                drawRotatedImage(self.context, image,
-                    rectangle.x, rectangle.y, rectangle.width,
-                    rectangle.height, rotatedAroundCenter);
+                drawRotatedImageInCell(self.context, image,cell,
+                    width,
+                    height, rotatedAroundCenter, tileOrientation);
             };
 
             if (image.complete)
@@ -196,7 +208,7 @@ module dominox
             for (var i = 0; i < matrix.length; i++) {
                 for (var j = 0; j < matrix[i].length; j++)
                 {
-                    var rectangle = this.getRectangleForIndex(i, j);
+                    var rectangle: TileRectangle = this.getCellAtIndex(i, j);
                     context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
                     context.stroke();
                 }
@@ -206,26 +218,62 @@ module dominox
     }
 
 
-    export function drawRotatedImage(context: CanvasRenderingContext2D,
-        image: HTMLImageElement, x: number, y: number, imageWidth: number,
-        imageHeight: number, angle: number)
-    { 
+    export function drawRotatedImageInCell(context: CanvasRenderingContext2D,
+        image: HTMLImageElement, cell: TileRectangle, imageWidth: number,
+        imageHeight: number, angle:number, tileOrientation: DominoTileOrientation)
+    {
+        
+
+        var imageX = cell.width / 2 - cell.width / 4;
+        var imageY = cell.height / 2 - cell.height / 4;
+
         var TO_RADIANS = Math.PI / 180;
         // save the current co-ordinate system 
         // before we screw with it
         context.save(); 
  
         // move to the middle of where we want to draw our image
-        context.translate(x, y);
- 
+        context.translate(cell.x, cell.y);
+
         // rotate around that point, converting our 
         // angle from degrees to radians 
         context.rotate(angle * TO_RADIANS);
- 
-        // draw it up and to the left by half the width
-        // and height of the image 
-        context.drawImage(image, -(imageWidth / 2), -(imageHeight / 2));
- 
+
+        var xRetranslation: number = 0;
+        var yRetranslation: number = 0;
+
+
+        if (tileOrientation == DominoTileOrientation.HorizontalFirstLeftSecondRight)
+        {
+            xRetranslation = -(cell.height / 2 + imageWidth / 2);
+            yRetranslation = cell.width / 2 - imageHeight/2
+        }
+
+        if (tileOrientation == DominoTileOrientation.HorizontalSecondLeftFirstRight)
+        {
+            xRetranslation = cell.height / 2 - imageWidth - imageWidth / 2;
+            yRetranslation = -(cell.width / 2 + imageHeight / 2);
+        }
+
+        if (tileOrientation == DominoTileOrientation.VerticalFirstUpSecondDown)
+        {
+            xRetranslation = cell.width / 2 - imageWidth / 2 - imageWidth;
+            yRetranslation = cell.height / 2 - imageHeight - imageHeight / 2;
+        }
+
+        if (tileOrientation == DominoTileOrientation.VerticalSecondUpFirstDown)
+        {
+            yRetranslation = -(cell.height / 2 - imageHeight - imageHeight / 2);
+            xRetranslation = -(cell.width / 2 - imageWidth / 2 - imageWidth);
+        }
+
+
+        context.translate(xRetranslation, yRetranslation);
+
+        //context.drawImage(image, -(imageWidth / 2), -(imageHeight / 2));
+
+        context.drawImage(image, 0,0);
+
         // and restore the co-ords to how they were when we began
         context.restore();
     }
