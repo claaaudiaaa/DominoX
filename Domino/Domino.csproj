@@ -84,8 +84,10 @@
     <TypeScriptCompile Include="modules\internal\concreteImplementations\DummyDominoGame.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\DummyTileProvider.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\DebugUserIntentionsObserver.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\SimpleCanvasTileBoardView.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\SimplePlayerTurnHelper.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\SimpleAlertHelper.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\SimpleTileMatrixPresenter.ts" />
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoBone.ts" />
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoTile.ts" />
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoTileOrientation.ts" />
@@ -126,8 +128,18 @@
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <TypeScriptRemoveComments>true</TypeScriptRemoveComments>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
     <TypeScriptSourceMap>false</TypeScriptSourceMap>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptOutFile>/modules/dominoxTotal.js</TypeScriptOutFile>
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>

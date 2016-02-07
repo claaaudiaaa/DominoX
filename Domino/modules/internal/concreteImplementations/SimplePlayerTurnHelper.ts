@@ -25,7 +25,7 @@ module dominox {
             var helperSelf: SimplePlayerTurnHelper = this;
             var newTile: dominox.DominoTile = tileProvider.getRandomTile();
 
-            console.log("Added tile " + newTile.toString());
+           // console.log("Added tile " + newTile.toString());
 
             player.addTile(newTile);
             playerTileListView.addTile(newTile, function () {

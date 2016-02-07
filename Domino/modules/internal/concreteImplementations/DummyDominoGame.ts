@@ -29,7 +29,7 @@ module dominox {
             {
                 var iTile = playerTileList[i];
                 var matchableTiles: dominox.DominoTile[] = board.getExternalTilesListMatchingTile(iTile);
-                console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + stringifyTileList(matchableTiles));
+                //console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + stringifyTileList(matchableTiles));
                 if (matchableTiles.length > 0)
                     return true;
             }

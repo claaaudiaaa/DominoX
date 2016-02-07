@@ -13,6 +13,7 @@
 /// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
+//  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
 var dominox;
 (function (dominox) {
     var PlayerTurnData = (function () {
@@ -27,6 +28,9 @@ var dominox;
             console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
         GameEngine.prototype.createItems = function () {
+            console.log("Creating matrix presenter");
+            //this.matrixPresenter = new SimpleTileMatrixPresenter();
+            console.log("Done creating matrix presenter" + this.matrixPresenter);
             this.dominoTilesProvider = this.createDominoTileProvider();
             this.tileBoard = this.createTileBoard();
             this.firstPlayerTileListView = this.createPlayerTileView();

@@ -1,0 +1,6 @@
+E:\Git\DominoX\Domino\bin\Domino.dll.config
+E:\Git\DominoX\Domino\bin\Domino.dll
+E:\Git\DominoX\Domino\bin\Domino.pdb
+E:\Git\DominoX\Domino\obj\Release\Domino.dll
+E:\Git\DominoX\Domino\obj\Release\Domino.pdb
+E:\Git\DominoX\Domino\obj\Release\Domino.csprojResolveAssemblyReference.cache

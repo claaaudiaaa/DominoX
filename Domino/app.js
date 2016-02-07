@@ -12,12 +12,13 @@
     gameEngine.runWithParameters(gameEngineParameters);
 
     var canvas = document.getElementById("canv");
-    var gl = canvas.getContext("experimental-webgl") || canvas.getContext("webgl") ||
-        canvas.getContext("moz-webgl") || canvas.getContext("webkit-3d");
+    var gl;
+        //= canvas.getContext("experimental-webgl") || canvas.getContext("webgl") ||
+        //canvas.getContext("moz-webgl") || canvas.getContext("webkit-3d");
 
     if (gl) {
 
-        var extensions = gl.getSupportedExtensions();
+        //var extensions = gl.getSupportedExtensions();
         //console.log(gl);
         //console.log(extensions);
 
@@ -28,22 +29,29 @@
         
     }
     var context = canvas.getContext("2d");
-    var img = new Image();
     
-    img.src = "../images/tile6-6.png";
-    //console.log("creating webgl");
-    //console.log(img);
-    context.drawImage(img, 10, 10);
-    
-    //cubeTexture = context.createTexture();
-    
-    //cubeImage = new Image();
-    //cubeImage.onload = function() { handleTextureLoaded(cubeImage, cubeTexture); }
-    
-    //cubeImage.src = "../images/tile6-6.png";
+    var imageContainer = document.getElementById("ImagesContainer");
+    var image = imageContainer.getElementsByClassName("1-5")[0];
 
+    context.rect(0, 0, 100, 100);
+    context.fill();
 
+    var callback = function (event)
+    {
+        if (!image) image = this;
+        context.drawImage(image, 50, 50);
+    };
 
+    if(image.complete)
+    {
+        callback(image);
+    }else
+    {
+        image.onload = callback;
+    }
+
+    //context.drawImage(image, 10, 10, 100, 100);
+   
 })();
 
 

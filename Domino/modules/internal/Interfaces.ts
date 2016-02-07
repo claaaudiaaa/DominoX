@@ -82,6 +82,11 @@ module dominox {
 
     }
 
+    export interface TileMatrixPresenter
+    {
+        presentTileBoardAsTileMatrix(board: TileBoard): Array<Array<DominoTile>>;
+    }
+
     export function callIfNotNull(callback: VoidCallback)
     {
         if (callback != null)

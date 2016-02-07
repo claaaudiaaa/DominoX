@@ -20,7 +20,7 @@ var dominox;
             for (var i = 0; i < playerTileList.length; i++) {
                 var iTile = playerTileList[i];
                 var matchableTiles = board.getExternalTilesListMatchingTile(iTile);
-                console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + dominox.stringifyTileList(matchableTiles));
+                //console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + stringifyTileList(matchableTiles));
                 if (matchableTiles.length > 0)
                     return true;
             }

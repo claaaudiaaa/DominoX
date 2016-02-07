@@ -14,7 +14,7 @@
 /// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
-
+//  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
 
 module dominox
 {
@@ -58,11 +58,18 @@ module dominox
 
         playTileUseCase: dominox.PlayTileUseCase;
 
+        matrixPresenter: dominox.SimpleTileMatrixPresenter;
+
         constructor() {
             console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
 
-        createItems() {
+        createItems()
+        {
+            console.log("Creating matrix presenter");
+            //this.matrixPresenter = new SimpleTileMatrixPresenter();
+            console.log("Done creating matrix presenter" + this.matrixPresenter);
+
             this.dominoTilesProvider = this.createDominoTileProvider();
             this.tileBoard = this.createTileBoard();
 
