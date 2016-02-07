@@ -54,3 +54,4 @@ Temporary Items
 *.dll
 *.pdpb
 pdb*
+applicationhost.config
