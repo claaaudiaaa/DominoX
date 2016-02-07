@@ -7,7 +7,7 @@
     
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/freeuniversal" type="text/css" />
     <link href="../app.css" rel="stylesheet" type="text/css" />  
-    <link href="Content/bootstrap.css" type="text/css" /> 
+    <link href="Content/bootstrap.css" rel="stylesheet" type="text/css" /> 
 
     <script src="Scripts/jquery-1.9.1.js"></script>
     <script src="Scripts/bootstrap.min.js"></script>
@@ -143,19 +143,19 @@
 
             <div id="scores">
                 <div id="myModal" class="modal fade">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog" style="vertical-align: middle">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">End of game</h4>
+                                <h4 id="title" class="text-warning" style="text-align: center">End of game!</h4>
                             </div>
                             <div class="modal-body">
-                                <p>The winner of this game is Gigel!</p>
-                                <p class="text-warning"><small>Do you want to share your result on Facebook?</small></p>
+                                <p class="text-warning">The winner of this game is Gigel!</p>
+                                <p class="text-warning">Do you want to share your result on Facebook?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" id="shareBtn" class="btn btn-primary">Share on Facebook</button>
+                                <button type="button" id="shareBtn" class="btn btn-primary" data-dismiss="modal">Share on Facebook</button>
                                              
                             </div>
                         </div>

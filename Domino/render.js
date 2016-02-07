@@ -41,6 +41,8 @@ function viewScores() {
     }
     document.getElementById('scores').style.visibility = "visible";
     document.getElementById('mainMenu').style.visibility = "hidden";
+    document.getElementById("myModal").style.visibility = "hidden";
+    //createEndGameModal();
 };
 
 function createEndGameModal() {
@@ -56,6 +58,7 @@ function createEndGameModal() {
         FB.login(function () {
             FB.api('/me/feed', 'post', { message: '<3 FII, <3 CLIW' });
         }, { scope: 'publish_actions' });
+        
     });
 }
 
