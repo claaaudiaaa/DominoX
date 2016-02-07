@@ -96,7 +96,7 @@ module dominox
                 rectangle.height);
 
             var rotationAngle = dominox.getRotationAngleInDegreesForTile(tile);
-            var image = dominox.getImageForTile(tile);
+            var image = dominox.getImageForTileFromContainer(tile, this.imagesContainer);
             var cell = this.getCellAtIndex(line, column);
             this.drawImageOnContext(this.context, tile.getOrientation(), image,
                 cell, this.tileWidth, this.tileHeight, rotationAngle);

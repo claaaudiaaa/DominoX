@@ -92,13 +92,13 @@ var dominox;
         return 0;
     }
     dominox.getRotationAngleInDegreesForTile = getRotationAngleInDegreesForTile;
-    function getImageForTile(tile) {
+    function getImageForTileFromContainer(tile, container) {
         var imageClassName = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
-        var elements = this.imagesContainer.getElementsByClassName(imageClassName);
+        var elements = container.getElementsByClassName(imageClassName);
         var image = elements[0];
         console.log("image class name " + imageClassName);
         return image;
     }
-    dominox.getImageForTile = getImageForTile;
+    dominox.getImageForTileFromContainer = getImageForTileFromContainer;
 })(dominox || (dominox = {}));
 //# sourceMappingURL=Interfaces.js.map
