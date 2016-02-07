@@ -184,10 +184,11 @@ module dominox {
         return 0;
     }
 
-    export function getImageForTile(tile: DominoTile): HTMLImageElement
+    export function getImageForTileFromContainer(tile: DominoTile,
+        container: HTMLDivElement): HTMLImageElement
     {
         var imageClassName: string = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
-        var elements = this.imagesContainer.getElementsByClassName(imageClassName);
+        var elements = container.getElementsByClassName(imageClassName);
         var image: HTMLImageElement = <HTMLImageElement>elements[0];
 
         console.log("image class name " + imageClassName);
