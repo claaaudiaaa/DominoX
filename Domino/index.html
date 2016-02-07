@@ -8,13 +8,33 @@
     <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/freeuniversal" type="text/css" />
     <link href="../app.css" rel="stylesheet" type="text/css" />   
 
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+
     <script src="modules/internal/Score.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
     <script src="render.js"></script>
 </head>
 
 <body>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1515543595417415',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <div class="mainContainer">
 
         <div id="cont" class="backgroundImage">
@@ -121,9 +141,28 @@
             </div>
 
             <div id="scores">
+                <div id="myModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">End of game</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>The winner of this game is Gigel!</p>
+                                <p class="text-warning"><small>Do you want to share your result on Facebook?</small></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" id="shareBtn" class="btn btn-primary">Share on Facebook</button>
+                                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <button class="back" id="backBtn3" type="button" onclick="goToMainMenu()"><strong><</strong></button>
                 <br>
-
                 <div class="menuBox">
                     <div class="options">
                         <ul id="scoresList">
