@@ -15,10 +15,9 @@ module dominox
     export function stringifyTileMatrix(matrix: Array<Array<DominoTile>>): string {
         var str: string = "";
 
-        var empty = "#############";
+        var empty: string = "#############";
 
         for (var i = 0; i < matrix.length; i++) {
-            str = str + "\n";
             for (var j = 0; j < matrix[i].length; j++) {
 
                 if (matrix[i][j] == null)
@@ -26,9 +25,8 @@ module dominox
                 else
                     str = str + matrix[i][j].toString();
             }
+            str = str + "\n";
         }
-
-        //console.log("In stringify matrix, the length is " + matrix.length);
 
         return str;
     }
@@ -72,6 +70,17 @@ module dominox
         toString() {
             return "TileIndex Pair: " + this.tile.toString() + ", " + this.index.toString();
         }
+    }
+
+    export function stringifyTileIndexPairList(list: TileIndexPair[]): string
+    {
+        var str: string = "";
+        for (var i = 0; i < list.length; i++) {
+            var pair = list[i];
+            str = str + pair.toString() + ", ";
+        }
+
+        return str;
     }
 
     export class SimpleTileMatrixPresenter implements TileMatrixPresenter {
@@ -158,15 +167,20 @@ module dominox
             var visitedTilesStack: DominoTile[] = [];
             this.buildIndexListWith(tileList[0], tileIndexPairList, 0, 0, visitedTilesStack);
 
-            //console.log("We have built the index ");
+            console.log("We have built the index ");
+            console.log(stringifyTileIndexPairList(tileIndexPairList));
 
             var smallestIndex = this.getIndexCoordinatesFrom(tileIndexPairList,
                 function (a: number, b: number) {
                     return a < b;
                 });
 
+            console.log("smallest index is " + smallestIndex.toString());
             this.makeIndexOkToBeAdded(smallestIndex);
+            console.log("after normalizing: " + smallestIndex.toString());
+
             this.addIndexToTileList(smallestIndex, tileIndexPairList);
+            console.log("tile index pair list after adding " + stringifyTileIndexPairList(tileIndexPairList));
 
             var biggestIndex = this.getIndexCoordinatesFrom(tileIndexPairList, function (a: number, b: number) {
                 return a > b;

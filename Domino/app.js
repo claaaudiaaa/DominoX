@@ -28,27 +28,7 @@
         console.log("Browser does not support webgl");
         
     }
-    var context = canvas.getContext("2d");
-    
-    var imageContainer = document.getElementById("ImagesContainer");
-    var image = imageContainer.getElementsByClassName("1-5")[0];
-
-    context.rect(0, 0, 100, 100);
-    context.fill();
-
-    var callback = function (event)
-    {
-        if (!image) image = this;
-        context.drawImage(image, 50, 50);
-    };
-
-    if(image.complete)
-    {
-        callback(image);
-    }else
-    {
-        image.onload = callback;
-    }
+   
 
     //context.drawImage(image, 10, 10, 100, 100);
    

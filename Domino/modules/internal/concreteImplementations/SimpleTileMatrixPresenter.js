@@ -13,15 +13,14 @@ var dominox;
         var str = "";
         var empty = "#############";
         for (var i = 0; i < matrix.length; i++) {
-            str = str + "\n";
             for (var j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j] == null)
                     str = str + empty;
                 else
                     str = str + matrix[i][j].toString();
             }
+            str = str + "\n";
         }
-        //console.log("In stringify matrix, the length is " + matrix.length);
         return str;
     }
     dominox.stringifyTileMatrix = stringifyTileMatrix;
@@ -59,6 +58,15 @@ var dominox;
         return TileIndexPair;
     })();
     dominox.TileIndexPair = TileIndexPair;
+    function stringifyTileIndexPairList(list) {
+        var str = "";
+        for (var i = 0; i < list.length; i++) {
+            var pair = list[i];
+            str = str + pair.toString() + ", ";
+        }
+        return str;
+    }
+    dominox.stringifyTileIndexPairList = stringifyTileIndexPairList;
     var SimpleTileMatrixPresenter = (function () {
         function SimpleTileMatrixPresenter() {
         }
@@ -117,12 +125,16 @@ var dominox;
             var tileIndexPairList = [];
             var visitedTilesStack = [];
             this.buildIndexListWith(tileList[0], tileIndexPairList, 0, 0, visitedTilesStack);
-            //console.log("We have built the index ");
+            console.log("We have built the index ");
+            console.log(stringifyTileIndexPairList(tileIndexPairList));
             var smallestIndex = this.getIndexCoordinatesFrom(tileIndexPairList, function (a, b) {
                 return a < b;
             });
+            console.log("smallest index is " + smallestIndex.toString());
             this.makeIndexOkToBeAdded(smallestIndex);
+            console.log("after normalizing: " + smallestIndex.toString());
             this.addIndexToTileList(smallestIndex, tileIndexPairList);
+            console.log("tile index pair list after adding " + stringifyTileIndexPairList(tileIndexPairList));
             var biggestIndex = this.getIndexCoordinatesFrom(tileIndexPairList, function (a, b) {
                 return a > b;
             });

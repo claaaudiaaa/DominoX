@@ -31,18 +31,22 @@ module dominox
     {
         private paddingLeft: number = 100;
         private paddingTop: number = 100;
+        private tileWidth: number = 32;
+        private tileHeight: number = 64;
 
         private context: CanvasRenderingContext2D;
         private canvas: HTMLCanvasElement;
-        private imagesContainer: HTMLElement;
+        private imagesContainer: HTMLDivElement;
         private matrixPresenter: TileMatrixPresenter;
 
-        constructor(canvas: HTMLCanvasElement, imagesContainer: HTMLElement, matrixPresenter: TileMatrixPresenter)
+        constructor(canvas: HTMLCanvasElement, imagesContainer: HTMLDivElement, matrixPresenter: TileMatrixPresenter)
         {
             this.canvas = canvas;
             this.context = canvas.getContext("2d");
             this.imagesContainer = imagesContainer;
             this.matrixPresenter = matrixPresenter;
+
+            printChildren(imagesContainer);
         }
 
         drawTileAsNeighbourOfTileFromBoard(tile: dominox.DominoTile, neighbour: dominox.DominoTile,
@@ -59,24 +63,34 @@ module dominox
 
         displayAsNormalTileBoard(tileBoard: TileBoard, callbackWhenDone: VoidCallback)
         {
+            this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
             var matrix = this.matrixPresenter.presentTileBoardAsTileMatrix(tileBoard);
+            
+            this.drawActualTilesFromMatrix(matrix);
+            this.fillContextWithRectangles(matrix, this.context);
 
-            for (var i = 0; i < matrix.length; i++)
-            {
-                for (var j = 0; j < matrix[i].length; j++)
-                {
-                    if (matrix[i][j] != null)
-                    {
-                        this.drawTileAtIndexes(matrix[i][j], i, j);
+        }
+
+        drawActualTilesFromMatrix(matrix: Array<Array<DominoTile>>)
+        {
+            for (var i = 0; i < matrix.length; i++) {
+                for (var j = 0; j < matrix[i].length; j++) {
+                    if (matrix[i][j] != null) {
+                        this.drawTileAtIndexes(matrix[i][j], i, j, matrix);
                     }
                 }
             }
         }
 
-
-        drawTileAtIndexes(tile: DominoTile, line: number, column: number)
+        drawTileAtIndexes(tile: DominoTile, line: number, column: number, matrix: DominoTile[][])
         {
             var rectangle = this.getRectangleForIndex(line, column);
+            rectangle = this.getRectangleForTileAtIndexInMatrix(tile, line, column, matrix);
+
+            console.log("Rectangle for tile " + tile.toString() + "is ");
+            console.log("" + rectangle.x + ", " + rectangle.y + ", " + rectangle.width + ", " +
+                rectangle.height);
+
             var rotationAngle = this.getRotationAngleInDegreesForTile(tile);
             var image = this.getImageForTile(tile);
 
@@ -90,7 +104,36 @@ module dominox
 
         getRectangleForIndex(line: number, column: number): TileRectangle
         {
-            return new TileRectangle(column * 64 + this.paddingLeft, line * 64 + this.paddingTop, 64, 64);
+            var x = column * this.tileWidth + this.paddingLeft;
+            var y = line * this.tileHeight + this.paddingTop;
+            console.log("x, y for " + line + ", " + column + " are " + x + ", " + y);
+            console.log("width " + this.tileWidth + ", height " + this.tileHeight);
+            return new TileRectangle(x, y, this.tileWidth, this.tileHeight);
+        }
+
+        getRectangleForTileAtIndexInMatrix(tile: DominoTile, line: number, column: number, matrix:
+            DominoTile[][]): TileRectangle
+        {
+            var normalNonRotatedVerticalFirstUpRect = this.getRectangleForIndex(line, column);
+
+            var orientation = tile.getOrientation();
+            if (dominox.isVertical(orientation))
+                return normalNonRotatedVerticalFirstUpRect;
+
+            if (dominox.isHorizontal(orientation))
+            {
+
+                return new TileRectangle(normalNonRotatedVerticalFirstUpRect.x,
+                    normalNonRotatedVerticalFirstUpRect.y + normalNonRotatedVerticalFirstUpRect.height / 4,
+                    normalNonRotatedVerticalFirstUpRect.height, normalNonRotatedVerticalFirstUpRect.width);
+            }
+
+            if (DominoTileOrientation.VerticalSecondUpFirstDown == orientation)
+                return new TileRectangle(normalNonRotatedVerticalFirstUpRect.x +
+                    normalNonRotatedVerticalFirstUpRect.width,
+                    normalNonRotatedVerticalFirstUpRect.y + normalNonRotatedVerticalFirstUpRect.height,
+                    normalNonRotatedVerticalFirstUpRect.width, normalNonRotatedVerticalFirstUpRect.height);
+            return null;
         }
 
         getRotationAngleInDegreesForTile(tile: DominoTile): number
@@ -115,8 +158,12 @@ module dominox
 
         getImageForTile(tile: DominoTile): HTMLImageElement
         {
-            var imageClassName = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond;
-            var image: HTMLImageElement = <HTMLImageElement>this.imagesContainer.getElementsByClassName(imageClassName)[0];
+            var imageClassName:string = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
+            var elements = this.imagesContainer.getElementsByClassName(imageClassName);
+            var image: HTMLImageElement = <HTMLImageElement>elements[0];
+
+            console.log("image class name " + imageClassName);
+
             return image;
         }
 
@@ -124,14 +171,17 @@ module dominox
         drawImageOnContext(context: CanvasRenderingContext2D,
             image: HTMLImageElement, rectangle: TileRectangle, rotatedAroundCenter: number): void
         {
-            image.width = rectangle.width;
-            image.height = rectangle.height;
+
             var self = this;
 
             var imageCallback = function (event: any)
             {
+                image.width = rectangle.width;
+                image.height = rectangle.height;
+
                 drawRotatedImage(self.context, image,
-                    rectangle.x, rectangle.y, rotatedAroundCenter);
+                    rectangle.x, rectangle.y, rectangle.width,
+                    rectangle.height, rotatedAroundCenter);
             };
 
             if (image.complete)
@@ -141,11 +191,24 @@ module dominox
 
         }
 
+        fillContextWithRectangles(matrix: Array<Array<DominoTile>>, context: CanvasRenderingContext2D)
+        {
+            for (var i = 0; i < matrix.length; i++) {
+                for (var j = 0; j < matrix[i].length; j++)
+                {
+                    var rectangle = this.getRectangleForIndex(i, j);
+                    context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+                    context.stroke();
+                }
+            }
+        }
+
     }
 
 
     export function drawRotatedImage(context: CanvasRenderingContext2D,
-        image: HTMLImageElement, x: number, y: number, angle: number)
+        image: HTMLImageElement, x: number, y: number, imageWidth: number,
+        imageHeight: number, angle: number)
     { 
         var TO_RADIANS = Math.PI / 180;
         // save the current co-ordinate system 
@@ -161,9 +224,18 @@ module dominox
  
         // draw it up and to the left by half the width
         // and height of the image 
-        context.drawImage(image, -(image.width / 2), -(image.height / 2));
+        context.drawImage(image, -(imageWidth / 2), -(imageHeight / 2));
  
         // and restore the co-ords to how they were when we began
         context.restore();
+    }
+
+    function printChildren(element: HTMLElement)
+    {
+        var children = element.children;
+        for (var i = 0; i < children.length; i++) {
+            var c = children[i];
+            console.log(c.tagName + " " + c.getAttribute("class"));
+        }
     }
 }

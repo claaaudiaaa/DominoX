@@ -14,6 +14,7 @@
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
+//  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
 var dominox;
 (function (dominox) {
     var PlayerTurnData = (function () {
@@ -62,16 +63,7 @@ var dominox;
         GameEngine.prototype.beginGame = function () {
             this.firstPlayer.setScore(0);
             this.secondPlayer.setScore(0);
-            //this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
-            var tileBoard = this.tileBoard;
-            var tile21 = new dominox.DominoTile(new dominox.DominoBone(2, 1), dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
-            var tile12 = new dominox.DominoTile(new dominox.DominoBone(1, 2), dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
-            tile21.setRightNeighbour(tile12);
-            tile12.setLeftNeighbour(tile21);
-            tileBoard.setTileList([tile12, tile21]);
-            var tile01 = new dominox.DominoTile(new dominox.DominoBone(0, 1), dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
-            this.firstPlayer.addTile(tile01);
-            this.secondPlayer.addTile(tile01);
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             console.log("Playing the game");
             //2. prepare their views
@@ -141,7 +133,11 @@ var dominox;
             return new dominox.Player(name, []);
         };
         GameEngine.prototype.createTileView = function () {
-            return new dominox.ConsoleTileBoardView();
+            var imagesContainer = document.getElementById("ImagesContainer");
+            var canvas = document.getElementById("canv");
+            var matrixPresenter = new dominox.SimpleTileMatrixPresenter();
+            return new dominox.SimpleCanvasTileBoardView(canvas, imagesContainer, matrixPresenter);
+            //return new dominox.ConsoleTileBoardView();
         };
         GameEngine.prototype.createTileBoard = function () {
             return new dominox.ConcreteTileBoard();

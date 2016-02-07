@@ -15,6 +15,7 @@
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
+//  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
 
 module dominox
 {
@@ -119,20 +120,7 @@ module dominox
             this.firstPlayer.setScore(0);
             this.secondPlayer.setScore(0);
 
-            //this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
-
-            var tileBoard = <ConcreteTileBoard>this.tileBoard;
-            var tile21 = new DominoTile(new DominoBone(2, 1), DominoTileOrientation.HorizontalFirstLeftSecondRight);
-            var tile12 = new DominoTile(new DominoBone(1, 2), DominoTileOrientation.HorizontalFirstLeftSecondRight);
-            tile21.setRightNeighbour(tile12);
-            tile12.setLeftNeighbour(tile21);
-
-            tileBoard.setTileList([tile12, tile21]);
-
-            var tile01 = new DominoTile(new DominoBone(0, 1), DominoTileOrientation.HorizontalFirstLeftSecondRight);
-
-            this.firstPlayer.addTile(tile01);
-            this.secondPlayer.addTile(tile01);
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
 
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
 
@@ -242,8 +230,14 @@ module dominox
         }
 
 
-        createTileView(): dominox.TileBoardView {
-            return new dominox.ConsoleTileBoardView();
+        createTileView(): dominox.TileBoardView
+        {
+            var imagesContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("ImagesContainer");
+            var canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canv");
+            var matrixPresenter = new SimpleTileMatrixPresenter();
+
+            return new dominox.SimpleCanvasTileBoardView(canvas, imagesContainer, matrixPresenter);
+            //return new dominox.ConsoleTileBoardView();
         }
 
         createTileBoard(): dominox.TileBoard {
