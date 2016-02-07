@@ -41,31 +41,22 @@ function viewScores() {
     }
     document.getElementById('scores').style.visibility = "visible";
     document.getElementById('mainMenu').style.visibility = "hidden";
-   
+};
+
+function createEndGameModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
     modal.setAttribute("margin", "auto");
     modal.setAttribute("position", "fixed");
     $('#myModal').modal();
-    
+
     var fbShareBtn = document.getElementById("shareBtn");
     fbShareBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        post_on_wall();
+        FB.login(function () {
+            FB.api('/me/feed', 'post', { message: '<3 FII, <3 CLIW' });
+        }, { scope: 'publish_actions' });
     });
-};
-
-function post_on_wall() {
-            FB.ui({
-                method: 'feed',
-                name: 'This is the content of the "name" field.',
-                link: ' http://www.hyperarts.com/',
-                picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
-                caption: 'This is the content of the "caption" field.',
-                description: 'This is the content of the "description" field, below the caption.',
-                message: '<3 <3 visual studio'
-            });
-        
 }
 
 function goToInsertPlayers() {
