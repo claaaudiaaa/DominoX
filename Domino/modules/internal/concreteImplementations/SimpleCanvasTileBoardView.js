@@ -24,6 +24,7 @@ var dominox;
             this.paddingTop = 100;
             this.tileWidth = 32;
             this.tileHeight = 64;
+            this.cellSize = this.computeCellSizeGivenWidthAndHeight(canvas.width, canvas.height);
             this.canvas = canvas;
             this.context = canvas.getContext("2d");
             this.imagesContainer = imagesContainer;
@@ -57,10 +58,14 @@ var dominox;
                 rectangle.height);
             var rotationAngle = this.getRotationAngleInDegreesForTile(tile);
             var image = this.getImageForTile(tile);
-            this.drawImageOnContext(this.context, image, rectangle, rotationAngle);
+            var cell = this.getCellAtIndex(line, column);
+            this.drawImageOnContext(this.context, tile.getOrientation(), image, cell, this.tileWidth, this.tileHeight, rotationAngle);
         };
         SimpleCanvasTileBoardView.prototype.computeCellSizeGivenWidthAndHeight = function (width, height) {
             return 64;
+        };
+        SimpleCanvasTileBoardView.prototype.getCellAtIndex = function (line, column) {
+            return new TileRectangle(column * this.cellSize + this.paddingLeft, line * this.cellSize + this.paddingTop, this.cellSize, this.cellSize);
         };
         SimpleCanvasTileBoardView.prototype.getRectangleForIndex = function (line, column) {
             var x = column * this.tileWidth + this.paddingLeft;
@@ -108,12 +113,12 @@ var dominox;
             console.log("image class name " + imageClassName);
             return image;
         };
-        SimpleCanvasTileBoardView.prototype.drawImageOnContext = function (context, image, rectangle, rotatedAroundCenter) {
+        SimpleCanvasTileBoardView.prototype.drawImageOnContext = function (context, tileOrientation, image, cell, width, height, rotatedAroundCenter) {
             var self = this;
             var imageCallback = function (event) {
-                image.width = rectangle.width;
-                image.height = rectangle.height;
-                drawRotatedImage(self.context, image, rectangle.x, rectangle.y, rectangle.width, rectangle.height, rotatedAroundCenter);
+                image.width = width;
+                image.height = height;
+                drawRotatedImageInCell(self.context, image, cell, width, height, rotatedAroundCenter, tileOrientation);
             };
             if (image.complete)
                 imageCallback(null);
@@ -123,7 +128,7 @@ var dominox;
         SimpleCanvasTileBoardView.prototype.fillContextWithRectangles = function (matrix, context) {
             for (var i = 0; i < matrix.length; i++) {
                 for (var j = 0; j < matrix[i].length; j++) {
-                    var rectangle = this.getRectangleForIndex(i, j);
+                    var rectangle = this.getCellAtIndex(i, j);
                     context.rect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
                     context.stroke();
                 }
@@ -132,23 +137,50 @@ var dominox;
         return SimpleCanvasTileBoardView;
     })();
     dominox.SimpleCanvasTileBoardView = SimpleCanvasTileBoardView;
-    function drawRotatedImage(context, image, x, y, imageWidth, imageHeight, angle) {
+    function drawRotatedImageInCell(context, image, cell, imageWidth, imageHeight, angle, tileOrientation) {
+        var imageX = cell.width / 2 - cell.width / 4;
+        var imageY = cell.height / 2 - cell.height / 4;
         var TO_RADIANS = Math.PI / 180;
         // save the current co-ordinate system 
         // before we screw with it
         context.save();
         // move to the middle of where we want to draw our image
-        context.translate(x, y);
+        context.translate(cell.x, cell.y);
         // rotate around that point, converting our 
         // angle from degrees to radians 
-        context.rotate(angle * TO_RADIANS);
-        // draw it up and to the left by half the width
-        // and height of the image 
-        context.drawImage(image, -(imageWidth / 2), -(imageHeight / 2));
+        //context.rotate(angle * TO_RADIANS);
+        var xRetranslation = 0;
+        var yRetranslation = 0;
+        if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight) {
+            xRetranslation = -(cell.height / 2 + imageWidth / 2);
+            yRetranslation = cell.width / 2 - imageHeight / 2;
+            context.fillStyle = "blue";
+        }
+        if (tileOrientation == dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight) {
+            xRetranslation = cell.height / 2 - imageWidth - imageWidth / 2;
+            yRetranslation = -(cell.width / 2 + imageHeight / 2);
+            context.fillStyle = "green";
+        }
+        if (tileOrientation == dominox.DominoTileOrientation.VerticalFirstUpSecondDown) {
+            xRetranslation = cell.width / 2 - imageWidth / 2 - imageWidth;
+            yRetranslation = cell.height / 2 - imageHeight - imageHeight / 2;
+            context.fillStyle = "red";
+        }
+        if (tileOrientation == dominox.DominoTileOrientation.VerticalSecondUpFirstDown) {
+            yRetranslation = -(cell.height / 2 - imageHeight - imageHeight / 2);
+            xRetranslation = -(cell.width / 2 - imageWidth / 2 - imageWidth);
+            context.fillStyle = "yellow";
+        }
+        //context.translate(xRetranslation, yRetranslation);
+        //context.drawImage(image, -(imageWidth / 2), -(imageHeight / 2));
+        context.drawImage(image, 0, 0);
+        //context.rect(0, 0, 16,32);
+        //context.fill();
         // and restore the co-ords to how they were when we began
+        context.fillStyle = undefined;
         context.restore();
     }
-    dominox.drawRotatedImage = drawRotatedImage;
+    dominox.drawRotatedImageInCell = drawRotatedImageInCell;
     function printChildren(element) {
         var children = element.children;
         for (var i = 0; i < children.length; i++) {
