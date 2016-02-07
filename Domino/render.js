@@ -1,10 +1,15 @@
 ﻿(function () {
-    console.log("adding jquery");
+   /* console.log("adding jquery");
     var newscript = document.createElement('script');
     newscript.type = 'text/javascript';
     newscript.async = true;
     newscript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js';
+    var bootstrapscript = document.createElement('script');
+    bootstrapscript.type = 'text/javascript';
+    bootstrapscript.async = true;
+    bootstrapscript.src = 'Scripts/bootstrap.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(newscript);
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bootstrapscript);*/
     var score = new dominox.Score("vasilica", "gigel", 3, 6);
     localStorage.setItem("score", score.toString());
     localStorage.setItem("score1", score.toString());
@@ -24,7 +29,6 @@ function restore() {
     document.getElementById('mainMenu').style.visibility = "hidden";
 };
 
-
 function viewScores() {
     var scoresBtn = document.getElementById('viewScores');
     document.getElementById('scoresList').innerHTML = '';
@@ -37,7 +41,32 @@ function viewScores() {
     }
     document.getElementById('scores').style.visibility = "visible";
     document.getElementById('mainMenu').style.visibility = "hidden";
+   
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block";
+    modal.setAttribute("margin", "auto");
+    modal.setAttribute("position", "fixed");
+    $('#myModal').modal();
+    
+    var fbShareBtn = document.getElementById("shareBtn");
+    fbShareBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        post_on_wall();
+    });
 };
+
+function post_on_wall() {
+            FB.ui({
+                method: 'feed',
+                name: 'This is the content of the "name" field.',
+                link: ' http://www.hyperarts.com/',
+                picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
+                caption: 'This is the content of the "caption" field.',
+                description: 'This is the content of the "description" field, below the caption.',
+                message: 'message'
+            });
+        
+}
 
 function goToInsertPlayers() {
     document.getElementById('insertPlayers').style.visibility = "visible";
