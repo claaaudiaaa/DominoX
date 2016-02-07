@@ -1,12 +1,11 @@
-﻿.body {
-    background-image: url(../images/gameBox2.png);    
-    background-repeat: no-repeat;    
-    height: 600px;
-    width: 1300px;
-    margin: auto;
-    position: fixed;
-    top: 40px;
-    left: 35px;
-    -moz-border-radius: 7px;
-    border-radius: 7px;
+﻿#playArea {
+    background: url(../images/menuBox2.png) no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    padding-left:3%;
+}
+
+.PlayerTiles {
+   padding-left:45%;
 }

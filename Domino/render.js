@@ -65,6 +65,26 @@ function createEndGameModal() {
 function goToInsertPlayers() {
     document.getElementById('insertPlayers').style.visibility = "visible";
     document.getElementById('newGame').style.visibility = "hidden";
+    var startGameBtn = document.getElementById('startGameBtn');
+    var errMsg = document.createElement('p');
+    errMsg.innerHTML = "Please insert names."
+    errMsg.style.color = "red";
+    var errorCreated = 0;
+    
+    startGameBtn.addEventListener('click', function (e) {
+        firstName = document.getElementById('firstName').value;
+        secondName = document.getElementById('secondName').value;
+
+        if (firstName === '' || secondName === '') {
+            
+            if (errorCreated == 0)
+                document.getElementById('insert').appendChild(errMsg);
+            else
+                errorCreated = 1;
+        }
+        else
+            startGame();
+    });
 }
 
 function goToMainMenu() {

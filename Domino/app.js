@@ -1,5 +1,8 @@
 (function () {
 
+    document.getElementById('firstName').innerHTML = firstName;
+    document.getElementById('secondName').innerHTML = secondName;
+
     var gameEngine = new dominox.GameEngine();
     if (gameEngine == null) {
         console.log("GAME ENGINE IS NULL WTF");
