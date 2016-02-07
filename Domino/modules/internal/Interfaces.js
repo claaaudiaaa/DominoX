@@ -72,5 +72,33 @@ var dominox;
         return matchableTiles;
     }
     dominox.getMatchableTilesForTile = getMatchableTilesForTile;
+    function getRotationAngleInDegreesForTile(tile) {
+        //the tile image is drawn as according to Vertical First Up Second Down
+        var orientation = tile.getOrientation();
+        switch (orientation) {
+            case dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight:
+                return -90;
+                break;
+            case dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight:
+                return 90;
+                break;
+            case dominox.DominoTileOrientation.VerticalFirstUpSecondDown:
+                return 0;
+                break;
+            case dominox.DominoTileOrientation.VerticalSecondUpFirstDown:
+                return 180;
+                break;
+        }
+        return 0;
+    }
+    dominox.getRotationAngleInDegreesForTile = getRotationAngleInDegreesForTile;
+    function getImageForTile(tile) {
+        var imageClassName = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
+        var elements = this.imagesContainer.getElementsByClassName(imageClassName);
+        var image = elements[0];
+        console.log("image class name " + imageClassName);
+        return image;
+    }
+    dominox.getImageForTile = getImageForTile;
 })(dominox || (dominox = {}));
 //# sourceMappingURL=Interfaces.js.map

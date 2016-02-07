@@ -15,6 +15,7 @@
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
+//  <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
 var dominox;
 (function (dominox) {
     var PlayerTurnData = (function () {
@@ -134,9 +135,10 @@ var dominox;
         };
         GameEngine.prototype.createTileView = function () {
             var imagesContainer = document.getElementById("ImagesContainer");
-            var canvas = document.getElementById("canv");
             var matrixPresenter = new dominox.SimpleTileMatrixPresenter();
-            return new dominox.SimpleCanvasTileBoardView(canvas, imagesContainer, matrixPresenter);
+            var tableContainer = document.getElementById("TableContainer");
+            var table = tableContainer.firstChild;
+            return new dominox.TableTileBoardView(table, imagesContainer);
             //return new dominox.ConsoleTileBoardView();
         };
         GameEngine.prototype.createTileBoard = function () {

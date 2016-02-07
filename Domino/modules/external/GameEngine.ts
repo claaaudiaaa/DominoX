@@ -16,6 +16,7 @@
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
+//  <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
 
 module dominox
 {
@@ -233,10 +234,11 @@ module dominox
         createTileView(): dominox.TileBoardView
         {
             var imagesContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("ImagesContainer");
-            var canvas: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canv");
             var matrixPresenter = new SimpleTileMatrixPresenter();
+            var tableContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("TableContainer");
+            var table: HTMLTableElement = <HTMLTableElement>tableContainer.firstChild;
 
-            return new dominox.SimpleCanvasTileBoardView(canvas, imagesContainer, matrixPresenter);
+            return new dominox.TableTileBoardView(table, imagesContainer);
             //return new dominox.ConsoleTileBoardView();
         }
 
