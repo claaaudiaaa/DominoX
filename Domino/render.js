@@ -63,7 +63,7 @@ function post_on_wall() {
                 picture: 'http://www.hyperarts.com/external-xfbml/share-image.gif',
                 caption: 'This is the content of the "caption" field.',
                 description: 'This is the content of the "description" field, below the caption.',
-                message: '<3 visual studio'
+                message: '<3<3 visual studio'
             });
         
 }
