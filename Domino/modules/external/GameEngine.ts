@@ -236,7 +236,7 @@ module dominox
             var imagesContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("ImagesContainer");
             var matrixPresenter = new SimpleTileMatrixPresenter();
             var tableContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("TableContainer");
-            var table: HTMLTableElement = <HTMLTableElement>tableContainer.firstChild;
+            var table: HTMLTableElement = <HTMLTableElement>tableContainer.getElementsByClassName("TilesTable")[0];
 
             return new dominox.TableTileBoardView(table, imagesContainer);
             //return new dominox.ConsoleTileBoardView();

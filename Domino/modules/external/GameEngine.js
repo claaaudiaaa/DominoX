@@ -137,7 +137,7 @@ var dominox;
             var imagesContainer = document.getElementById("ImagesContainer");
             var matrixPresenter = new dominox.SimpleTileMatrixPresenter();
             var tableContainer = document.getElementById("TableContainer");
-            var table = tableContainer.firstChild;
+            var table = tableContainer.getElementsByClassName("TilesTable")[0];
             return new dominox.TableTileBoardView(table, imagesContainer);
             //return new dominox.ConsoleTileBoardView();
         };
