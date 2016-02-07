@@ -17,6 +17,7 @@ var dominox;
         TableTileBoardView.prototype.displayAsNormalTileBoard = function (tileBoard, callbackWhenDone) {
             var matrix = this.matrixPresenter.presentTileBoardAsTileMatrix(tileBoard);
             this.buildTableAccordingToMatrix(this.table, matrix);
+            console.log(dominox.stringifyTileMatrix(matrix));
         };
         TableTileBoardView.prototype.buildTableAccordingToMatrix = function (table, matrix) {
             this.removeAllChildNodesOfElement(table);
@@ -28,10 +29,31 @@ var dominox;
                     cell.height = "40";
                     if (matrix[i][j] != null) {
                         var image = this.getImageForTile(matrix[i][j]);
+                        this.rotateImageToDegrees(image, dominox.getRotationAngleInDegreesForTile(matrix[i][j]));
+                        this.resizeImageTo(image, 32, 40);
                         cell.appendChild(image);
                     }
                 }
             }
+        };
+        TableTileBoardView.prototype.rotateImageToDegrees = function (image, degrees) {
+            var div = image;
+            var deg = degrees;
+            div.style.webkitTransform = 'rotate(' + deg + 'deg)';
+            div.style.mozTransform = 'rotate(' + deg + 'deg)';
+            div.style.msTransform = 'rotate(' + deg + 'deg)';
+            div.style.oTransform = 'rotate(' + deg + 'deg)';
+            div.style.transform = 'rotate(' + deg + 'deg)';
+        };
+        TableTileBoardView.prototype.resizeImageTo = function (image, width, height) {
+            var onloadCallback = function (ev) {
+                image.height = height;
+                image.width = width;
+            };
+            if (image.complete)
+                onloadCallback(null);
+            else
+                image.onload = onloadCallback;
         };
         TableTileBoardView.prototype.getImageForTile = function (tile) {
             var imageClassName = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();

@@ -36,6 +36,7 @@ module dominox {
         {
             var matrix = this.matrixPresenter.presentTileBoardAsTileMatrix(tileBoard);
             this.buildTableAccordingToMatrix(this.table, matrix);
+            console.log(stringifyTileMatrix(matrix));
         }
 
        
@@ -55,12 +56,42 @@ module dominox {
                     if (matrix[i][j] != null)
                     {
                         var image = this.getImageForTile(matrix[i][j]);
+                        this.rotateImageToDegrees(image, dominox.getRotationAngleInDegreesForTile(matrix[i][j]));
+                        this.resizeImageTo(image, 32, 40);
                         cell.appendChild(image);
                     }
 
                 }
             }
         }
+
+
+        rotateImageToDegrees(image: HTMLImageElement, degrees: number)
+        {
+            var div : any = image;
+            var deg = degrees;
+
+            div.style.webkitTransform = 'rotate(' + deg + 'deg)';
+            div.style.mozTransform = 'rotate(' + deg + 'deg)';
+            div.style.msTransform = 'rotate(' + deg + 'deg)';
+            div.style.oTransform = 'rotate(' + deg + 'deg)';
+            div.style.transform = 'rotate(' + deg + 'deg)'; 
+        }
+
+        resizeImageTo(image: HTMLImageElement, width: number, height: number) {
+
+            var onloadCallback = function (ev: any)
+            {
+                image.height = height;
+                image.width = width;
+            };
+
+            if (image.complete)
+                onloadCallback(null);
+            else
+                image.onload = onloadCallback;
+        }
+
 
         getImageForTile(tile: DominoTile): HTMLImageElement {
             var imageClassName: string = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
