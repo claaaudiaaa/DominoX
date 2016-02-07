@@ -15,6 +15,9 @@ C:\Users\Claudia\Source\Repos\DominoX\Domino\bin\Domino.dll
 C:\Users\Claudia\Source\Repos\DominoX\Domino\bin\Domino.pdb
 C:\Users\Claudia\Source\Repos\DominoX\Domino\obj\Debug\Domino.dll
 C:\Users\Claudia\Source\Repos\DominoX\Domino\obj\Debug\Domino.pdb
-C:\Users\Claudia\Source\Repos\DominoX2\Domino\obj\Debug\Domino.csprojResolveAssemblyReference.cache
 C:\Users\Claudia\Source\Repos\DominoX2\Domino\obj\Debug\Domino.dll
 C:\Users\Claudia\Source\Repos\DominoX2\Domino\obj\Debug\Domino.pdb
+C:\Users\Claudia\Source\Repos\DominoX2\Domino\bin\Domino.dll.config
+C:\Users\Claudia\Source\Repos\DominoX2\Domino\bin\Domino.dll
+C:\Users\Claudia\Source\Repos\DominoX2\Domino\bin\Domino.pdb
+C:\Users\Claudia\Source\Repos\DominoX2\Domino\obj\Debug\Domino.csprojResolveAssemblyReference.cache

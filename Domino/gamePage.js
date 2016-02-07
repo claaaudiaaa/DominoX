@@ -38,4 +38,10 @@ function draw(src, positionX, positionY) {
        
         console.log("on load");
     }
+    if (typeof (Storage) !== "undefined") {
+        // Store
+        localStorage.setItem("score", "2");
+        console.log(localStorage.getItem("score"));
+    }
+
 }
