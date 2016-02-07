@@ -31,6 +31,11 @@
    
 
     //context.drawImage(image, 10, 10, 100, 100);
+    if (typeof (Storage) !== "undefined") {
+        // Store
+        localStorage.setItem("score", "2");
+        console.log(localStorage.getItem("score"));
+    }
    
 })();
 

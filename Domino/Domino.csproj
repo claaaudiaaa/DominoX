@@ -93,9 +93,13 @@
     <TypeScriptCompile Include="modules\internal\dominoModels\DominoTileOrientation.ts" />
     <TypeScriptCompile Include="modules\internal\Interfaces.ts" />
     <TypeScriptCompile Include="modules\internal\Player.ts" />
+    <TypeScriptCompile Include="modules\internal\Score.ts" />
     <TypeScriptCompile Include="modules\internal\useCases\playTileUseCase\PlayTileUseCase.ts" />
     <TypeScriptCompile Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseInput.ts" />
     <TypeScriptCompile Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseOutput.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">12.0</VisualStudioVersion>
@@ -113,7 +117,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52051</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52051/</IISUrl>
+          <IISUrl>http://localhost:52059/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -5,6 +5,9 @@
     newscript.async = true;
     newscript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(newscript);
+    var score = new dominox.Score("vasilica", "gigel", 3, 6);
+    localStorage.setItem("score", score.toString());
+    localStorage.setItem("score1", score.toString());
 })();
 
 
@@ -24,6 +27,14 @@ function restore() {
 
 function viewScores() {
     var scoresBtn = document.getElementById('viewScores');
+    document.getElementById('scoresList').innerHTML = '';
+
+    for (var i = 0; i < localStorage.length; i++) {
+        
+        var li = document.createElement('li');
+        li.innerHTML = localStorage.getItem(localStorage.key(i));
+        document.getElementById('scoresList').appendChild(li);
+    }
     document.getElementById('scores').style.visibility = "visible";
     document.getElementById('mainMenu').style.visibility = "hidden";
 };
