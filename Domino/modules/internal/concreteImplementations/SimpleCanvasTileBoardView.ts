@@ -237,7 +237,7 @@ module dominox
 
         // rotate around that point, converting our 
         // angle from degrees to radians 
-        context.rotate(angle * TO_RADIANS);
+        //context.rotate(angle * TO_RADIANS);
 
         var xRetranslation: number = 0;
         var yRetranslation: number = 0;
@@ -246,35 +246,41 @@ module dominox
         if (tileOrientation == DominoTileOrientation.HorizontalFirstLeftSecondRight)
         {
             xRetranslation = -(cell.height / 2 + imageWidth / 2);
-            yRetranslation = cell.width / 2 - imageHeight/2
+            yRetranslation = cell.width / 2 - imageHeight / 2
+            context.fillStyle = "blue";
         }
 
         if (tileOrientation == DominoTileOrientation.HorizontalSecondLeftFirstRight)
         {
             xRetranslation = cell.height / 2 - imageWidth - imageWidth / 2;
             yRetranslation = -(cell.width / 2 + imageHeight / 2);
+            context.fillStyle = "green";
         }
 
         if (tileOrientation == DominoTileOrientation.VerticalFirstUpSecondDown)
         {
             xRetranslation = cell.width / 2 - imageWidth / 2 - imageWidth;
             yRetranslation = cell.height / 2 - imageHeight - imageHeight / 2;
+            context.fillStyle = "red";
         }
 
         if (tileOrientation == DominoTileOrientation.VerticalSecondUpFirstDown)
         {
             yRetranslation = -(cell.height / 2 - imageHeight - imageHeight / 2);
             xRetranslation = -(cell.width / 2 - imageWidth / 2 - imageWidth);
+            context.fillStyle = "yellow";
         }
 
 
-        context.translate(xRetranslation, yRetranslation);
+        //context.translate(xRetranslation, yRetranslation);
 
         //context.drawImage(image, -(imageWidth / 2), -(imageHeight / 2));
 
         context.drawImage(image, 0,0);
-
+        //context.rect(0, 0, 16,32);
+        //context.fill();
         // and restore the co-ords to how they were when we began
+        context.fillStyle = undefined;
         context.restore();
     }
 
