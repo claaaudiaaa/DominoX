@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 {"version":3,"file":"PlayTileUseCaseInput.js","sourceRoot":"","sources":["PlayTileUseCaseInput.ts"],"names":["dominox","dominox.PlayTileUseCaseInput","dominox.PlayTileUseCaseInput.constructor"],"mappings":"AAGA,AAHA,yDAAyD;AACzD,2CAA2C;AAC3C,uCAAuC;AACvC,IAAO,OAAO,CAab;AAbD,WAAO,OAAO,EAAC,CAAC;IACZA;QAAAC;QAWAC,CAACA;QAADD,2BAACA;IAADA,CAACA,AAXDD,IAWCA;IAXYA,4BAAoBA,uBAWhCA,CAAAA;AACLA,CAACA,EAbM,OAAO,KAAP,OAAO,QAab"}
-=======
-{"version":3,"file":"PlayTileUseCaseInput.js","sourceRoot":"","sources":["PlayTileUseCaseInput.ts"],"names":["dominox","dominox.PlayTileUseCaseInput","dominox.PlayTileUseCaseInput.constructor"],"mappings":"AAAA,yDAAyD;AACzD,2CAA2C;AAC3C,uCAAuC;AACvC,IAAO,OAAO,CAab;AAbD,WAAO,OAAO,EAAC,CAAC;IACZA;QAAAC;QAWAC,CAACA;QAADD,2BAACA;IAADA,CAACA,AAXDD,IAWCA;IAXYA,4BAAoBA,uBAWhCA,CAAAA;AACLA,CAACA,EAbM,OAAO,KAAP,OAAO,QAab"}
->>>>>>> bd62e835d6683c1b4b86bd932c3ce108e2e5faf4

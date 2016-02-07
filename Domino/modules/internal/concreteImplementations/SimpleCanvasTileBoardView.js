@@ -56,8 +56,8 @@ var dominox;
             console.log("Rectangle for tile " + tile.toString() + "is ");
             console.log("" + rectangle.x + ", " + rectangle.y + ", " + rectangle.width + ", " +
                 rectangle.height);
-            var rotationAngle = this.getRotationAngleInDegreesForTile(tile);
-            var image = this.getImageForTile(tile);
+            var rotationAngle = dominox.getRotationAngleInDegreesForTile(tile);
+            var image = dominox.getImageForTile(tile);
             var cell = this.getCellAtIndex(line, column);
             this.drawImageOnContext(this.context, tile.getOrientation(), image, cell, this.tileWidth, this.tileHeight, rotationAngle);
         };
@@ -86,32 +86,6 @@ var dominox;
                 return new TileRectangle(normalNonRotatedVerticalFirstUpRect.x +
                     normalNonRotatedVerticalFirstUpRect.width, normalNonRotatedVerticalFirstUpRect.y + normalNonRotatedVerticalFirstUpRect.height, normalNonRotatedVerticalFirstUpRect.width, normalNonRotatedVerticalFirstUpRect.height);
             return null;
-        };
-        SimpleCanvasTileBoardView.prototype.getRotationAngleInDegreesForTile = function (tile) {
-            //the tile image is drawn as according to Vertical First Up Second Down
-            var orientation = tile.getOrientation();
-            switch (orientation) {
-                case dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight:
-                    return -90;
-                    break;
-                case dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight:
-                    return 90;
-                    break;
-                case dominox.DominoTileOrientation.VerticalFirstUpSecondDown:
-                    return 0;
-                    break;
-                case dominox.DominoTileOrientation.VerticalSecondUpFirstDown:
-                    return 180;
-                    break;
-            }
-            return 0;
-        };
-        SimpleCanvasTileBoardView.prototype.getImageForTile = function (tile) {
-            var imageClassName = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
-            var elements = this.imagesContainer.getElementsByClassName(imageClassName);
-            var image = elements[0];
-            console.log("image class name " + imageClassName);
-            return image;
         };
         SimpleCanvasTileBoardView.prototype.drawImageOnContext = function (context, tileOrientation, image, cell, width, height, rotatedAroundCenter) {
             var self = this;

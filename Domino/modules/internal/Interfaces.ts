@@ -165,4 +165,34 @@ module dominox {
         return matchableTiles;
     }
 
+    export function getRotationAngleInDegreesForTile(tile: DominoTile): number
+    {
+        //the tile image is drawn as according to Vertical First Up Second Down
+        var orientation = tile.getOrientation();
+
+        switch (orientation) {
+            case DominoTileOrientation.HorizontalFirstLeftSecondRight:
+                return -90; break;
+            case DominoTileOrientation.HorizontalSecondLeftFirstRight:
+                return 90; break;
+            case DominoTileOrientation.VerticalFirstUpSecondDown:
+                return 0; break;
+            case DominoTileOrientation.VerticalSecondUpFirstDown:
+                return 180; break;
+        }
+
+        return 0;
+    }
+
+    export function getImageForTile(tile: DominoTile): HTMLImageElement
+    {
+        var imageClassName: string = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
+        var elements = this.imagesContainer.getElementsByClassName(imageClassName);
+        var image: HTMLImageElement = <HTMLImageElement>elements[0];
+
+        console.log("image class name " + imageClassName);
+
+        return image;
+    }
+
 }

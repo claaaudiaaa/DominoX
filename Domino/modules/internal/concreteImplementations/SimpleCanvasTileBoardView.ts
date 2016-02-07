@@ -95,8 +95,8 @@ module dominox
             console.log("" + rectangle.x + ", " + rectangle.y + ", " + rectangle.width + ", " +
                 rectangle.height);
 
-            var rotationAngle = this.getRotationAngleInDegreesForTile(tile);
-            var image = this.getImageForTile(tile);
+            var rotationAngle = dominox.getRotationAngleInDegreesForTile(tile);
+            var image = dominox.getImageForTile(tile);
             var cell = this.getCellAtIndex(line, column);
             this.drawImageOnContext(this.context, tile.getOrientation(), image,
                 cell, this.tileWidth, this.tileHeight, rotationAngle);
@@ -147,36 +147,7 @@ module dominox
             return null;
         }
 
-        getRotationAngleInDegreesForTile(tile: DominoTile): number
-        {
-            //the tile image is drawn as according to Vertical First Up Second Down
-            var orientation = tile.getOrientation();
-
-            switch (orientation)
-            {
-                case DominoTileOrientation.HorizontalFirstLeftSecondRight:
-                    return -90; break;
-                case DominoTileOrientation.HorizontalSecondLeftFirstRight:
-                    return 90; break;
-                case DominoTileOrientation.VerticalFirstUpSecondDown:
-                    return 0; break;
-                case DominoTileOrientation.VerticalSecondUpFirstDown:
-                    return 180; break;
-            }
-
-            return 0;
-        }
-
-        getImageForTile(tile: DominoTile): HTMLImageElement
-        {
-            var imageClassName:string = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
-            var elements = this.imagesContainer.getElementsByClassName(imageClassName);
-            var image: HTMLImageElement = <HTMLImageElement>elements[0];
-
-            console.log("image class name " + imageClassName);
-
-            return image;
-        }
+        
 
 
         drawImageOnContext(context: CanvasRenderingContext2D, tileOrientation: DominoTileOrientation,
