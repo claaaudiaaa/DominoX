@@ -8,6 +8,7 @@ var dominox;
             this.imagesContainer = imagesContainer;
             this.removeAllChildNodesOfElement(this.table);
             this.matrixPresenter = new dominox.SimpleTileMatrixPresenter();
+            console.log("The table is " + table);
         }
         TableTileBoardView.prototype.drawTileAsNeighbourOfTileFromBoard = function (tile, neighbour, board, callbackWhenDone) {
         };

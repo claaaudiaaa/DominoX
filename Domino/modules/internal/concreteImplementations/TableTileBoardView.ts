@@ -16,6 +16,8 @@ module dominox {
             this.imagesContainer = imagesContainer;
             this.removeAllChildNodesOfElement(this.table);
             this.matrixPresenter = new SimpleTileMatrixPresenter();
+
+            console.log("The table is " + table);
         }
 
         drawTileAsNeighbourOfTileFromBoard(tile: dominox.DominoTile, neighbour: dominox.DominoTile,
