@@ -10,36 +10,9 @@
 
     window.gameEngine = gameEngine;
     var gameEngineParameters = new dominox.GameEngineParameters();
-    gameEngineParameters.firstPlayerName = "FirstPlayer";
-    gameEngineParameters.secondPlayerName = "SecondPlayer";
-    gameEngine.runWithParameters(gameEngineParameters);
-
-    var canvas = document.getElementById("canv");
-    var gl;
-        //= canvas.getContext("experimental-webgl") || canvas.getContext("webgl") ||
-        //canvas.getContext("moz-webgl") || canvas.getContext("webkit-3d");
-
-    if (gl) {
-
-        //var extensions = gl.getSupportedExtensions();
-        //console.log(gl);
-        //console.log(extensions);
-
-    }
-    else {
-       
-        console.log("Browser does not support webgl");
-        
-    }
-   
-
-    //context.drawImage(image, 10, 10, 100, 100);
-    if (typeof (Storage) !== "undefined") {
-        // Store
-        localStorage.setItem("score", "2");
-        console.log(localStorage.getItem("score"));
-    }
-   
+    gameEngineParameters.firstPlayerName = firstName;
+    gameEngineParameters.secondPlayerName = secondName;
+    gameEngine.runWithParameters(gameEngineParameters);  
 })();
 
 
@@ -52,9 +25,4 @@ function handleTextureLoaded(image, texture) {
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.bindTexture(gl.TEXTURE_2D, null);
 
-}
- 
-function draw() {
-
-    
 }
