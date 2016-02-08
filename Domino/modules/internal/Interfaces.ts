@@ -35,6 +35,8 @@ module dominox {
         addFirstTile(tile: dominox.DominoTile): void;
         getTileList(): dominox.DominoTile[];
         getExternalTilesListMatchingTile(tile: dominox.DominoTile): dominox.DominoTile[];
+        getExternalTiles(): dominox.DominoTile[];
+        getSpinner(): dominox.DominoTile;
     }
 
     export interface DominoGame {

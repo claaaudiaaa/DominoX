@@ -55,3 +55,8 @@ Temporary Items
 *.pdpb
 pdb*
 applicationhost.config
+*.map
+Domino/modules/internal/concreteImplementations/SimplePlayerTurnHelper.js.map
+Domino/modules/internal/concreteImplementations/SimpleTileMatrixPresenter.js.map
+*.map
+Domino/modules/external/GameEngine.js.map
