@@ -26,6 +26,8 @@ var dominox;
             }
             return anyMatchFound;
         };
+        DummyDominoGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
+        };
         return DummyDominoGame;
     })();
     dominox.DummyDominoGame = DummyDominoGame;

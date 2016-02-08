@@ -73,13 +73,12 @@ module dominox {
         }
 
         isGameOverWithPlayersAndBoard(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {
-            if (firstPlayer.getScore() >= 100 || secondPlayer.getScore() >= 100)
-                return true;
+            
             if (this.canPlayerMakeMoveWithTileListOnBoard(firstPlayer.getTileList(), board))
-                return true;
+                return false;
             if (this.canPlayerMakeMoveWithTileListOnBoard(secondPlayer.getTileList(), board))
-                return true;
-            return false;
+                return false;
+            return true;
         }
 
         canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean {
@@ -93,6 +92,34 @@ module dominox {
             }
 
             return anyMatchFound;
+        }
+
+        calculateSumOfBones(player: Player): number {
+            var points: number = 0;
+            var playerTiles: DominoTile[] = player.getTileList();
+            for (var i = 0; i < playerTiles.length; i++) {
+                var tileBone: dominox.DominoBone = playerTiles[i].getBone();
+                points += tileBone.getFirst().valueOf();
+                points += tileBone.getSecond().valueOf();
+            }
+            return points;
+        }
+
+        endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
+            if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
+                var pointsSecondPlayer: number = this.calculateSumOfBones(secondPlayer);
+                var pointsFirstPlayer: number = this.calculateSumOfBones(firstPlayer);
+                if (pointsFirstPlayer < pointsSecondPlayer) {
+
+                    pointsSecondPlayer = Math.ceil(pointsSecondPlayer / 5) * 5;
+                    firstPlayer.setScore(firstPlayer.getScore() + pointsSecondPlayer);
+                }
+                else {
+                    pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
+                    secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
+                }     
+                //and now start a new game 
+            }
         }
 
     }

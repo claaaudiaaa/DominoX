@@ -37,7 +37,8 @@ module dominox {
             return anyMatchFound;
         }
 
- 
+        endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
+        }
 
     }
 }

@@ -96,7 +96,7 @@ var dominox;
         var imageClassName = "" + tile.getBone().getFirst() + "-" + tile.getBone().getSecond();
         var elements = container.getElementsByClassName(imageClassName);
         var image = elements[0];
-        //console.log("image class name " + imageClassName);
+        console.log("image class name " + imageClassName);
         return image.cloneNode(true);
     }
     dominox.getImageForTileFromContainer = getImageForTileFromContainer;

@@ -48,6 +48,8 @@ module dominox {
         isGameOverWithPlayersAndBoard(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean;
 
         canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean;
+
+        endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void;
     }
 
     export interface VoidCallback {
@@ -193,7 +195,7 @@ module dominox {
         var elements = container.getElementsByClassName(imageClassName);
         var image: HTMLImageElement = <HTMLImageElement>elements[0];
 
-        //console.log("image class name " + imageClassName);
+        console.log("image class name " + imageClassName);
 
         return <HTMLImageElement>image.cloneNode(true);
     }
