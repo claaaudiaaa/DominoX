@@ -57,7 +57,7 @@ module dominox
                 if (tile.getLeftNeighbour() !== null) noNeighbour++;
                 if (tile.getRightNeighbour() !== null) noNeighbour++;
                 if (tile.getUpNeighbour() !== null) noNeighbour++;
-                if (noNeighbour == 1 || ((noNeighbour == 2 || noNeighbour == 3) && tile === this.spinner))
+                if (((noNeighbour != 4) && tile === this.spinner) || noNeighbour == 1 || noNeighbour == 0)
                     tileList.push(tile);
             }
             return tileList;
