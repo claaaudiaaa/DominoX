@@ -4,6 +4,10 @@ module dominox {
 
     export class MugginsGame implements dominox.DominoGame {
 
+        constructor() {
+            console.log("MugginsGame CREATED SUCCESFULLY");
+        }
+
         getNeighbourListForTileFromBoard(tile: dominox.DominoTile, board: TileBoard): dominox.DominoTile[] {
             return board.getExternalTilesListMatchingTile(tile);
         }
@@ -80,6 +84,8 @@ module dominox {
                 return false;
             return true;
         }
+
+        
 
         canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean {
             var anyMatchFound: boolean = false;

@@ -3,6 +3,7 @@ var dominox;
 (function (dominox) {
     var MugginsGame = (function () {
         function MugginsGame() {
+            console.log("MugginsGame CREATED SUCCESFULLY");
         }
         MugginsGame.prototype.getNeighbourListForTileFromBoard = function (tile, board) {
             return board.getExternalTilesListMatchingTile(tile);

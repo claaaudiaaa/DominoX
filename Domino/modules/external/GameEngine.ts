@@ -11,6 +11,7 @@
 /// <reference path = "../internal/concreteImplementations/ConsoleTileBoardView.ts"/>
 /// <reference path = "../internal/concreteImplementations/ConsolePlayerTileListView.ts"/>
 /// <reference path = "../internal/concreteImplementations/DummyDominoGame.ts"/>
+/// <reference path = "../internal/concreteImplementations/MugginsGame.ts"/>
 /// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
@@ -270,7 +271,7 @@ module dominox
         }
 
         createDominoGameBasedOnName(name: String): dominox.DominoGame {
-            return new dominox.DummyDominoGame();
+            return new dominox.MugginsGame();
         }
 
         createPlayerTileViewWithPlayer(player: Player, mainContainerId: string): dominox.PlayerTileListView

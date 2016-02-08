@@ -10,6 +10,7 @@
 /// <reference path = "../internal/concreteImplementations/ConsoleTileBoardView.ts"/>
 /// <reference path = "../internal/concreteImplementations/ConsolePlayerTileListView.ts"/>
 /// <reference path = "../internal/concreteImplementations/DummyDominoGame.ts"/>
+/// <reference path = "../internal/concreteImplementations/MugginsGame.ts"/>
 /// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
@@ -155,7 +156,7 @@ var dominox;
             return new dominox.DummyTileProvider();
         };
         GameEngine.prototype.createDominoGameBasedOnName = function (name) {
-            return new dominox.DummyDominoGame();
+            return new dominox.MugginsGame();
         };
         GameEngine.prototype.createPlayerTileViewWithPlayer = function (player, mainContainerId) {
             var mainContainer = document.getElementById(mainContainerId);
