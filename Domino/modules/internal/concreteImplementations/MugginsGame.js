@@ -1,4 +1,6 @@
 /// <reference path= "../Interfaces.ts"/>
+/// <reference path= "../Score.ts"/>
+/// <reference path= "../../../Scripts/typings/jquery/jquery.d.ts"/>
 var dominox;
 (function (dominox) {
     var MugginsGame = (function () {
@@ -13,8 +15,8 @@ var dominox;
             for (var i = 0; i < externalTiles.length; i++) {
                 var tile = externalTiles[i];
                 var orientation = tile.getOrientation();
-                if (tile === spinner) {
-                    if (tile.getLeftNeighbour() === null && tile.getUpNeighbour() === null) {
+                if (tile == spinner) {
+                    if (tile.getLeftNeighbour() == null && tile.getUpNeighbour() == null) {
                         points += (tile.getBone().getSecond().valueOf() + tile.getBone().getFirst().valueOf());
                     }
                     else {
@@ -62,11 +64,16 @@ var dominox;
                     }
                 }
             }
+            console.log("points = " + points);
             return points;
         };
         MugginsGame.prototype.playerDidAddTileAsNeighbourToTileInBoard = function (player, neighbour, tile, board) {
             var externalTiles = board.getExternalTiles();
-            player.setScore(player.getScore() + this.countPoints(externalTiles, board.getSpinner()));
+            var points = this.countPoints(externalTiles, board.getSpinner());
+            if (points % 5 == 0 && points != 0) {
+                player.setScore(player.getScore() + points);
+                console.log(player.getName() + " has " + player.getScore());
+            }
         };
         MugginsGame.prototype.isGameOverWithPlayersAndBoard = function (firstPlayer, secondPlayer, board) {
             if (this.canPlayerMakeMoveWithTileListOnBoard(firstPlayer.getTileList(), board))
@@ -112,6 +119,18 @@ var dominox;
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() > 100) {
+                MugginsGame.winnerName = firstPlayer.getName();
+                MugginsGame.loserName = secondPlayer.getName();
+                $('#playArea').load("endGameModal.html");
+                var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
+                localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+            }
+            else if (secondPlayer.getScore() > 100) {
+                MugginsGame.winnerName = secondPlayer.getName();
+                MugginsGame.loserName = firstPlayer.getName();
+                $('#playArea').load("endGameModal.html");
+                var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
+                localStorage.setItem(Math.random().toString(), score.toString().valueOf());
             }
         };
         return MugginsGame;

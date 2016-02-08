@@ -124,6 +124,7 @@
     <TypeScriptCompile Include="modules\internal\useCases\playTileUseCase\PlayTileUseCase.ts" />
     <TypeScriptCompile Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseInput.ts" />
     <TypeScriptCompile Include="modules\internal\useCases\playTileUseCase\PlayTileUseCaseOutput.ts" />
+    <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

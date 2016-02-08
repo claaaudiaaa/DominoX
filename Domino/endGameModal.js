@@ -1,9 +1,23 @@
 ﻿(function () {
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = '../modules/internal/concreteImplementations/MugginsGame.js';
+
+    // Then bind the event to the callback function.
+    // There are several events for cross browser compatibility.
+    script.onreadystatechange = callback;
+
+    // Fire the loading
+    head.appendChild(script);
+
     var modal = document.getElementById("myModal");
     modal.style.display = "block";
     modal.setAttribute("margin", "auto");
     modal.setAttribute("position", "fixed");
     var content = document.getElementById("winner");
+    var winner = MugginsGame.winnerName;
+    var loser = MugginsGame.loserName;
     content.innerHTML = "The winner of this game is " + winner + "!";
 
     $('#myModal').modal();
