@@ -64,14 +64,14 @@ module dominox
         matrixPresenter: dominox.SimpleTileMatrixPresenter;
 
         constructor() {
-            console.log("GAME ENGINE CREATED SUCCESFULLY");
+            //console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
 
         createItemsWithPlayers(firstPlayer: Player, secondPlayer: Player)
         {
-            console.log("Creating matrix presenter");
+            //console.log("Creating matrix presenter");
             //this.matrixPresenter = new SimpleTileMatrixPresenter();
-            console.log("Done creating matrix presenter" + this.matrixPresenter);
+            //console.log("Done creating matrix presenter" + this.matrixPresenter);
 
             
             this.tileBoard = this.createTileBoard();
@@ -93,7 +93,7 @@ module dominox
 
         public runWithParameters(params: GameEngineParameters): void
         {
-            console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
+            //console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
 
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
             this.dominoTilesProvider = this.createDominoTileProvider();
@@ -110,7 +110,7 @@ module dominox
             this.secondPlayerTurnData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
 
             //4. Start the game
-            console.log("BEGINNING THE GAME");
+            //console.log("BEGINNING THE GAME");
             this.beginGame();
         }
 
@@ -129,7 +129,7 @@ module dominox
 
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
 
-            console.log("Playing the game");
+            //console.log("Playing the game");
 
             //2. prepare their views
             this.setupTileListViewForPlayer(this.firstPlayerTileListView, this.firstPlayer);
@@ -141,7 +141,7 @@ module dominox
         playGame(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData): void {
 
             var gameEngineSelf: GameEngine = this;
-            console.log("In playGame");
+            //console.log("In playGame");
             this.startNewTurn(currentPlayerTurnData, otherPlayerTurnData, function ()
             {
                 // now we must swap them and begin a new round
@@ -163,16 +163,11 @@ module dominox
                 + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
             var gameEngineSelf: GameEngine = this;
 
-            //console.log("STARTING NEW TURN");
-            //hide other player tile list
             otherPlayerTurnData.playerTileListView.setInvisible(null);
             currentPlayerTurnData.playerTileListView.setInvisible(null);
 
             this.alertHelper.displayOkAlertWithMessage(message, function () {
-
-                //show current player tile list 
-
-                
+             
                 currentPlayerTurnData.playerTileListView.setVisible(null);
 
                 gameEngineSelf.playerTurnHelper.replenishTilesSoPlayerCanMakeMove(currentPlayerTurnData.player,
@@ -231,7 +226,7 @@ module dominox
             dominox.Player
         {
             var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(5);
-            return new dominox.Player(name, []);
+            return new dominox.Player(name, randomTiles);
         }
 
 
@@ -289,7 +284,7 @@ module dominox
 
             divView.setPlayerName(player.getName());
             divView.setPlayerScore(0);
-            divView.setAndDisplayOverallTileList(player.getTileList(), null);
+            divView.setAndDisplayOverallTileList(player.getTileList().slice(0), null);
 
             return  divView;
         }
@@ -309,9 +304,9 @@ module dominox
         setupTileListViewForPlayer(tileListView: dominox.PlayerTileListView,
             player: dominox.Player): void
         {
-            tileListView.setAndDisplayOverallTileList(player.getTileList(), null);
             tileListView.setPlayerName(player.getName());
             tileListView.setPlayerScore(0);
+            tileListView.setAndDisplayOverallTileList(player.getTileList().slice(0), null);
         }
 
 

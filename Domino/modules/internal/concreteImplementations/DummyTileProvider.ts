@@ -20,7 +20,7 @@ module dominox {
             if (tile == undefined)
                 throw "Undefined tile!";
 
-            delete allTiles[randomNo];
+            //delete allTiles[randomNo];
 
             return tile;
         }
