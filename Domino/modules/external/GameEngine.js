@@ -33,9 +33,6 @@ var dominox;
             //console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
         GameEngine.prototype.createItemsWithPlayers = function (firstPlayer, secondPlayer) {
-            //console.log("Creating matrix presenter");
-            //this.matrixPresenter = new SimpleTileMatrixPresenter();
-            //console.log("Done creating matrix presenter" + this.matrixPresenter);
             this.tileBoard = this.createTileBoard();
             this.firstPlayerTileListView = this.createPlayerTileViewWithPlayer(firstPlayer, "FirstPlayerContainer");
             this.secondPlayerTileListView = this.createPlayerTileViewWithPlayer(secondPlayer, "SecondPlayerContainer");

@@ -73,11 +73,23 @@ module dominox
                 var matchingType = dominox.getTilesMatchType(matchingTile, tile);
                 if (matchingType == dominox.TileMatchType.NoMatch)
                     continue;
+
+                if (tile.isDoubleTile())
+                {
+                    if (tile.getDownNeighbour() == null ||
+                        tile.getUpNeighbour() == null ||
+                        tile.getLeftNeighbour() == null ||
+                        tile.getRightNeighbour() == null) {
+
+                        tileList.push(tile);
+                        continue;
+                    }
+                }
+
                 var tileOrientation = tile.getOrientation();
 
-                //console.log("Found a match with " + tile.toString());
-
-                    if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight){
+                if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight)
+                {
                         if (tileHastMatchOnFirstOnTile(matchingTile, tile) &&
                             tile.getLeftNeighbour() == null)
                         {
@@ -93,7 +105,7 @@ module dominox
                             tileList.push(tile);
                             continue;
                         }
-                    }
+               }
 
                     if (tileOrientation == dominox.DominoTileOrientation.HorizontalSecondLeftFirstRight)
                     {
@@ -322,6 +334,11 @@ module dominox
                                 tile.setOrientation(DominoTileOrientation.VerticalFirstUpSecondDown);
                         }
                     }
+
+
+                    /// overriding here is ugly, but 
+                    if (tile.isDoubleTile())
+                        tile.setOrientation(DominoTileOrientation.VerticalFirstUpSecondDown);
             }
         }
 

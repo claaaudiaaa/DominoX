@@ -24,8 +24,8 @@ var dominox;
             this.playerScoreHeading.innerHTML = "" + playerScore;
         };
         DivPlayerTileListView.prototype.setAndDisplayOverallTileList = function (tileList, callbackWhenDone) {
-            ("Displaying tile list for player " + this.playerName);
-            console.log(dominox.stringifyTileList(tileList));
+            //("Displaying tile list for player " + this.playerName);
+            //console.log(stringifyTileList(tileList));
             this.tileList = tileList;
             this.imgList = [];
             dominox.removeAllChildNodesOfElement(this.playerImagesContainer);
@@ -42,8 +42,8 @@ var dominox;
         DivPlayerTileListView.prototype.displayTileAsSelected = function (tile, callbackWhenDone) {
             this.selectedTile = tile;
             var img = this.findImgForTileFromContainer(tile, this.tileList, this.playerImagesContainer);
-            console.log("Displaying tile as selected for player " + this.playerName);
-            console.log(tile.toString());
+            //console.log("Displaying tile as selected for player " + this.playerName);
+            //console.log(tile.toString());
             this.checkImageExistsOrThrow(img);
             img.style.borderRadius = "50%";
             img.style.borderColor = "yellow";

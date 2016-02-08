@@ -71,10 +71,6 @@ module dominox
 
         createItemsWithPlayers(firstPlayer: Player, secondPlayer: Player)
         {
-            //console.log("Creating matrix presenter");
-            //this.matrixPresenter = new SimpleTileMatrixPresenter();
-            //console.log("Done creating matrix presenter" + this.matrixPresenter);
-
             
             this.tileBoard = this.createTileBoard();
 
