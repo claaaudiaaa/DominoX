@@ -141,21 +141,12 @@ var dominox;
             return new dominox.TableTileBoardView(table, imagesContainer, function (tile) {
                 self.userIntentionsObserver.callForTileSelectedFromBoard(tile);
             });
-            //return new dominox.ConsoleTileBoardView();
         };
         GameEngine.prototype.createTileBoard = function () {
             return new dominox.ConcreteTileBoard();
         };
         GameEngine.prototype.createUserIntentionsObserver = function () {
-            var divButtons = document.getElementById("DebugUserIntentions");
-            var selectFromBoardButton = divButtons.getElementsByClassName("debugSelectFirstFromBoard")[0];
-            var selectFromListButton = divButtons.getElementsByClassName("debugSelectFirstFromList")[0];
-            var defaultButton = divButtons.getElementsByClassName("debugDefaultAction")[0];
-            var intentionsObserver = new dominox.DebugUserIntentionsObserver(selectFromBoardButton, selectFromListButton, defaultButton);
-            intentionsObserver.tileBoard = this.tileBoard;
-            intentionsObserver.currentPlayer = this.firstPlayer;
             return new dominox.GlobalUserInteractionsObserver();
-            //return intentionsObserver;
         };
         GameEngine.prototype.createDominoTileProvider = function () {
             return new dominox.DummyTileProvider();

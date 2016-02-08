@@ -244,31 +244,15 @@ module dominox
             return new dominox.TableTileBoardView(table, imagesContainer, function (tile: DominoTile) {
                 self.userIntentionsObserver.callForTileSelectedFromBoard(tile);
             });
-            //return new dominox.ConsoleTileBoardView();
         }
 
         createTileBoard(): dominox.TileBoard {
             return new dominox.ConcreteTileBoard();
         }
 
-        createUserIntentionsObserver(): dominox.GlobalUserInteractionsObserver {
-
-            var divButtons = document.getElementById("DebugUserIntentions");
-
-            var selectFromBoardButton: HTMLButtonElement = <HTMLButtonElement>divButtons.getElementsByClassName
-                ("debugSelectFirstFromBoard")[0];
-            var selectFromListButton: HTMLButtonElement = <HTMLButtonElement>divButtons.getElementsByClassName("debugSelectFirstFromList")[0];
-            var defaultButton: HTMLButtonElement = <HTMLButtonElement> divButtons.getElementsByClassName("debugDefaultAction")[0];
-
-            var intentionsObserver: dominox.DebugUserIntentionsObserver =
-                new dominox.DebugUserIntentionsObserver(selectFromBoardButton,
-                    selectFromListButton, defaultButton);
-
-            intentionsObserver.tileBoard = this.tileBoard;
-            intentionsObserver.currentPlayer = this.firstPlayer;
-
+        createUserIntentionsObserver(): dominox.GlobalUserInteractionsObserver
+        {
             return new GlobalUserInteractionsObserver();
-            //return intentionsObserver;
         }
 
         createDominoTileProvider(): dominox.DominoTileProvider {
