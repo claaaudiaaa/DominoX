@@ -110,6 +110,10 @@ var dominox;
                 }
             }
         };
+        MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
+            if (firstPlayer.getScore() > 100) {
+            }
+        };
         return MugginsGame;
     })();
     dominox.MugginsGame = MugginsGame;

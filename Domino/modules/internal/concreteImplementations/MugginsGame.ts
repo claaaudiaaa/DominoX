@@ -128,5 +128,11 @@ module dominox {
             }
         }
 
+        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard) {
+            if (firstPlayer.getScore() > 100) {
+                
+            }
+        }
+
     }
 }
