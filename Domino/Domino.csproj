@@ -109,6 +109,7 @@
     <TypeScriptCompile Include="modules\internal\concreteImplementations\DummyDominoGame.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\DummyTileProvider.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\DebugUserIntentionsObserver.ts" />
+    <TypeScriptCompile Include="modules\internal\concreteImplementations\GlobalUserInteractionsObserver.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\MugginsGame.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\TableTileBoardView.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\SimpleCanvasTileBoardView.ts" />

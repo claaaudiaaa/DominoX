@@ -26,6 +26,7 @@
     <script src="modules/internal/useCases/playTileUseCase/PlayTileUseCaseOutput.js"></script>
     <script src="modules/internal/concreteImplementations/TableTileBoardView.js"></script>
     <script src="modules/internal/concreteImplementations/DivPlayerTileListView.js"></script>
+    <script src="modules/internal/concreteImplementations/GlobalUserInteractionsObserver.js"></script>
     <script src="modules/internal/Interfaces.js"></script>
     <script src="modules/internal/Player.js"></script>
     <script src="modules/external/GameEngine.js"></script>
@@ -50,13 +51,6 @@
             <h4 class="playerScore"></h4>
             <div class="playerTiles"></div>
         </div>
-
-        <div id="DebugUserIntentions">
-            <button type="button" class="debugSelectFirstFromList">Select first tile from player list</button>
-            <button type="button" class="debugSelectFirstFromBoard">Select first tile from board</button>
-            <button type="button" class="debugDefaultAction">Default action</button>
-        </div>
-
         
         <div id="ImagesContainer" style="visibility: hidden">
             <img src="images/tile0-0.png" class="0-0" />

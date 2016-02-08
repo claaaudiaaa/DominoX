@@ -14,10 +14,11 @@
 /// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
-//  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
-//  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
-//  <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
+///  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
+/// <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
+/// <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
 /// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
+/// <reference path = "../internal/concreteImplementations/GlobalUserInteractionsObserver.ts"/>
 var dominox;
 (function (dominox) {
     var PlayerTurnData = (function () {
@@ -86,7 +87,7 @@ var dominox;
         };
         GameEngine.prototype.startNewTurn = function (currentPlayerTurnData, otherPlayerTurnData, callbackWhenDone) {
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
-            this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
+            //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
             var message = "It is " + currentPlayerTurnData.player.getName()
                 + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
             var gameEngineSelf = this;
@@ -133,10 +134,13 @@ var dominox;
         };
         GameEngine.prototype.createTileView = function () {
             var imagesContainer = this.findImagesContaier();
+            var self = this;
             var matrixPresenter = new dominox.SimpleTileMatrixPresenter();
             var tableContainer = document.getElementById("TableContainer");
             var table = tableContainer.getElementsByClassName("TilesTable")[0];
-            return new dominox.TableTileBoardView(table, imagesContainer);
+            return new dominox.TableTileBoardView(table, imagesContainer, function (tile) {
+                self.userIntentionsObserver.callForTileSelectedFromBoard(tile);
+            });
             //return new dominox.ConsoleTileBoardView();
         };
         GameEngine.prototype.createTileBoard = function () {
@@ -150,7 +154,8 @@ var dominox;
             var intentionsObserver = new dominox.DebugUserIntentionsObserver(selectFromBoardButton, selectFromListButton, defaultButton);
             intentionsObserver.tileBoard = this.tileBoard;
             intentionsObserver.currentPlayer = this.firstPlayer;
-            return intentionsObserver;
+            return new dominox.GlobalUserInteractionsObserver();
+            //return intentionsObserver;
         };
         GameEngine.prototype.createDominoTileProvider = function () {
             return new dominox.DummyTileProvider();
@@ -159,11 +164,14 @@ var dominox;
             return new dominox.MugginsGame();
         };
         GameEngine.prototype.createPlayerTileViewWithPlayer = function (player, mainContainerId) {
+            var self = this;
             var mainContainer = document.getElementById(mainContainerId);
             if (mainContainer == null || mainContainer == undefined)
                 throw "Could not find mainContainer with id " + mainContainerId;
             var imagesContainer = this.findImagesContaier();
-            var divView = new dominox.DivPlayerTileListView(mainContainer, imagesContainer);
+            var divView = new dominox.DivPlayerTileListView(mainContainer, imagesContainer, function (tile) {
+                self.userIntentionsObserver.callForTileSelectedFromPlayerList(tile);
+            });
             divView.setPlayerName(player.getName());
             divView.setPlayerScore(0);
             divView.setAndDisplayOverallTileList(player.getTileList().slice(0), null);
