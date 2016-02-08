@@ -167,20 +167,20 @@ module dominox
             var visitedTilesStack: DominoTile[] = [];
             this.buildIndexListWith(tileList[0], tileIndexPairList, 0, 0, visitedTilesStack);
 
-            console.log("We have built the index ");
-            console.log(stringifyTileIndexPairList(tileIndexPairList));
+            //console.log("We have built the index ");
+            //console.log(stringifyTileIndexPairList(tileIndexPairList));
 
             var smallestIndex = this.getIndexCoordinatesFrom(tileIndexPairList,
                 function (a: number, b: number) {
                     return a < b;
                 });
 
-            console.log("smallest index is " + smallestIndex.toString());
+            //console.log("smallest index is " + smallestIndex.toString());
             this.makeIndexOkToBeAdded(smallestIndex);
-            console.log("after normalizing: " + smallestIndex.toString());
+            //console.log("after normalizing: " + smallestIndex.toString());
 
             this.addIndexToTileList(smallestIndex, tileIndexPairList);
-            console.log("tile index pair list after adding " + stringifyTileIndexPairList(tileIndexPairList));
+            //console.log("tile index pair list after adding " + stringifyTileIndexPairList(tileIndexPairList));
 
             var biggestIndex = this.getIndexCoordinatesFrom(tileIndexPairList, function (a: number, b: number) {
                 return a > b;

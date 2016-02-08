@@ -23,7 +23,7 @@ var dominox;
             this.playerScoreHeading.innerHTML = "" + playerScore;
         };
         DivPlayerTileListView.prototype.setAndDisplayOverallTileList = function (tileList, callbackWhenDone) {
-            console.log("Displaying tile list for player " + this.playerName);
+            ("Displaying tile list for player " + this.playerName);
             console.log(dominox.stringifyTileList(tileList));
             this.tileList = tileList;
             dominox.removeAllChildNodesOfElement(this.playerImagesContainer);
@@ -53,6 +53,7 @@ var dominox;
         };
         DivPlayerTileListView.prototype.addTile = function (tile, callbackWhenDone) {
             var image = dominox.getImageForTileFromContainer(tile, this.imagesContainer);
+            this.checkImageExistsOrThrow(image);
             this.playerImagesContainer.appendChild(image);
             this.tileList.push(tile);
             dominox.callIfNotNull(callbackWhenDone);

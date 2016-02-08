@@ -50,7 +50,7 @@ module dominox {
         setAndDisplayOverallTileList(tileList: dominox.DominoTile[], callbackWhenDone: VoidCallback)
         {
 
-            console.log("Displaying tile list for player " + this.playerName);
+            ("Displaying tile list for player " + this.playerName);
             console.log(stringifyTileList(tileList));
 
             this.tileList = tileList;
@@ -95,6 +95,7 @@ module dominox {
         addTile(tile: dominox.DominoTile, callbackWhenDone: VoidCallback)
         {
             var image = dominox.getImageForTileFromContainer(tile, this.imagesContainer);
+            this.checkImageExistsOrThrow(image);
             this.playerImagesContainer.appendChild(image);
             this.tileList.push(tile);
             callIfNotNull(callbackWhenDone);
