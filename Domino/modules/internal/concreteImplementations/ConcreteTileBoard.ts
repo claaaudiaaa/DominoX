@@ -8,6 +8,7 @@ module dominox
     export class ConcreteTileBoard implements dominox.TileBoard
     {
         private dominoTileList: dominox.DominoTile[];
+        private spinner: dominox.DominoTile;
 
         constructor() {
             this.dominoTileList = new Array<dominox.DominoTile>();
@@ -19,6 +20,10 @@ module dominox
 
         public getTileList(): dominox.DominoTile[] {
             return this.dominoTileList;
+        }
+
+        public getSpinner(): dominox.DominoTile {
+            return this.spinner;
         }
 
         public addTileAsNeighbourToTile(tile: dominox.DominoTile, neighbourTile: dominox.DominoTile)
@@ -35,6 +40,27 @@ module dominox
             this.checkListEmptyOrThrow(); 
             this.setOrientationOfFirstTile(tile);
             this.dominoTileList.push(tile);
+            if (tile.isDoubleTile()) {
+                this.spinner = tile;
+            }
+            else {
+                this.spinner = null;
+            }
+        }
+
+        public getExternalTiles(): dominox.DominoTile[] {
+            var tileList: dominox.DominoTile[] = [];
+            for (var i = 0; i < this.dominoTileList.length; i++) {
+                var tile: dominox.DominoTile = this.dominoTileList[i];
+                var noNeighbour: number = 0;
+                if (tile.getDownNeighbour() !== null) noNeighbour++;
+                if (tile.getLeftNeighbour() !== null) noNeighbour++;
+                if (tile.getRightNeighbour() !== null) noNeighbour++;
+                if (tile.getUpNeighbour() !== null) noNeighbour++;
+                if (noNeighbour == 1 || ((noNeighbour == 2 || noNeighbour == 3) && tile === this.spinner))
+                    tileList.push(tile);
+            }
+            return tileList;
         }
 
         public getExternalTilesListMatchingTile(matchingTile: dominox.DominoTile): dominox.DominoTile[]{

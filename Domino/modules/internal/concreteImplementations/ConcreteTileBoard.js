@@ -12,6 +12,9 @@ var dominox;
         ConcreteTileBoard.prototype.getTileList = function () {
             return this.dominoTileList;
         };
+        ConcreteTileBoard.prototype.getSpinner = function () {
+            return this.spinner;
+        };
         ConcreteTileBoard.prototype.addTileAsNeighbourToTile = function (tile, neighbourTile) {
             this.checkTileExistsOrThrow(neighbourTile);
             this.checkTilesForMatchingOrThrow(tile, neighbourTile);
@@ -22,6 +25,30 @@ var dominox;
             this.checkListEmptyOrThrow();
             this.setOrientationOfFirstTile(tile);
             this.dominoTileList.push(tile);
+            if (tile.isDoubleTile()) {
+                this.spinner = tile;
+            }
+            else {
+                this.spinner = null;
+            }
+        };
+        ConcreteTileBoard.prototype.getExternalTiles = function () {
+            var tileList = [];
+            for (var i = 0; i < this.dominoTileList.length; i++) {
+                var tile = this.dominoTileList[i];
+                var noNeighbour = 0;
+                if (tile.getDownNeighbour() !== null)
+                    noNeighbour++;
+                if (tile.getLeftNeighbour() !== null)
+                    noNeighbour++;
+                if (tile.getRightNeighbour() !== null)
+                    noNeighbour++;
+                if (tile.getUpNeighbour() !== null)
+                    noNeighbour++;
+                if (noNeighbour == 1 || ((noNeighbour == 2 || noNeighbour == 3) && tile === this.spinner))
+                    tileList.push(tile);
+            }
+            return tileList;
         };
         ConcreteTileBoard.prototype.getExternalTilesListMatchingTile = function (matchingTile) {
             var tileList = [];
