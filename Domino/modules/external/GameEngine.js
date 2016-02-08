@@ -16,6 +16,7 @@
 //  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
 //  <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
+/// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
 var dominox;
 (function (dominox) {
     var PlayerTurnData = (function () {
@@ -29,14 +30,13 @@ var dominox;
         function GameEngine() {
             console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
-        GameEngine.prototype.createItems = function () {
+        GameEngine.prototype.createItemsWithPlayers = function (firstPlayer, secondPlayer) {
             console.log("Creating matrix presenter");
             //this.matrixPresenter = new SimpleTileMatrixPresenter();
             console.log("Done creating matrix presenter" + this.matrixPresenter);
-            this.dominoTilesProvider = this.createDominoTileProvider();
             this.tileBoard = this.createTileBoard();
-            this.firstPlayerTileListView = this.createPlayerTileView();
-            this.secondPlayerTileListView = this.createPlayerTileView();
+            this.firstPlayerTileListView = this.createPlayerTileViewWithPlayer(firstPlayer, "FirstPlayerContainer");
+            this.secondPlayerTileListView = this.createPlayerTileViewWithPlayer(secondPlayer, "SecondPlayerContainer");
             this.tileBoardView = this.createTileView();
             this.userIntentionsObserver = this.createUserIntentionsObserver();
             this.alertHelper = this.createAlertHelper();
@@ -45,13 +45,13 @@ var dominox;
         };
         GameEngine.prototype.runWithParameters = function (params) {
             console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
-            this.createItems();
-            console.log("created items");
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
-            console.log("created domino game");
+            this.dominoTilesProvider = this.createDominoTileProvider();
             //1. set up the domino tiles for each player 
             this.firstPlayer = this.createPlayerWithNameAndProvider(params.firstPlayerName, this.dominoTilesProvider);
             this.secondPlayer = this.createPlayerWithNameAndProvider(params.secondPlayerName, this.dominoTilesProvider);
+            //2. create items
+            this.createItemsWithPlayers(this.firstPlayer, this.secondPlayer);
             //3. Create the turn datas
             this.firstPlayerTurnData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
             this.secondPlayerTurnData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
@@ -89,7 +89,7 @@ var dominox;
             var message = "It is " + currentPlayerTurnData.player.getName()
                 + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
             var gameEngineSelf = this;
-            console.log("STARTING NEW TURN");
+            //console.log("STARTING NEW TURN");
             //hide other player tile list
             otherPlayerTurnData.playerTileListView.setInvisible(null);
             currentPlayerTurnData.playerTileListView.setInvisible(null);
@@ -112,6 +112,7 @@ var dominox;
                 input.tileView = gameEngineSelf.tileBoardView;
                 input.tileBoard = gameEngineSelf.tileBoard;
                 input.tile = selectedTile;
+                input.playerTileListView = currentPlayerTurnData.playerTileListView;
                 gameEngineSelf.playTileUseCase.beginWithInputAndCallback(input, function (output) {
                     if (output.resultOfUseCase ===
                         dominox.PlayTileUseCaseResult.Completed) {
@@ -130,11 +131,10 @@ var dominox;
         };
         GameEngine.prototype.createPlayerWithNameAndProvider = function (name, tileProvider) {
             var randomTiles = tileProvider.getListOfRandomTilesOfCount(5);
-            //console.log("Tiles for player: " + name + " are " + dominox.stringifyTileList(randomTiles));
             return new dominox.Player(name, []);
         };
         GameEngine.prototype.createTileView = function () {
-            var imagesContainer = document.getElementById("ImagesContainer");
+            var imagesContainer = this.findImagesContaier();
             var matrixPresenter = new dominox.SimpleTileMatrixPresenter();
             var tableContainer = document.getElementById("TableContainer");
             var table = tableContainer.getElementsByClassName("TilesTable")[0];
@@ -160,8 +160,16 @@ var dominox;
         GameEngine.prototype.createDominoGameBasedOnName = function (name) {
             return new dominox.DummyDominoGame();
         };
-        GameEngine.prototype.createPlayerTileView = function () {
-            return new dominox.ConsolePlayerTileListView();
+        GameEngine.prototype.createPlayerTileViewWithPlayer = function (player, mainContainerId) {
+            var mainContainer = document.getElementById(mainContainerId);
+            if (mainContainer == null || mainContainer == undefined)
+                throw "Could not find mainContainer with id " + mainContainerId;
+            var imagesContainer = this.findImagesContaier();
+            var divView = new dominox.DivPlayerTileListView(mainContainer, imagesContainer);
+            divView.setPlayerName(player.getName());
+            divView.setPlayerScore(0);
+            divView.setAndDisplayOverallTileList(player.getTileList(), null);
+            return divView;
         };
         GameEngine.prototype.createAlertHelper = function () {
             return new dominox.SimpleAlertHelper();
@@ -176,6 +184,12 @@ var dominox;
             tileListView.setAndDisplayOverallTileList(player.getTileList(), null);
             tileListView.setPlayerName(player.getName());
             tileListView.setPlayerScore(0);
+        };
+        GameEngine.prototype.findImagesContaier = function () {
+            var imagesContainer = document.getElementById("ImagesContainer");
+            if (imagesContainer == null || imagesContainer == undefined)
+                throw "Could not find ImagesContainer";
+            return imagesContainer;
         };
         return GameEngine;
     })();

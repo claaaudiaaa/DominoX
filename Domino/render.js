@@ -101,5 +101,5 @@ function startGame() {
     document.getElementById('newGame').style.visibility = "hidden";
     document.getElementById('resumeGame').style.visibility = "hidden";
     document.getElementById('insertPlayers').style.visibility = "hidden";
-    $('.backgroundImage').load("gamePage.html");
+    $('.backgroundImage').load("gamePage.html?firstPlayerName=Costin&secondPlayerName=Claudia&dominoGameName=Muggins");
 }

@@ -6,7 +6,7 @@ var dominox;
         function TableTileBoardView(table, imagesContainer) {
             this.table = table;
             this.imagesContainer = imagesContainer;
-            this.removeAllChildNodesOfElement(this.table);
+            dominox.removeAllChildNodesOfElement(this.table);
             this.matrixPresenter = new dominox.SimpleTileMatrixPresenter();
             console.log("The table is " + table);
         }
@@ -20,7 +20,7 @@ var dominox;
             console.log(dominox.stringifyTileMatrix(matrix));
         };
         TableTileBoardView.prototype.buildTableAccordingToMatrix = function (table, matrix) {
-            this.removeAllChildNodesOfElement(table);
+            dominox.removeAllChildNodesOfElement(table);
             for (var i = 0; i < matrix.length; i++) {
                 var row = table.insertRow(-1);
                 for (var j = 0; j < matrix[i].length; j++) {
@@ -63,10 +63,6 @@ var dominox;
             return image.cloneNode(true);
         };
         TableTileBoardView.prototype.cssRotateImageAccordingToOrientation = function (img, orientation) {
-        };
-        TableTileBoardView.prototype.removeAllChildNodesOfElement = function (elem) {
-            while (elem.hasChildNodes())
-                elem.removeChild(elem.lastChild);
         };
         return TableTileBoardView;
     })();

@@ -97,8 +97,13 @@ var dominox;
         var elements = container.getElementsByClassName(imageClassName);
         var image = elements[0];
         console.log("image class name " + imageClassName);
-        return image;
+        return image.cloneNode(true);
     }
     dominox.getImageForTileFromContainer = getImageForTileFromContainer;
+    function removeAllChildNodesOfElement(elem) {
+        while (elem.hasChildNodes())
+            elem.removeChild(elem.lastChild);
+    }
+    dominox.removeAllChildNodesOfElement = removeAllChildNodesOfElement;
 })(dominox || (dominox = {}));
 //# sourceMappingURL=Interfaces.js.map

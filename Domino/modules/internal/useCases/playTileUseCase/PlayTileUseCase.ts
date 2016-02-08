@@ -13,8 +13,11 @@ module dominox {
             var availableNeighbours: dominox.DominoTile[] = input.dominoGame.getNeighbourListForTileFromBoard(input.tile,
                 input.tileBoard);
 
+            input.playerTileListView.displayTileAsSelected(input.tile, null);
+
             if (availableNeighbours.length == 0) {
                 output.resultOfUseCase = PlayTileUseCaseResult.Canceled;
+                input.playerTileListView.displayAsNormal(null);
                 callbackWhenDone(output);
                 return;
             }
@@ -26,6 +29,7 @@ module dominox {
             input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(function (tile: dominox.DominoTile) {
 
                 input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
+                input.playerTileListView.displayAsNormal(null);
 
                 if (self.isTileInArray(tile, availableNeighbours) == false) {
                     output.resultOfUseCase = PlayTileUseCaseResult.Canceled;
@@ -40,6 +44,9 @@ module dominox {
                 input.userIntentionsObserver.setCallbackCaseDefault(null);
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
 
+                input.player.removeTile(input.tile);
+                input.playerTileListView.removeTile(input.tile, null);
+
                 output.resultOfUseCase = PlayTileUseCaseResult.Completed;
                 callbackWhenDone(output);
             });
@@ -47,6 +54,7 @@ module dominox {
             input.userIntentionsObserver.setCallbackCaseDefault(function () {
 
                 input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
+                input.playerTileListView.displayAsNormal(null);
 
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
                 input.userIntentionsObserver.setCallbackCaseDefault(null);

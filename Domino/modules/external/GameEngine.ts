@@ -17,6 +17,7 @@
 //  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
 //  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
 //  <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
+/// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
 
 module dominox
 {
@@ -66,17 +67,21 @@ module dominox
             console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
 
-        createItems()
+        createItemsWithPlayers(firstPlayer: Player, secondPlayer: Player)
         {
             console.log("Creating matrix presenter");
             //this.matrixPresenter = new SimpleTileMatrixPresenter();
             console.log("Done creating matrix presenter" + this.matrixPresenter);
 
-            this.dominoTilesProvider = this.createDominoTileProvider();
+            
             this.tileBoard = this.createTileBoard();
 
-            this.firstPlayerTileListView = this.createPlayerTileView();
-            this.secondPlayerTileListView = this.createPlayerTileView();
+            this.firstPlayerTileListView = this.createPlayerTileViewWithPlayer(firstPlayer,
+                "FirstPlayerContainer");
+            this.secondPlayerTileListView = this.createPlayerTileViewWithPlayer(secondPlayer,
+                "SecondPlayerContainer");
+
+
             this.tileBoardView = this.createTileView();
 
             this.userIntentionsObserver = <DebugUserIntentionsObserver>this.createUserIntentionsObserver();
@@ -90,16 +95,15 @@ module dominox
         {
             console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
 
-            this.createItems();
-            console.log("created items");
-
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
-            console.log("created domino game");
+            this.dominoTilesProvider = this.createDominoTileProvider();
 
             //1. set up the domino tiles for each player 
             this.firstPlayer = this.createPlayerWithNameAndProvider(params.firstPlayerName, this.dominoTilesProvider);
             this.secondPlayer = this.createPlayerWithNameAndProvider(params.secondPlayerName, this.dominoTilesProvider);
 
+            //2. create items
+            this.createItemsWithPlayers(this.firstPlayer, this.secondPlayer);
 
             //3. Create the turn datas
             this.firstPlayerTurnData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
@@ -159,7 +163,7 @@ module dominox
                 + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
             var gameEngineSelf: GameEngine = this;
 
-            console.log("STARTING NEW TURN");
+            //console.log("STARTING NEW TURN");
             //hide other player tile list
             otherPlayerTurnData.playerTileListView.setInvisible(null);
             currentPlayerTurnData.playerTileListView.setInvisible(null);
@@ -198,6 +202,7 @@ module dominox
                     input.tileView = gameEngineSelf.tileBoardView;
                     input.tileBoard = gameEngineSelf.tileBoard;
                     input.tile = selectedTile;
+                    input.playerTileListView = currentPlayerTurnData.playerTileListView;
 
                     gameEngineSelf.playTileUseCase.beginWithInputAndCallback(input, function (output:
                         dominox.PlayTileUseCaseOutput) {
@@ -222,18 +227,18 @@ module dominox
                 });
         }
 
-        createPlayerWithNameAndProvider(name: String, tileProvider: dominox.DominoTileProvider):
+        createPlayerWithNameAndProvider(name: string, tileProvider: dominox.DominoTileProvider):
             dominox.Player
         {
             var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(5);
-            //console.log("Tiles for player: " + name + " are " + dominox.stringifyTileList(randomTiles));
             return new dominox.Player(name, []);
         }
 
 
         createTileView(): dominox.TileBoardView
         {
-            var imagesContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("ImagesContainer");
+            var imagesContainer = this.findImagesContaier();
+
             var matrixPresenter = new SimpleTileMatrixPresenter();
             var tableContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("TableContainer");
             var table: HTMLTableElement = <HTMLTableElement>tableContainer.getElementsByClassName("TilesTable")[0];
@@ -273,8 +278,20 @@ module dominox
             return new dominox.DummyDominoGame();
         }
 
-        createPlayerTileView(): dominox.PlayerTileListView {
-            return new dominox.ConsolePlayerTileListView();
+        createPlayerTileViewWithPlayer(player: Player, mainContainerId: string): dominox.PlayerTileListView
+        {
+            var mainContainer = <HTMLDivElement>document.getElementById(mainContainerId);
+            if (mainContainer == null || mainContainer == undefined)
+                throw "Could not find mainContainer with id " + mainContainerId;
+
+            var imagesContainer = this.findImagesContaier();
+            var divView = new DivPlayerTileListView(mainContainer, imagesContainer);
+
+            divView.setPlayerName(player.getName());
+            divView.setPlayerScore(0);
+            divView.setAndDisplayOverallTileList(player.getTileList(), null);
+
+            return  divView;
         }
 
         createAlertHelper(): dominox.AlertHelper {
@@ -290,10 +307,21 @@ module dominox
         }
 
         setupTileListViewForPlayer(tileListView: dominox.PlayerTileListView,
-            player: dominox.Player): void {
+            player: dominox.Player): void
+        {
             tileListView.setAndDisplayOverallTileList(player.getTileList(), null);
             tileListView.setPlayerName(player.getName());
             tileListView.setPlayerScore(0);
+        }
+
+
+        findImagesContaier(): HTMLDivElement
+        {
+            var imagesContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("ImagesContainer");
+            if (imagesContainer == null || imagesContainer == undefined)
+                throw "Could not find ImagesContainer";
+
+            return imagesContainer;
         }
     }
 }

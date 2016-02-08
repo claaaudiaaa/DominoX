@@ -8,8 +8,10 @@ var dominox;
         PlayTileUseCase.prototype.beginWithInputAndCallback = function (input, callbackWhenDone) {
             var output = new dominox.PlayTileUseCaseOutput();
             var availableNeighbours = input.dominoGame.getNeighbourListForTileFromBoard(input.tile, input.tileBoard);
+            input.playerTileListView.displayTileAsSelected(input.tile, null);
             if (availableNeighbours.length == 0) {
                 output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;
+                input.playerTileListView.displayAsNormal(null);
                 callbackWhenDone(output);
                 return;
             }
@@ -17,6 +19,7 @@ var dominox;
             input.tileView.highlightListOfTilesFromBoard(availableNeighbours, input.tileBoard, null);
             input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(function (tile) {
                 input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
+                input.playerTileListView.displayAsNormal(null);
                 if (self.isTileInArray(tile, availableNeighbours) == false) {
                     output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;
                     callbackWhenDone(output);
@@ -27,11 +30,14 @@ var dominox;
                 input.tileView.drawTileAsNeighbourOfTileFromBoard(tile, input.tile, input.tileBoard, null);
                 input.userIntentionsObserver.setCallbackCaseDefault(null);
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
+                input.player.removeTile(input.tile);
+                input.playerTileListView.removeTile(input.tile, null);
                 output.resultOfUseCase = dominox.PlayTileUseCaseResult.Completed;
                 callbackWhenDone(output);
             });
             input.userIntentionsObserver.setCallbackCaseDefault(function () {
                 input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
+                input.playerTileListView.displayAsNormal(null);
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
                 input.userIntentionsObserver.setCallbackCaseDefault(null);
                 output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;

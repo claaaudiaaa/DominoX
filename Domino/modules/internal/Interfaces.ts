@@ -193,7 +193,14 @@ module dominox {
 
         console.log("image class name " + imageClassName);
 
-        return image;
+        return <HTMLImageElement>image.cloneNode(true);
     }
+
+    export function removeAllChildNodesOfElement(elem: HTMLElement)
+    {
+        while (elem.hasChildNodes())
+            elem.removeChild(elem.lastChild);
+    }
+
 
 }

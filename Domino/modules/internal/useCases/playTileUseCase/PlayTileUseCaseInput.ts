@@ -10,7 +10,7 @@ module dominox {
         public tileView: TileBoardView;
         public dominoGame: DominoGame;
         public userIntentionsObserver: UserIntentionsObserver;
-
+        public playerTileListView: PlayerTileListView;
         // and other stuff to be added soon
 
     }

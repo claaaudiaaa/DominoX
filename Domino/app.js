@@ -1,7 +1,22 @@
 (function () {
 
-    document.getElementById('firstName').innerHTML = firstName;
-    document.getElementById('secondName').innerHTML = secondName;
+    //document.getElementById('firstName').innerHTML = firstName;
+    //document.getElementById('secondName').innerHTML = secondName;
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    }
 
     var gameEngine = new dominox.GameEngine();
     if (gameEngine == null) {
@@ -10,8 +25,10 @@
 
     window.gameEngine = gameEngine;
     var gameEngineParameters = new dominox.GameEngineParameters();
-    gameEngineParameters.firstPlayerName = firstName;
-    gameEngineParameters.secondPlayerName = secondName;
+    gameEngineParameters.firstPlayerName = "Costin";//getUrlParameter("firstPlayerName");
+    gameEngineParameters.secondPlayerName = "Claudia";//getUrlParameter("secondPlayerName");
+    gameEngineParameters.dominoGameName = "Muggins";//getUrlParameter("dominoGameName");
+
     gameEngine.runWithParameters(gameEngineParameters);  
 })();
 

@@ -14,7 +14,7 @@ module dominox {
         {
             this.table = table;
             this.imagesContainer = imagesContainer;
-            this.removeAllChildNodesOfElement(this.table);
+            dominox.removeAllChildNodesOfElement(this.table);
             this.matrixPresenter = new SimpleTileMatrixPresenter();
 
             console.log("The table is " + table);
@@ -43,7 +43,7 @@ module dominox {
 
         buildTableAccordingToMatrix(table: HTMLTableElement, matrix: DominoTile[][])
         {
-            this.removeAllChildNodesOfElement(table);
+            dominox.removeAllChildNodesOfElement(table);
             for (var i = 0; i < matrix.length; i++)
             {
                 var row = <HTMLTableRowElement>table.insertRow(-1);
@@ -109,11 +109,7 @@ module dominox {
             
         }
 
-        removeAllChildNodesOfElement(elem: HTMLElement)
-        {
-            while (elem.hasChildNodes())
-                elem.removeChild(elem.lastChild);
-        }
+
 
     }
 }

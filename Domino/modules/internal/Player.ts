@@ -4,11 +4,11 @@ module dominox {
 
     export class Player
     {
-        private name: String;
+        private name: string;
         private score: number;
         private tileList: dominox.DominoTile[];
 
-        constructor(name: String, tileList: dominox.DominoTile[])
+        constructor(name: string, tileList: dominox.DominoTile[])
         {
             this.tileList = tileList;
             this.name = name;
@@ -16,7 +16,7 @@ module dominox {
         }
 
 
-        public getName(): String {
+        public getName(): string {
             return this.name;
         }
 
