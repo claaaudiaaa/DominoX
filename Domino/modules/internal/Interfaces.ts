@@ -195,7 +195,7 @@ module dominox {
         var elements = container.getElementsByClassName(imageClassName);
         var image: HTMLImageElement = <HTMLImageElement>elements[0];
 
-        console.log("image class name " + imageClassName);
+        //console.log("image class name " + imageClassName);
 
         return <HTMLImageElement>image.cloneNode(true);
     }

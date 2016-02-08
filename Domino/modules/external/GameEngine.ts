@@ -15,10 +15,11 @@
 /// <reference path = "../internal/concreteImplementations/DummyTileProvider.ts"/>
 /// <reference path = "../internal/concreteImplementations/SimplePlayerTurnHelper.ts"/>
 /// <reference path = "../internal/concreteImplementations/DebugUserIntentionsObserver.ts"/>
-//  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
-//  <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
-//  <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
+///  <reference path = "../internal/concreteImplementations/SimpleTileMatrixPresenter.ts"/>
+/// <reference path = "../internal/concreteImplementations/SimpleCanvasTileBoardView.ts"/>
+/// <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
 /// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
+/// <reference path = "../internal/concreteImplementations/GlobalUserInteractionsObserver.ts"/>
 
 module dominox
 {
@@ -54,7 +55,7 @@ module dominox
         dominoTilesProvider: dominox.DominoTileProvider;
         tileBoard: dominox.TileBoard;
 
-        userIntentionsObserver: dominox.DebugUserIntentionsObserver;
+        userIntentionsObserver: dominox.GlobalUserInteractionsObserver;
         alertHelper: dominox.AlertHelper;
 
         dominoGame: dominox.DominoGame;
@@ -85,7 +86,7 @@ module dominox
 
             this.tileBoardView = this.createTileView();
 
-            this.userIntentionsObserver = <DebugUserIntentionsObserver>this.createUserIntentionsObserver();
+            this.userIntentionsObserver = this.createUserIntentionsObserver();
             this.alertHelper = this.createAlertHelper();
 
             this.playerTurnHelper = this.createPlayerTurnHelper();
@@ -158,7 +159,7 @@ module dominox
             callbackWhenDone: dominox.VoidCallback)
         {
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
-            this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
+            //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
 
             var message: String = "It is " + currentPlayerTurnData.player.getName()
                 + "'s turn, " + otherPlayerTurnData.player.getName() + " please move aside n__n";
@@ -234,12 +235,15 @@ module dominox
         createTileView(): dominox.TileBoardView
         {
             var imagesContainer = this.findImagesContaier();
+            var self = this;
 
             var matrixPresenter = new SimpleTileMatrixPresenter();
             var tableContainer: HTMLDivElement = <HTMLDivElement>document.getElementById("TableContainer");
             var table: HTMLTableElement = <HTMLTableElement>tableContainer.getElementsByClassName("TilesTable")[0];
 
-            return new dominox.TableTileBoardView(table, imagesContainer);
+            return new dominox.TableTileBoardView(table, imagesContainer, function (tile: DominoTile) {
+                self.userIntentionsObserver.callForTileSelectedFromBoard(tile);
+            });
             //return new dominox.ConsoleTileBoardView();
         }
 
@@ -247,7 +251,7 @@ module dominox
             return new dominox.ConcreteTileBoard();
         }
 
-        createUserIntentionsObserver(): dominox.UserIntentionsObserver {
+        createUserIntentionsObserver(): dominox.GlobalUserInteractionsObserver {
 
             var divButtons = document.getElementById("DebugUserIntentions");
 
@@ -263,7 +267,8 @@ module dominox
             intentionsObserver.tileBoard = this.tileBoard;
             intentionsObserver.currentPlayer = this.firstPlayer;
 
-            return intentionsObserver;
+            return new GlobalUserInteractionsObserver();
+            //return intentionsObserver;
         }
 
         createDominoTileProvider(): dominox.DominoTileProvider {
@@ -276,12 +281,17 @@ module dominox
 
         createPlayerTileViewWithPlayer(player: Player, mainContainerId: string): dominox.PlayerTileListView
         {
+            var self = this;
+
             var mainContainer = <HTMLDivElement>document.getElementById(mainContainerId);
             if (mainContainer == null || mainContainer == undefined)
                 throw "Could not find mainContainer with id " + mainContainerId;
 
             var imagesContainer = this.findImagesContaier();
-            var divView = new DivPlayerTileListView(mainContainer, imagesContainer);
+            var divView = new DivPlayerTileListView(mainContainer, imagesContainer,
+                function (tile: DominoTile) {
+                    self.userIntentionsObserver.callForTileSelectedFromPlayerList(tile);
+                });
 
             divView.setPlayerName(player.getName());
             divView.setPlayerScore(0);

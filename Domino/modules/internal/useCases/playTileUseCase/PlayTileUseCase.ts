@@ -22,6 +22,14 @@ module dominox {
                 return;
             }
 
+            input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromPlayerTileList(function (tile: DominoTile) {
+
+                output.resultOfUseCase = PlayTileUseCaseResult.Canceled;
+                input.playerTileListView.displayAsNormal(null);
+                callbackWhenDone(output);
+                return;
+            });
+
             var self = this;
 
             input.tileView.highlightListOfTilesFromBoard(availableNeighbours, input.tileBoard, null);
@@ -40,6 +48,8 @@ module dominox {
                 input.tileBoard.addTileAsNeighbourToTile(input.tile, tile);
                 input.dominoGame.playerDidAddTileAsNeighbourToTileInBoard(input.player, tile, input.tile, input.tileBoard);
                 input.tileView.drawTileAsNeighbourOfTileFromBoard(tile, input.tile, input.tileBoard, null);
+
+                input.playerTileListView.setPlayerScore(input.player.getScore());
 
                 input.userIntentionsObserver.setCallbackCaseDefault(null);
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
