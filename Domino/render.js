@@ -41,26 +41,9 @@ function viewScores() {
     }
     document.getElementById('scores').style.visibility = "visible";
     document.getElementById('mainMenu').style.visibility = "hidden";
-    document.getElementById("myModal").style.visibility = "hidden";
-    //createEndGameModal();
 };
 
-function createEndGameModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "block";
-    modal.setAttribute("margin", "auto");
-    modal.setAttribute("position", "fixed");
-    $('#myModal').modal();
 
-    var fbShareBtn = document.getElementById("shareBtn");
-    fbShareBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        FB.login(function () {
-            FB.api('/me/feed', 'post', { message: '<3 FII, <3 CLIW' });
-        }, { scope: 'publish_actions' });
-        
-    });
-}
 
 function goToInsertPlayers() {
     document.getElementById('insertPlayers').style.visibility = "visible";

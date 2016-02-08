@@ -2,7 +2,7 @@
 
     //document.getElementById('firstName').innerHTML = firstName;
     //document.getElementById('secondName').innerHTML = secondName;
-
+    //endGame();
     var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
@@ -29,9 +29,9 @@
     gameEngineParameters.secondPlayerName = "Claudia";//getUrlParameter("secondPlayerName");
     gameEngineParameters.dominoGameName = "Muggins";//getUrlParameter("dominoGameName");
 
-    gameEngine.runWithParameters(gameEngineParameters);  
+    gameEngine.runWithParameters(gameEngineParameters);
+   
 })();
-
 
 
 function handleTextureLoaded(image, texture) {
@@ -42,4 +42,10 @@ function handleTextureLoaded(image, texture) {
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.bindTexture(gl.TEXTURE_2D, null);
 
+}
+
+function endGame(winner, loser) {
+    winner = "Vasilica";
+    loser = "Gigel";
+    $('#playArea').load("endGameModal.html");
 }

@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <link href="Content/bootstrap.css" rel="stylesheet" type="text/css" /> 
+    <script src="Scripts/jquery-1.9.1.js"></script>
+    <script src="Scripts/jquery-1.9.1.min.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+   
+    <script src="endGameModal.js"></script>
+</head>
+<body>
+    <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1515543595417415',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div id="myModal" class="modal">
+        <div class="modal-dialog" style="vertical-align: middle">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 id="title" class="text-warning" style="text-align: center">End of game!</h4>
+                </div>
+                <div class="modal-body" id="bodyModal">
+                    <p class="text-warning" id="winner"></p>
+                    <p class="text-warning">Do you want to share your result on Facebook?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeBtn" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="shareBtn" class="btn btn-primary" data-dismiss="modal">Share on Facebook</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
