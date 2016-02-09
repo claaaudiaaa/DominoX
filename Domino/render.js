@@ -2,15 +2,14 @@
     localStorage.removeItem("isFirstGame");
 })();
 
-function play() {
-    var playBtn = document.getElementById('play');
+function play() {   
     document.getElementById('mainMenu').style.visibility = "hidden";
     document.getElementById('newGame').style.visibility = "visible";
 };
 
 
 function showAbout() {
-    var aboutBtn = document.getElementById("aboutBtn");
+    console.log("sunt in about");
     document.getElementById('mainMenu').style.visibility = "hidden";
     document.getElementById('about').style.visibility = "visible";
 }
@@ -68,6 +67,7 @@ function goToMainMenu() {
     document.getElementById('newGame').style.visibility = "hidden";
     document.getElementById('resumeGame').style.visibility = "hidden";
     document.getElementById('insertPlayers').style.visibility = "hidden";
+    document.getElementById('about').style.visibility = "hidden";
 }
 
 function startGame() {

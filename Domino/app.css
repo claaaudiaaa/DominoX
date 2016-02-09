@@ -32,6 +32,21 @@
     width: 320px;
 }
 
+#aboutText {
+    margin: auto;
+    position: absolute;
+    left: 20px;
+    bottom: 0;
+    right: 20px;
+    font-family: 'FreeUniversalRegular';
+    color: rgb(214, 218, 209);
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 80%;
+    height: 85%;
+    bottom: 60px;
+}
+
 .options {
     margin: auto;
     position: absolute;
@@ -40,6 +55,7 @@
     bottom: 0;
     right: 0;
 }
+
 
 .buttonsOptions {
     margin: auto;
@@ -74,7 +90,7 @@
     width: 260px;
 }
 
-#newGame, #resumeGame, #scores, #insertPlayers {
+#newGame, #resumeGame, #scores, #insertPlayers, #about {
     visibility: hidden;
 }
 
