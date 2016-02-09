@@ -1,6 +1,7 @@
 ﻿/// <reference path= "../Interfaces.ts"/>
 /// <reference path= "../Score.ts"/>
 /// <reference path= "../../../Scripts/typings/jquery/jquery.d.ts"/>
+/// <reference path= "../../../Scripts/typings/bootstrap/bootstrap.d.ts"/>
 
 module dominox {
 
@@ -138,22 +139,29 @@ module dominox {
             }
         }
 
-        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard) {
-            if (firstPlayer.getScore() > 100) {
-                MugginsGame.winnerName = firstPlayer.getName();
-                MugginsGame.loserName = secondPlayer.getName();
-                $('#playArea').load("endGameModal.html");
+        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {
+          
+            if (firstPlayer.getScore() >= 50) {
+                $("#myModal").css("visibility", "visible");
+                $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
+                $('#myModal').modal();
+                var msgFB: String = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
+                $("#msgFb").text(msgFB.valueOf());
                 var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
                 localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+                return true;
             }
-            else if (secondPlayer.getScore() > 100) {
-                MugginsGame.winnerName = secondPlayer.getName();
-                MugginsGame.loserName = firstPlayer.getName();
-                $('#playArea').load("endGameModal.html");
+            else if (secondPlayer.getScore() >= 50) {
+                $("#myModal").css("visibility", "visible");
+                $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
+                $('#myModal').modal();
+                var msgFB: String = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";  
+                $("#msgFb").append(msgFB.valueOf());         
                 var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
                 localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+                return true;
             }
+            return false;   
         }
-
     }
 }

@@ -50,6 +50,8 @@ module dominox {
         canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean;
 
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void;
+
+        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): any;
     }
 
     export interface VoidCallback {

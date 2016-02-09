@@ -1,22 +1,4 @@
-﻿(function () {
-   /* console.log("adding jquery");
-    var newscript = document.createElement('script');
-    newscript.type = 'text/javascript';
-    newscript.async = true;
-    newscript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js';
-    var bootstrapscript = document.createElement('script');
-    bootstrapscript.type = 'text/javascript';
-    bootstrapscript.async = true;
-    bootstrapscript.src = 'Scripts/bootstrap.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(newscript);
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(bootstrapscript);*/
-    var score = new dominox.Score("vasilica", "gigel", 3, 6);
-    localStorage.setItem("score", score.toString());
-    localStorage.setItem("score1", score.toString());
-})();
-
-
-function play() {
+﻿function play() {
     var playBtn = document.getElementById('play');
     document.getElementById('mainMenu').style.visibility = "hidden";
     document.getElementById('newGame').style.visibility = "visible";

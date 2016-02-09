@@ -158,6 +158,9 @@ module dominox
         startNewTurn(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData,
             callbackWhenDone: dominox.VoidCallback)
         {
+            this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
+            if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
+                return;
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
 

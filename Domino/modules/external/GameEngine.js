@@ -86,6 +86,9 @@ var dominox;
             });
         };
         GameEngine.prototype.startNewTurn = function (currentPlayerTurnData, otherPlayerTurnData, callbackWhenDone) {
+            this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
+            if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
+                return;
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
             var message = "It is " + currentPlayerTurnData.player.getName()

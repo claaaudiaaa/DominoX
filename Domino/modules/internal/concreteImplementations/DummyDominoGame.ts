@@ -40,5 +40,8 @@ module dominox {
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
         }
 
+        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
+        }
+
     }
 }

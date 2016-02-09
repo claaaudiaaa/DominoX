@@ -28,6 +28,8 @@ var dominox;
         };
         DummyDominoGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
         };
+        DummyDominoGame.prototype.final = function (firstPlayer, secondPlayer, board) {
+        };
         return DummyDominoGame;
     })();
     dominox.DummyDominoGame = DummyDominoGame;
