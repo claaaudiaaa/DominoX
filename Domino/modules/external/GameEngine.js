@@ -45,7 +45,7 @@ var dominox;
             this.playerTurnHelper = this.createPlayerTurnHelper();
             this.playTileUseCase = this.createPlayTileUseCase();
         };
-        GameEngine.prototype.runWithParameters = function (params, isFirstGame) {
+        GameEngine.prototype.runWithParameters = function (params) {
             //console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
             this.dominoTilesProvider = new dominox.DummyTileProvider();
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
@@ -60,13 +60,13 @@ var dominox;
             this.secondPlayerTurnData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
             //4. Start the game
             //console.log("BEGINNING THE GAME");
-            this.beginGame(isFirstGame);
+            this.beginGame();
         };
         GameEngine.prototype.stopGame = function () {
             this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
         };
-        GameEngine.prototype.beginGame = function (isFirstGame) {
-            if (isFirstGame) {
+        GameEngine.prototype.beginGame = function () {
+            if (localStorage.getItem("isFirstGame") == null) {
                 this.firstPlayer.setScore(0);
                 this.secondPlayer.setScore(0);
             }
@@ -75,8 +75,11 @@ var dominox;
                 var parts = score.split("<br>");
                 var scores = parts[1].split("/");
                 this.firstPlayer.setScore(Number(scores[0]));
-                this.firstPlayer.setScore(Number(scores[1]));
+                console.log("first player score = " + this.firstPlayer.getScore() + (scores[0]));
+                console.log("sec player score = " + this.secondPlayer.getScore() + (scores[1].split("<")));
+                this.firstPlayer.setScore(Number(scores[1].split("<")));
                 localStorage.removeItem("score");
+                localStorage.removeItem("isFirstGame");
             }
             this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
@@ -158,7 +161,7 @@ var dominox;
             });
         };
         GameEngine.prototype.createPlayerWithNameAndProvider = function (name, tileProvider) {
-            var randomTiles = tileProvider.getListOfRandomTilesOfCount(2);
+            var randomTiles = tileProvider.getListOfRandomTilesOfCount(7);
             return new dominox.Player(name, randomTiles);
         };
         GameEngine.prototype.createTileView = function () {
