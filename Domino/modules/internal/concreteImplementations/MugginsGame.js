@@ -132,7 +132,7 @@ var dominox;
             }
             //and now start a new game 
             var bool = "false";
-            $('.backgroundImage').load("gamePage.html");
+            // $('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
             //}
         };
