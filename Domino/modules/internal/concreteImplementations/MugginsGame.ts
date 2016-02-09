@@ -151,7 +151,7 @@ module dominox {
             }     
             //and now start a new game 
             var bool: String = "false";
-            $('.backgroundImage').load("gamePage.html");
+           // $('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
             var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
             localStorage.setItem("score", score.toString().valueOf());
