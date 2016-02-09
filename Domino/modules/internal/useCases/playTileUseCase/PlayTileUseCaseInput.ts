@@ -11,6 +11,7 @@ module dominox {
         public dominoGame: DominoGame;
         public userIntentionsObserver: UserIntentionsObserver;
         public playerTileListView: PlayerTileListView;
+        public tileBoardView: TileBoardView;
         // and other stuff to be added soon
 
     }
