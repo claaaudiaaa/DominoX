@@ -9,16 +9,18 @@ var dominox;
             var output = new dominox.PlayTileUseCaseOutput();
             var availableNeighbours = input.dominoGame.getNeighbourListForTileFromBoard(input.tile, input.tileBoard);
             input.playerTileListView.displayTileAsSelected(input.tile, null);
-            if (availableNeighbours.length == 0) {
+            var cancelAction = function () {
+                input.tileBoardView.displayAsNormalTileBoard(input.tileBoard, null);
                 output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;
                 input.playerTileListView.displayAsNormal(null);
                 callbackWhenDone(output);
+            };
+            if (availableNeighbours.length == 0) {
+                cancelAction();
                 return;
             }
             input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromPlayerTileList(function (tile) {
-                output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;
-                input.playerTileListView.displayAsNormal(null);
-                callbackWhenDone(output);
+                cancelAction();
                 return;
             });
             var self = this;
@@ -27,8 +29,7 @@ var dominox;
                 input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
                 input.playerTileListView.displayAsNormal(null);
                 if (self.isTileInArray(tile, availableNeighbours) == false) {
-                    output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;
-                    callbackWhenDone(output);
+                    cancelAction();
                     return;
                 }
                 input.tileBoard.addTileAsNeighbourToTile(input.tile, tile);
@@ -39,16 +40,12 @@ var dominox;
                 input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
                 input.player.removeTile(input.tile);
                 input.playerTileListView.removeTile(input.tile, null);
+                input.tileBoardView.displayAsNormalTileBoard(input.tileBoard, null);
                 output.resultOfUseCase = dominox.PlayTileUseCaseResult.Completed;
                 callbackWhenDone(output);
             });
             input.userIntentionsObserver.setCallbackCaseDefault(function () {
-                input.tileView.displayAsNormalTileBoard(input.tileBoard, null);
-                input.playerTileListView.displayAsNormal(null);
-                input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromBoard(null);
-                input.userIntentionsObserver.setCallbackCaseDefault(null);
-                output.resultOfUseCase = dominox.PlayTileUseCaseResult.Canceled;
-                callbackWhenDone(output);
+                cancelAction();
             });
         };
         PlayTileUseCase.prototype.isTileInArray = function (tile, array) {
