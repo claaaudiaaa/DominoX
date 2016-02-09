@@ -13,4 +13,10 @@
 
 .PlayerTiles {
    padding-left:45%;
+   padding-top: 3%;
+}
+
+#TableContainer {
+    height:60%;
+    position: fixed;
 }
