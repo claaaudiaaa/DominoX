@@ -48,7 +48,9 @@ var dominox;
                         }
                     }
                     else if (orientation == dominox.DominoTileOrientation.VerticalFirstUpSecondDown) {
-                        if (tile.getDownNeighbour() !== null) {
+                        if (tile.isDoubleTile())
+                            points += tile.getBone().getFirst().valueOf() * 2;
+                        else if (tile.getDownNeighbour() !== null) {
                             points += tile.getBone().getFirst().valueOf();
                         }
                         else {
@@ -56,7 +58,9 @@ var dominox;
                         }
                     }
                     else {
-                        if (tile.getDownNeighbour() !== null) {
+                        if (tile.isDoubleTile())
+                            points += tile.getBone().getFirst().valueOf() * 2;
+                        else if (tile.getDownNeighbour() !== null) {
                             points += tile.getBone().getSecond().valueOf();
                         }
                         else {

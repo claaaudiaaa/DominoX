@@ -54,8 +54,8 @@ module dominox {
         setAndDisplayOverallTileList(tileList: dominox.DominoTile[], callbackWhenDone: VoidCallback)
         {
 
-            ("Displaying tile list for player " + this.playerName);
-            console.log(stringifyTileList(tileList));
+            //("Displaying tile list for player " + this.playerName);
+            //console.log(stringifyTileList(tileList));
 
             this.tileList = tileList;
             this.imgList = [];
@@ -81,8 +81,8 @@ module dominox {
             this.selectedTile = tile;
             var img = this.findImgForTileFromContainer(tile, this.tileList, this.playerImagesContainer);
 
-            console.log("Displaying tile as selected for player " + this.playerName);
-            console.log(tile.toString());
+            //console.log("Displaying tile as selected for player " + this.playerName);
+            //console.log(tile.toString());
 
             this.checkImageExistsOrThrow(img);
             img.style.borderRadius = "50%";

@@ -58,8 +58,16 @@ var dominox;
                 var matchingType = dominox.getTilesMatchType(matchingTile, tile);
                 if (matchingType == dominox.TileMatchType.NoMatch)
                     continue;
+                if (tile.isDoubleTile()) {
+                    if (tile.getDownNeighbour() == null ||
+                        tile.getUpNeighbour() == null ||
+                        tile.getLeftNeighbour() == null ||
+                        tile.getRightNeighbour() == null) {
+                        tileList.push(tile);
+                        continue;
+                    }
+                }
                 var tileOrientation = tile.getOrientation();
-                //console.log("Found a match with " + tile.toString());
                 if (tileOrientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight) {
                     if (dominox.tileHastMatchOnFirstOnTile(matchingTile, tile) &&
                         tile.getLeftNeighbour() == null) {
@@ -251,6 +259,9 @@ var dominox;
                             tile.setOrientation(dominox.DominoTileOrientation.VerticalFirstUpSecondDown);
                     }
                 }
+                /// overriding here is ugly, but 
+                if (tile.isDoubleTile())
+                    tile.setOrientation(dominox.DominoTileOrientation.VerticalFirstUpSecondDown);
             }
         };
         ConcreteTileBoard.prototype.setOrientationOfFirstTile = function (tile) {

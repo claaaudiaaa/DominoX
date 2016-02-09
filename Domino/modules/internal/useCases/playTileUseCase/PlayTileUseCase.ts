@@ -15,7 +15,8 @@ module dominox {
 
             input.playerTileListView.displayTileAsSelected(input.tile, null);
 
-            if (availableNeighbours.length == 0) {
+            if (availableNeighbours.length == 0)
+            {
                 output.resultOfUseCase = PlayTileUseCaseResult.Canceled;
                 input.playerTileListView.displayAsNormal(null);
                 callbackWhenDone(output);
@@ -23,7 +24,7 @@ module dominox {
             }
 
             input.userIntentionsObserver.setCallbackCaseWhenSelectingTileFromPlayerTileList(function (tile: DominoTile) {
-
+                
                 output.resultOfUseCase = PlayTileUseCaseResult.Canceled;
                 input.playerTileListView.displayAsNormal(null);
                 callbackWhenDone(output);

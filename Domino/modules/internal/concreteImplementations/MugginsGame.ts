@@ -55,7 +55,9 @@ module dominox {
                         }
                     }
                     else if (orientation == dominox.DominoTileOrientation.VerticalFirstUpSecondDown) {
-                        if (tile.getDownNeighbour() !== null) {
+                        if (tile.isDoubleTile())
+                            points += tile.getBone().getFirst().valueOf()*2;
+                        else if (tile.getDownNeighbour() !== null) {
                             points += tile.getBone().getFirst().valueOf();
                         }
                         else {
@@ -63,7 +65,9 @@ module dominox {
                         }
                     }
                     else {
-                        if (tile.getDownNeighbour() !== null) {
+                        if (tile.isDoubleTile())
+                            points += tile.getBone().getFirst().valueOf() * 2;
+                        else if (tile.getDownNeighbour() !== null) {
                             points += tile.getBone().getSecond().valueOf();
                         }
                         else {

@@ -14,6 +14,7 @@ var dominox;
         TableTileBoardView.prototype.drawTileAsNeighbourOfTileFromBoard = function (tile, neighbour, board, callbackWhenDone) {
         };
         TableTileBoardView.prototype.highlightListOfTilesFromBoard = function (tiles, board, callbackWhenDone) {
+            console.log("should highlight " + dominox.stringifyTileList(tiles));
             for (var i = 0; i < tiles.length; i++) {
                 var tile = tiles[i];
                 var img = this.findImageForTile(tile);
@@ -21,14 +22,13 @@ var dominox;
             }
         };
         TableTileBoardView.prototype.highlightImage = function (img) {
-            img.style.border = "50%";
+            img.style.borderRadius = "50%";
             img.style.borderColor = "blue";
         };
         TableTileBoardView.prototype.displayAsNormalTileBoard = function (tileBoard, callbackWhenDone) {
             var matrix = this.matrixPresenter.presentTileBoardAsTileMatrix(tileBoard);
             this.displayedMatrixOfTiles = matrix;
             this.buildTableAccordingToMatrix(this.table, matrix);
-            console.log(dominox.stringifyTileMatrix(matrix));
         };
         TableTileBoardView.prototype.buildTableAccordingToMatrix = function (table, matrix) {
             dominox.removeAllChildNodesOfElement(table);

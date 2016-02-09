@@ -79,18 +79,3 @@ function handleTextureLoaded(image, texture) {
     gl.bindTexture(gl.TEXTURE_2D, null);
 
 }
-
-function share() {
-    console.log("is in share fct");
-    var msgFm = document.getElementById("msgFb");
-    $('.backgroundImage').load('index.html');
-    FB.login(function () {
-        FB.api('/me/feed', 'post', { message: msgFB });
-    }, { scope: 'publish_actions' });
-}
-
-function endGame(winner, loser) {
-    winner = "Vasilica";
-    loser = "Gigel";
-    $('#playArea').load("endGameModal.html");
-}

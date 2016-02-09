@@ -35,6 +35,7 @@ module dominox {
         highlightListOfTilesFromBoard(tiles: dominox.DominoTile[], board: TileBoard,
             callbackWhenDone: VoidCallback): void
         {
+            console.log("should highlight " + stringifyTileList(tiles));
             for (var i = 0; i < tiles.length; i++) {
                 var tile = tiles[i];
                 var img = this.findImageForTile(tile);
@@ -42,9 +43,9 @@ module dominox {
             }
         }
 
-        highlightImage(img: HTMLImageElement) {
-
-            img.style.border = "50%";
+        highlightImage(img: HTMLImageElement)
+        {
+            img.style.borderRadius = "50%";
             img.style.borderColor = "blue";
         }
 
@@ -54,7 +55,6 @@ module dominox {
             this.displayedMatrixOfTiles = matrix;
 
             this.buildTableAccordingToMatrix(this.table, matrix);
-            console.log(stringifyTileMatrix(matrix));
         }
 
        
