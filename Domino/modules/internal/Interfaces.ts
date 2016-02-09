@@ -90,7 +90,8 @@ module dominox {
             dominoGame: DominoGame,
             tileBoard: TileBoard,
             tileProvider: DominoTileProvider,
-            callbackWhenDone: VoidCallback): any;
+            callbackWhenDone: VoidCallback,
+            callbackWhenNoMoreTilesAvailable: VoidCallback): any;
 
     }
 

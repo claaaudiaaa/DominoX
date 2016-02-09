@@ -128,6 +128,18 @@ var dominox;
                 currentPlayerTurnData.playerTileListView.setVisible(null);
                 gameEngineSelf.playerTurnHelper.replenishTilesSoPlayerCanMakeMove(currentPlayerTurnData.player, currentPlayerTurnData.playerTileListView, gameEngineSelf.dominoGame, gameEngineSelf.tileBoard, gameEngineSelf.dominoTilesProvider, function () {
                     gameEngineSelf.playUseCaseTillCompleted(currentPlayerTurnData, callbackWhenDone);
+                }, function () {
+                    if (currentPlayerTurnData.player.getTileList().length == 0) {
+                        gameEngineSelf.stopGame();
+                        return;
+                    }
+                    if (gameEngineSelf.dominoGame.canPlayerMakeMoveWithTileListOnBoard(otherPlayerTurnData.player.getTileList(), gameEngineSelf.tileBoard) == false) {
+                        //both player cannot make a move anymore
+                        gameEngineSelf.stopGame();
+                        return;
+                    }
+                    else {
+                    }
                 });
             });
         };
