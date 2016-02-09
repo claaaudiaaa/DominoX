@@ -220,25 +220,35 @@ module dominox
                     },
                     function ()
                     {
+                        var message: string = "" + currentPlayerTurnData.player.getName() + ", there \
+                        are no more tiles available, so ";
 
                         if (currentPlayerTurnData.player.getTileList().length == 0)
                         {
+                            message = message + " the round has ended :D";
+                            gameEngineSelf.alertHelper.displayOkAlertWithMessage(message, null);
                             gameEngineSelf.stopGame();
                             return;
                         }
 
                         if (gameEngineSelf.dominoGame.canPlayerMakeMoveWithTileListOnBoard(
-                            otherPlayerTurnData.player.getTileList(), gameEngineSelf.tileBoard) == false) {
+                            otherPlayerTurnData.player.getTileList(), gameEngineSelf.tileBoard) == false)
+                        {
                             //both player cannot make a move anymore
                             gameEngineSelf.stopGame();
                             return;
                         }
                         else
                         {
+                            message = message + " we will let " + otherPlayerTurnData.player.getName() + " play one \
+                            more round and then finish the game :D ";
+                            gameEngineSelf.alertHelper.displayOkAlertWithMessage(message, null);
+
+                            gameEngineSelf.playUseCaseTillCompleted(otherPlayerTurnData, function () {
+                                gameEngineSelf.stopGame();
+                            });
                             // let the other play
                         }
-
-
                         
                     });
 

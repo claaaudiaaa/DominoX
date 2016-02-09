@@ -129,7 +129,11 @@ var dominox;
                 gameEngineSelf.playerTurnHelper.replenishTilesSoPlayerCanMakeMove(currentPlayerTurnData.player, currentPlayerTurnData.playerTileListView, gameEngineSelf.dominoGame, gameEngineSelf.tileBoard, gameEngineSelf.dominoTilesProvider, function () {
                     gameEngineSelf.playUseCaseTillCompleted(currentPlayerTurnData, callbackWhenDone);
                 }, function () {
+                    var message = "" + currentPlayerTurnData.player.getName() + ", there \
+                        are no more tiles available, so ";
                     if (currentPlayerTurnData.player.getTileList().length == 0) {
+                        message = message + " the round has ended :D";
+                        gameEngineSelf.alertHelper.displayOkAlertWithMessage(message, null);
                         gameEngineSelf.stopGame();
                         return;
                     }
@@ -139,6 +143,12 @@ var dominox;
                         return;
                     }
                     else {
+                        message = message + " we will let " + otherPlayerTurnData.player.getName() + " play one \
+                            more round and then finish the game :D ";
+                        gameEngineSelf.alertHelper.displayOkAlertWithMessage(message, null);
+                        gameEngineSelf.playUseCaseTillCompleted(otherPlayerTurnData, function () {
+                            gameEngineSelf.stopGame();
+                        });
                     }
                 });
             });
