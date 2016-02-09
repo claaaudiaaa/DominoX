@@ -86,6 +86,13 @@ var dominox;
             this.setupTileListViewForPlayer(this.secondPlayerTileListView, this.secondPlayer);
             this.playGame(this.firstPlayerTurnData, this.secondPlayerTurnData);
         };
+        GameEngine.prototype.gameWantsToReload = function () {
+            this.currentPlayerTurnData.player = this.firstPlayer;
+            this.currentPlayerTurnData.playerTileListView = this.firstPlayerTileListView;
+            this.otherPlayerTurnData.player = this.secondPlayer;
+            this.otherPlayerTurnData.playerTileListView = this.secondPlayerTileListView;
+            this.playGame(this.currentPlayerTurnData, this.otherPlayerTurnData);
+        };
         GameEngine.prototype.playGame = function (currentPlayerTurnData, otherPlayerTurnData) {
             var gameEngineSelf = this;
             if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
@@ -174,6 +181,11 @@ var dominox;
             return new dominox.DummyTileProvider();
         };
         GameEngine.prototype.createDominoGameBasedOnName = function (name) {
+            var game = new dominox.MugginsGame();
+            var self = this;
+            game.setOnGameRequireCallback(function () {
+                self.gameWantsToReload();
+            });
             return new dominox.MugginsGame();
         };
         GameEngine.prototype.createPlayerTileViewWithPlayer = function (player, mainContainerId) {

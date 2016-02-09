@@ -45,6 +45,9 @@ module dominox {
             neighbour: dominox.DominoTile,
             tile: dominox.DominoTile, board: TileBoard);
 
+
+        setOnGameRequireCallback(onRequireReloadCallbac: VoidCallback): void;
+
         isGameOverWithPlayersAndBoard(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean;
 
         canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean;

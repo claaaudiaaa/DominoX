@@ -10,6 +10,8 @@ var dominox;
         DummyDominoGame.prototype.playerDidAddTileAsNeighbourToTileInBoard = function (player, neighbour, tile, board) {
             player.setScore(player.getScore() + 1);
         };
+        DummyDominoGame.prototype.setOnGameRequireCallback = function (onRequireReloadCallbac) {
+        };
         DummyDominoGame.prototype.isGameOverWithPlayersAndBoard = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 10 || secondPlayer.getScore() >= 10)
                 return true;

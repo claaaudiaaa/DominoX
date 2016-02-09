@@ -8,6 +8,9 @@ var dominox;
         function MugginsGame() {
             console.log("MugginsGame CREATED SUCCESFULLY");
         }
+        MugginsGame.prototype.setOnGameRequireCallback = function (onRequireReloadCallbac) {
+            this.onGameRequireReload = onRequireReloadCallbac;
+        };
         MugginsGame.prototype.getNeighbourListForTileFromBoard = function (tile, board) {
             return board.getExternalTilesListMatchingTile(tile);
         };
@@ -136,6 +139,7 @@ var dominox;
             localStorage.setItem("isFirstGame", "false");
             var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
             localStorage.setItem("score", score.toString().valueOf());
+            dominox.callIfNotNull(this.onGameRequireReload);
             //}
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {

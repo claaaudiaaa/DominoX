@@ -152,6 +152,18 @@ module dominox
             this.playGame(this.firstPlayerTurnData, this.secondPlayerTurnData);
         }
 
+
+        gameWantsToReload()
+        {
+            this.currentPlayerTurnData.player = this.firstPlayer;
+            this.currentPlayerTurnData.playerTileListView = this.firstPlayerTileListView;
+
+            this.otherPlayerTurnData.player = this.secondPlayer;
+            this.otherPlayerTurnData.playerTileListView = this.secondPlayerTileListView;
+
+            this.playGame(this.currentPlayerTurnData, this.otherPlayerTurnData);
+        }
+
         playGame(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData): void {
 
             var gameEngineSelf: GameEngine = this;
@@ -281,7 +293,16 @@ module dominox
             return new dominox.DummyTileProvider();
         }
 
-        createDominoGameBasedOnName(name: String): dominox.DominoGame {
+        createDominoGameBasedOnName(name: String): dominox.DominoGame
+        {
+            var game = new dominox.MugginsGame();
+            var self = this;
+
+            game.setOnGameRequireCallback(function ()
+            {
+                self.gameWantsToReload();
+            });
+
             return new dominox.MugginsGame();
         }
 
