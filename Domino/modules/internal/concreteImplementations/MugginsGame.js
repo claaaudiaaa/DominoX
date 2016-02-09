@@ -131,18 +131,8 @@ var dominox;
                 secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
             }
             //and now start a new game 
-            //console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
             var bool = "false";
-            //document.getElementById("firstGame").innerHTML = bool.valueOf();
-            //document.getElementById("firstGame").innerText = bool.valueOf();
-            //document.getElementById("firstGame").textContent = bool.valueOf();
-            console.log(document.getElementById("firstGame"));
-            console.log($("#firstGame"));
-            $("#firstGame").text(bool.valueOf());
-            //$("#firstGame").append(bool.valueOf());
             $('.backgroundImage').load("gamePage.html");
-            console.log(document.getElementById("firstGame"));
-            console.log($("#firstGame"));
             localStorage.setItem("isFirstGame", "false");
             //}
         };
