@@ -15,6 +15,10 @@ module dominox {
            // this.score = 0;
         }
 
+        public clearAllTiles()
+        {
+            this.tileList = [];
+        }
 
         public getName(): string {
             return this.name;

@@ -93,6 +93,12 @@ var dominox;
             this.playGame(this.firstPlayerTurnData, this.secondPlayerTurnData);
         };
         GameEngine.prototype.gameWantsToReload = function () {
+            this.firstPlayer.clearAllTiles();
+            this.secondPlayer.clearAllTiles();
+            this.dominoTilesProvider = new dominox.DummyTileProvider();
+            this.tileBoard = new dominox.ConcreteTileBoard();
+            this.firstPlayerTileListView.setAndDisplayOverallTileList(this.firstPlayer.getTileList(), null);
+            this.secondPlayerTileListView.setAndDisplayOverallTileList(this.secondPlayer.getTileList(), null);
             this.currentPlayerTurnData.player = this.firstPlayer;
             this.currentPlayerTurnData.playerTileListView = this.firstPlayerTileListView;
             this.otherPlayerTurnData.player = this.secondPlayer;
@@ -110,6 +116,10 @@ var dominox;
                 // now we must swap them and begin a new round
                 // and so on
                 dominox.callPseudoAsync(function () {
+                    if (currentPlayerTurnData.player.getTileList().length == 0) {
+                        gameEngineSelf.stopGame();
+                        return;
+                    }
                     gameEngineSelf.playGame(otherPlayerTurnData, currentPlayerTurnData);
                 });
             });
