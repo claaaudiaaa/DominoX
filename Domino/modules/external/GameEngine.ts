@@ -137,7 +137,7 @@ module dominox
                 var parts: String[] = score.split("<br>");
                 var scores: String[] = parts[1].split("/");
                 this.firstPlayer.setScore(Number(scores[0]));
-                console.log("first player score = " + this.firstPlayer.getScore() + Number(scores[0]));           
+                console.log("first player score = " + this.firstPlayer.getScore());           
                 var secondPlayerScore: number;
                 var partsScore: String[] = scores[1].split("<");
                 secondPlayerScore = Number(partsScore[0]);
