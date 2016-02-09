@@ -1,4 +1,8 @@
-﻿function play() {
+﻿(function () {
+    localStorage.removeItem("isFirstGame");
+})();
+
+function play() {
     var playBtn = document.getElementById('play');
     document.getElementById('mainMenu').style.visibility = "hidden";
     document.getElementById('newGame').style.visibility = "visible";

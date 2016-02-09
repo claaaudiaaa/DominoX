@@ -94,7 +94,7 @@ module dominox
             this.playTileUseCase = this.createPlayTileUseCase();
         }
 
-        public runWithParameters(params: GameEngineParameters, isFirstGame: boolean): void
+        public runWithParameters(params: GameEngineParameters): void
         {
             //console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
             this.dominoTilesProvider = new DummyTileProvider();
@@ -114,7 +114,7 @@ module dominox
 
             //4. Start the game
             //console.log("BEGINNING THE GAME");
-            this.beginGame(isFirstGame);
+            this.beginGame();
         }
 
         public stopGame(): void
@@ -123,9 +123,10 @@ module dominox
         }
 
 
-        beginGame(isFirstGame: boolean)
+        beginGame()
         {
-            if (isFirstGame) {
+            
+            if (localStorage.getItem("isFirstGame") == null) {
                 this.firstPlayer.setScore(0);
                 this.secondPlayer.setScore(0);
             }
@@ -134,9 +135,14 @@ module dominox
                 var parts: String[] = score.split("<br>");
                 var scores: String[] = parts[1].split("/");
                 this.firstPlayer.setScore(Number(scores[0]));
-                this.firstPlayer.setScore(Number(scores[1]));
+                console.log("first player score = " + this.firstPlayer.getScore() + (scores[0]));
+                console.log("sec player score = " + this.secondPlayer.getScore() + (scores[1].split("<")));
+
+                this.firstPlayer.setScore(Number(scores[1].split("<")));
                 localStorage.removeItem("score");
+                localStorage.removeItem("isFirstGame");
             }
+            
             
             this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
 
@@ -249,7 +255,7 @@ module dominox
         createPlayerWithNameAndProvider(name: string, tileProvider: dominox.DominoTileProvider):
             dominox.Player
         {
-            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(2);
+            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(7);
             return new dominox.Player(name, randomTiles);
         }
 
