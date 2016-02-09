@@ -70,6 +70,14 @@ var dominox;
                 this.firstPlayer.setScore(0);
                 this.secondPlayer.setScore(0);
             }
+            else {
+                var score = localStorage.getItem("score");
+                var parts = score.split("<br>");
+                var scores = parts[1].split("/");
+                this.firstPlayer.setScore(Number(scores[0]));
+                this.firstPlayer.setScore(Number(scores[1]));
+                localStorage.removeItem("score");
+            }
             this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //console.log("Playing the game");

@@ -64,9 +64,13 @@
     gameEngineParameters.dominoGameName = "Muggins";//getUrlParameter("dominoGameName");
 
     console.log(localStorage.getItem("isFirstGame"));
-    if (localStorage.getItem("isFirstGame") == "false")
+    if (localStorage.getItem("isFirstGame") == "false") {
+        console.log("sunt pe ramura care trebuie");
         gameEngine.runWithParameters(gameEngineParameters, false);
-    else
+    }
+    else {
+        console.log("nu sunt pe ramura care trebuie");
         gameEngine.runWithParameters(gameEngineParameters, true);
+    }
     localStorage.removeItem("isFirstGame");
 })();

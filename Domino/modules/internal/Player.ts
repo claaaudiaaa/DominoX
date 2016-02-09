@@ -12,7 +12,7 @@ module dominox {
         {
             this.tileList = tileList;
             this.name = name;
-            this.score = 0;
+           // this.score = 0;
         }
 
 

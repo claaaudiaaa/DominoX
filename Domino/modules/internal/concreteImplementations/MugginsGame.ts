@@ -153,6 +153,8 @@ module dominox {
             var bool: String = "false";
            // $('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
+            var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
+            localStorage.setItem("score", score.toString().valueOf());
         //}
         }
 

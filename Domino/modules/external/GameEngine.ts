@@ -129,6 +129,14 @@ module dominox
                 this.firstPlayer.setScore(0);
                 this.secondPlayer.setScore(0);
             }
+            else {
+                var score: String = localStorage.getItem("score");
+                var parts: String[] = score.split("<br>");
+                var scores: String[] = parts[1].split("/");
+                this.firstPlayer.setScore(Number(scores[0]));
+                this.firstPlayer.setScore(Number(scores[1]));
+                localStorage.removeItem("score");
+            }
             
             this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
 
