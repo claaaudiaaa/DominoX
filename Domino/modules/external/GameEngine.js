@@ -97,17 +97,17 @@ var dominox;
             this.secondPlayer.clearAllTiles();
             this.dominoTilesProvider = new dominox.DummyTileProvider();
             this.tileBoard = new dominox.ConcreteTileBoard();
+            this.firstPlayer.setTileList(this.dominoTilesProvider.getListOfRandomTilesOfCount(3));
+            this.secondPlayer.setTileList(this.dominoTilesProvider.getListOfRandomTilesOfCount(3));
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
             this.firstPlayerTileListView.setAndDisplayOverallTileList(this.firstPlayer.getTileList(), null);
             this.secondPlayerTileListView.setAndDisplayOverallTileList(this.secondPlayer.getTileList(), null);
-            this.currentPlayerTurnData.player = this.firstPlayer;
-            this.currentPlayerTurnData.playerTileListView = this.firstPlayerTileListView;
-            this.otherPlayerTurnData.player = this.secondPlayer;
-            this.otherPlayerTurnData.playerTileListView = this.secondPlayerTileListView;
+            this.firstPlayerTileListView.setInvisible(null);
+            this.secondPlayerTileListView.setInvisible(null);
             var self = this;
             this.alertHelper.displayOkAlertWithMessage("Beginning a new round :D", function () {
-                self.playGame(self.currentPlayerTurnData, self.otherPlayerTurnData);
+                self.playGame(self.firstPlayerTurnData, self.secondPlayerTurnData);
             });
-            this.playGame(this.currentPlayerTurnData, this.otherPlayerTurnData);
         };
         GameEngine.prototype.playGame = function (currentPlayerTurnData, otherPlayerTurnData) {
             var gameEngineSelf = this;
@@ -225,10 +225,11 @@ var dominox;
         GameEngine.prototype.createDominoGameBasedOnName = function (name) {
             var game = new dominox.MugginsGame();
             var self = this;
-            game.setOnGameRequireCallback(function () {
+            game.setOnGameRequireReloadCallback(function () {
+                console.log("CALLING GAME WANTS TO RELOAD");
                 self.gameWantsToReload();
             });
-            return new dominox.MugginsGame();
+            return game;
         };
         GameEngine.prototype.createPlayerTileViewWithPlayer = function (player, mainContainerId) {
             var self = this;

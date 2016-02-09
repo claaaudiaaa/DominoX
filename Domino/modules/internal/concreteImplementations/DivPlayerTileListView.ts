@@ -57,7 +57,7 @@ module dominox {
             //("Displaying tile list for player " + this.playerName);
             //console.log(stringifyTileList(tileList));
 
-            this.tileList = tileList;
+            this.tileList = tileList.slice(0);
             this.imgList = [];
 
             dominox.removeAllChildNodesOfElement(this.playerImagesContainer);
@@ -160,7 +160,7 @@ module dominox {
         {
             var index = inList.indexOf(tile);
             if (index < 0)
-                return null;
+                throw "Tile is expected to be in list " + tile.toString();
 
             var image: HTMLImageElement = this.imgList[index];
             if (image != undefined && image != null)

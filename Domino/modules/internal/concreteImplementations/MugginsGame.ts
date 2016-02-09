@@ -10,6 +10,8 @@ module dominox {
         static winnerName: String;
         static loserName: String;
 
+        private onRequireReloadCallback: VoidCallback;
+
         constructor() {
             console.log("MugginsGame CREATED SUCCESFULLY");
         }
@@ -18,7 +20,10 @@ module dominox {
             return board.getExternalTilesListMatchingTile(tile);
         }
 
-        setOnGameRequireCallback(onRequireReloadCallbac: VoidCallback): void {
+        setOnGameRequireReloadCallback(onRequireReloadCallbac: VoidCallback): void
+        {
+            console.log("Setting on reload callback " + onRequireReloadCallbac);
+            this.onRequireReloadCallback = onRequireReloadCallbac;
         }
 
         countPoints(externalTiles: dominox.DominoTile[], spinner: dominox.DominoTile): number {
@@ -153,15 +158,20 @@ module dominox {
             }     
             //and now start a new game 
             var bool: String = "false";
-            $('.backgroundImage').load("gamePage.html");
+            //$('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
             var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
             localStorage.setItem("score", score.toString().valueOf());
+
+            console.log("Calling onrequire callback " + this.onRequireReloadCallback);
+            this.onRequireReloadCallback();
         }
 
-        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {
+        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean
+        {
           
-            if (firstPlayer.getScore() >= 100) {
+            if (firstPlayer.getScore() >= 100)
+            {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
