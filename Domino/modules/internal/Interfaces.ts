@@ -46,7 +46,7 @@ module dominox {
             tile: dominox.DominoTile, board: TileBoard);
 
 
-        setOnGameRequireCallback(onRequireReloadCallbac: VoidCallback): void;
+        setOnGameRequireReloadCallback(onRequireReloadCallbac: VoidCallback): void;
 
         isGameOverWithPlayersAndBoard(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean;
 

@@ -26,7 +26,7 @@ var dominox;
         DivPlayerTileListView.prototype.setAndDisplayOverallTileList = function (tileList, callbackWhenDone) {
             //("Displaying tile list for player " + this.playerName);
             //console.log(stringifyTileList(tileList));
-            this.tileList = tileList;
+            this.tileList = tileList.slice(0);
             this.imgList = [];
             dominox.removeAllChildNodesOfElement(this.playerImagesContainer);
             var self = this;
@@ -94,7 +94,7 @@ var dominox;
         DivPlayerTileListView.prototype.findImgForTileFromContainer = function (tile, inList, imagesContainer) {
             var index = inList.indexOf(tile);
             if (index < 0)
-                return null;
+                throw "Tile is expected to be in list " + tile.toString();
             var image = this.imgList[index];
             if (image != undefined && image != null)
                 return image;

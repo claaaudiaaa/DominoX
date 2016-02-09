@@ -15,7 +15,7 @@ module dominox {
             player.setScore(player.getScore() + 1);
         }
 
-        setOnGameRequireCallback(onRequireReloadCallbac: VoidCallback): void {
+        setOnGameRequireReloadCallback(onRequireReloadCallbac: VoidCallback): void {
         }
         isGameOverWithPlayersAndBoard(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean
         {

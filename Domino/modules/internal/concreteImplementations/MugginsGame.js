@@ -11,7 +11,9 @@ var dominox;
         MugginsGame.prototype.getNeighbourListForTileFromBoard = function (tile, board) {
             return board.getExternalTilesListMatchingTile(tile);
         };
-        MugginsGame.prototype.setOnGameRequireCallback = function (onRequireReloadCallbac) {
+        MugginsGame.prototype.setOnGameRequireReloadCallback = function (onRequireReloadCallbac) {
+            console.log("Setting on reload callback " + onRequireReloadCallbac);
+            this.onRequireReloadCallback = onRequireReloadCallbac;
         };
         MugginsGame.prototype.countPoints = function (externalTiles, spinner) {
             var points = 0;
@@ -133,10 +135,13 @@ var dominox;
             }
             //and now start a new game 
             var bool = "false";
-            $('.backgroundImage').load("gamePage.html");
+            //$('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
             var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
             localStorage.setItem("score", score.toString().valueOf());
+            console.log("Calling onrequire callback " + this.onRequireReloadCallback);
+            this.onRequireReloadCallback();
+            //callIfNotNull(this.onRequireReloadCallback);
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 100) {

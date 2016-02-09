@@ -15,6 +15,10 @@ module dominox {
            // this.score = 0;
         }
 
+        public setTileList(tileList: DominoTile[]) {
+            this.tileList = tileList;
+        }
+
         public clearAllTiles()
         {
             this.tileList = [];
