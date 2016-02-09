@@ -129,14 +129,22 @@ var dominox;
             else {
                 pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
                 secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
-                //   }     
-                //and now start a new game 
-                console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
-                $("#firstGame").text("0");
-                //$("#firstGame").contents(':contains("1")')[0].nodeValue = '"0"';
-                //var isFirstGame;
-                $('.backgroundImage').load("gamePage.html", { isFirstGame: 0 });
             }
+            //and now start a new game 
+            //console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
+            var bool = "false";
+            //document.getElementById("firstGame").innerHTML = bool.valueOf();
+            //document.getElementById("firstGame").innerText = bool.valueOf();
+            //document.getElementById("firstGame").textContent = bool.valueOf();
+            console.log(document.getElementById("firstGame"));
+            console.log($("#firstGame"));
+            $("#firstGame").text(bool.valueOf());
+            //$("#firstGame").append(bool.valueOf());
+            $('.backgroundImage').load("gamePage.html");
+            console.log(document.getElementById("firstGame"));
+            console.log($("#firstGame"));
+            localStorage.setItem("isFirstGame", "false");
+            //}
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 100) {
@@ -144,7 +152,9 @@ var dominox;
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
+                var bool = "false";
                 $("#msgFb").text(msgFB.valueOf());
+                $("#firstGame").text(bool.valueOf());
                 var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
                 var key = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
                 localStorage.setItem(key.valueOf(), score.toString().valueOf());

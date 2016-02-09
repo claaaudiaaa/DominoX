@@ -63,9 +63,13 @@
     gameEngineParameters.secondPlayerName = secondName;//getUrlParameter("secondPlayerName");
     gameEngineParameters.dominoGameName = "Muggins";//getUrlParameter("dominoGameName");
 
-    console.log("isfirstgame? " + document.getElementById("firstGame").innerHTML);
+    console.log("isfirstgame? " + document.getElementById("firstGame").textContent);
+    console.log(document.getElementById("firstGame").innerHTML);
+    console.log(document.getElementById("firstGame").innerText);
+    console.log($("#firstGame"));
+    console.log($("#msgFb"));
     console.log(isFirstGame);
-    if (document.getElementById("firstGame").innerHTML == "0")
+    if (document.getElementById("firstGame").innerHTML == "false")
         gameEngine.runWithParameters(gameEngineParameters, false);
     else
         gameEngine.runWithParameters(gameEngineParameters, true);

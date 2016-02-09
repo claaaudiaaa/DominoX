@@ -137,25 +137,33 @@ module dominox {
 
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
             console.log("END OF GAME");
-           // if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
-                var pointsSecondPlayer: number = this.calculateSumOfBones(secondPlayer);
-                var pointsFirstPlayer: number = this.calculateSumOfBones(firstPlayer);
-                if (pointsFirstPlayer < pointsSecondPlayer) {
+            // if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
+            var pointsSecondPlayer: number = this.calculateSumOfBones(secondPlayer);
+            var pointsFirstPlayer: number = this.calculateSumOfBones(firstPlayer);
+            if (pointsFirstPlayer < pointsSecondPlayer) {
 
-                    pointsSecondPlayer = Math.ceil(pointsSecondPlayer / 5) * 5;
-                    firstPlayer.setScore(firstPlayer.getScore() + pointsSecondPlayer);
-                }
-                else {
-                    pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
-                    secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
-             //   }     
-                //and now start a new game 
-                console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
-                $("#firstGame").text("0");
-                //$("#firstGame").contents(':contains("1")')[0].nodeValue = '"0"';
-               //var isFirstGame;
-                $('.backgroundImage').load("gamePage.html", { isFirstGame: 0 });
+                pointsSecondPlayer = Math.ceil(pointsSecondPlayer / 5) * 5;
+                firstPlayer.setScore(firstPlayer.getScore() + pointsSecondPlayer);
             }
+            else {
+                pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
+                secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
+            }     
+            //and now start a new game 
+            //console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
+            var bool: String = "false";
+            //document.getElementById("firstGame").innerHTML = bool.valueOf();
+            //document.getElementById("firstGame").innerText = bool.valueOf();
+            //document.getElementById("firstGame").textContent = bool.valueOf();
+            console.log(document.getElementById("firstGame"));
+            console.log($("#firstGame"));
+            $("#firstGame").text(bool.valueOf());
+            //$("#firstGame").append(bool.valueOf());
+            $('.backgroundImage').load("gamePage.html");
+            console.log(document.getElementById("firstGame"));
+            console.log($("#firstGame"));
+            localStorage.setItem("isFirstGame", "false");
+        //}
         }
 
         final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {
@@ -165,7 +173,9 @@ module dominox {
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB: String = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
+                var bool: String = "false";
                 $("#msgFb").text(msgFB.valueOf());
+                $("#firstGame").text(bool.valueOf());
                 var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
                 var key: String = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
                 localStorage.setItem(key.valueOf(), score.toString().valueOf());
