@@ -7,6 +7,9 @@ var dominox;
             this.name = name;
             // this.score = 0;
         }
+        Player.prototype.clearAllTiles = function () {
+            this.tileList = [];
+        };
         Player.prototype.getName = function () {
             return this.name;
         };
