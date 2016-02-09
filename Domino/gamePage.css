@@ -1,4 +1,9 @@
-﻿#playArea {
+﻿html {
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+#playArea {
     background: url(../images/menuBox2.png) no-repeat center center fixed;
     background-size: cover;
     height: 100%;

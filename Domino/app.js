@@ -1,7 +1,4 @@
 (function () {
-    //document.getElementById('firstName').innerHTML = firstName;
-    //document.getElementById('secondName').innerHTML = secondName;
-    //endGame();
     window.fbAsyncInit = function () {
         FB.init({
             appId: '1515543595417415',
@@ -39,6 +36,7 @@
         }, { scope: 'publish_actions' });
         $('.backgroundImage').load('index.html');
     });
+
     var getUrlParameter = function getUrlParameter(sParam) {
         var sPageURL = decodeURIComponent(window.location.search.substring(1)),
             sURLVariables = sPageURL.split('&'),
@@ -61,21 +59,14 @@
 
     window.gameEngine = gameEngine;
     var gameEngineParameters = new dominox.GameEngineParameters();
-    gameEngineParameters.firstPlayerName = "Costin";//getUrlParameter("firstPlayerName");
-    gameEngineParameters.secondPlayerName = "Claudia";//getUrlParameter("secondPlayerName");
+    gameEngineParameters.firstPlayerName = firstName;//getUrlParameter("firstPlayerName");
+    gameEngineParameters.secondPlayerName = secondName;//getUrlParameter("secondPlayerName");
     gameEngineParameters.dominoGameName = "Muggins";//getUrlParameter("dominoGameName");
 
-    gameEngine.runWithParameters(gameEngineParameters);
-   
+    console.log("isfirstgame? " + document.getElementById("firstGame").innerHTML);
+    console.log(isFirstGame);
+    if (document.getElementById("firstGame").innerHTML == "0")
+        gameEngine.runWithParameters(gameEngineParameters, false);
+    else
+        gameEngine.runWithParameters(gameEngineParameters, true);
 })();
-
-
-function handleTextureLoaded(image, texture) {
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
-    gl.generateMipmap(gl.TEXTURE_2D);
-    gl.bindTexture(gl.TEXTURE_2D, null);
-
-}

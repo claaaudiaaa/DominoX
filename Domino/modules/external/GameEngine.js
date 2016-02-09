@@ -45,8 +45,9 @@ var dominox;
             this.playerTurnHelper = this.createPlayerTurnHelper();
             this.playTileUseCase = this.createPlayTileUseCase();
         };
-        GameEngine.prototype.runWithParameters = function (params) {
+        GameEngine.prototype.runWithParameters = function (params, isFirstGame) {
             //console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
+            this.dominoTilesProvider = new dominox.DummyTileProvider();
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
             this.dominoTilesProvider = this.createDominoTileProvider();
             //1. set up the domino tiles for each player 
@@ -59,14 +60,17 @@ var dominox;
             this.secondPlayerTurnData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
             //4. Start the game
             //console.log("BEGINNING THE GAME");
-            this.beginGame();
+            this.beginGame(isFirstGame);
         };
         GameEngine.prototype.stopGame = function () {
+            this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
         };
-        GameEngine.prototype.beginGame = function () {
-            this.firstPlayer.setScore(0);
-            this.secondPlayer.setScore(0);
-            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
+        GameEngine.prototype.beginGame = function (isFirstGame) {
+            if (isFirstGame) {
+                this.firstPlayer.setScore(0);
+                this.secondPlayer.setScore(0);
+            }
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //console.log("Playing the game");
             //2. prepare their views
@@ -76,6 +80,10 @@ var dominox;
         };
         GameEngine.prototype.playGame = function (currentPlayerTurnData, otherPlayerTurnData) {
             var gameEngineSelf = this;
+            if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
+                return;
+            if (this.dominoTilesProvider.getTilesLeft().length == 0)
+                this.stopGame();
             //console.log("In playGame");
             this.startNewTurn(currentPlayerTurnData, otherPlayerTurnData, function () {
                 // now we must swap them and begin a new round
@@ -86,9 +94,11 @@ var dominox;
             });
         };
         GameEngine.prototype.startNewTurn = function (currentPlayerTurnData, otherPlayerTurnData, callbackWhenDone) {
-            this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
+            //this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
             if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
                 return;
+            if (this.dominoTilesProvider.getTilesLeft().length == 0)
+                this.stopGame();
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
             var message = "It is " + currentPlayerTurnData.player.getName()
@@ -132,7 +142,7 @@ var dominox;
             });
         };
         GameEngine.prototype.createPlayerWithNameAndProvider = function (name, tileProvider) {
-            var randomTiles = tileProvider.getListOfRandomTilesOfCount(5);
+            var randomTiles = tileProvider.getListOfRandomTilesOfCount(7);
             return new dominox.Player(name, randomTiles);
         };
         GameEngine.prototype.createTileView = function () {

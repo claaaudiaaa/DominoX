@@ -23,13 +23,21 @@ module dominox {
             for (var i = 0; i < externalTiles.length; i++) {
                 var tile: dominox.DominoTile = externalTiles[i];
                 var orientation: dominox.DominoTileOrientation = tile.getOrientation();
-                if (tile == spinner) {
-                    if (tile.getLeftNeighbour() == null && tile.getUpNeighbour() == null) {
-                        points += (tile.getBone().getSecond().valueOf() + tile.getBone().getFirst().valueOf());
-                    }
-                    else {
-                        points += tile.getBone().getFirst().valueOf();
-                    }
+                if (tile == spinner) {                 
+                        if (tile.getLeftNeighbour() != null && tile.getRightNeighbour() != null) {
+                            if (tile.getUpNeighbour() != null && tile.getDownNeighbour() != null) {
+                                continue;
+                            }
+                            else if ((tile.getUpNeighbour() == null && tile.getDownNeighbour() != null) || (tile.getUpNeighbour() != null && tile.getDownNeighbour() == null)) {
+                                points += tile.getBone().getSecond().valueOf();
+                                continue;
+                            }
+                            else if (tile.getDownNeighbour() == null && tile.getUpNeighbour() == null) {
+                                points += (tile.getBone().getSecond().valueOf() * 2);
+                                continue;
+                            }
+                        }
+                        points += (tile.getBone().getSecond().valueOf()*2);                   
                 }
                 else {
                     if (orientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight) {
@@ -86,7 +94,8 @@ module dominox {
             var externalTiles: dominox.DominoTile[] = board.getExternalTiles();
             var points: number = this.countPoints(externalTiles, board.getSpinner());
             if (points % 5 == 0 && points != 0) {
-                player.setScore(player.getScore() + points);
+                points += player.getScore();
+                player.setScore(points);
                 console.log(player.getName() + " has " + player.getScore());
             }
         }
@@ -127,7 +136,8 @@ module dominox {
         }
 
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
-            if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
+            console.log("END OF GAME");
+           // if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
                 var pointsSecondPlayer: number = this.calculateSumOfBones(secondPlayer);
                 var pointsFirstPlayer: number = this.calculateSumOfBones(firstPlayer);
                 if (pointsFirstPlayer < pointsSecondPlayer) {
@@ -138,31 +148,38 @@ module dominox {
                 else {
                     pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
                     secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
-                }     
+             //   }     
                 //and now start a new game 
+                console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
+                $("#firstGame").text("0");
+                //$("#firstGame").contents(':contains("1")')[0].nodeValue = '"0"';
+               //var isFirstGame;
+                $('.backgroundImage').load("gamePage.html", { isFirstGame: 0 });
             }
         }
 
         final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {
           
-            if (firstPlayer.getScore() >= 50) {
+            if (firstPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB: String = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
                 $("#msgFb").text(msgFB.valueOf());
                 var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+                var key: String = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
+                localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
-            else if (secondPlayer.getScore() >= 50) {
+            if (secondPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB: String = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";  
                 $("#msgFb").append(msgFB.valueOf());         
                 var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+                var key: String = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
+                localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
             return false;   

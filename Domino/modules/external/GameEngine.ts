@@ -66,11 +66,16 @@ module dominox
         matrixPresenter: dominox.SimpleTileMatrixPresenter;
 
         constructor() {
+            
             //console.log("GAME ENGINE CREATED SUCCESFULLY");
         }
 
         createItemsWithPlayers(firstPlayer: Player, secondPlayer: Player)
         {
+            //console.log("Creating matrix presenter");
+            //this.matrixPresenter = new SimpleTileMatrixPresenter();
+            //console.log("Done creating matrix presenter" + this.matrixPresenter);
+
             
             this.tileBoard = this.createTileBoard();
 
@@ -89,10 +94,10 @@ module dominox
             this.playTileUseCase = this.createPlayTileUseCase();
         }
 
-        public runWithParameters(params: GameEngineParameters): void
+        public runWithParameters(params: GameEngineParameters, isFirstGame: boolean): void
         {
             //console.log("Running with params: " + params.firstPlayerName + ", " + params.secondPlayerName);
-
+            this.dominoTilesProvider = new DummyTileProvider();
             this.dominoGame = this.createDominoGameBasedOnName(params.dominoGameName);
             this.dominoTilesProvider = this.createDominoTileProvider();
 
@@ -109,23 +114,26 @@ module dominox
 
             //4. Start the game
             //console.log("BEGINNING THE GAME");
-            this.beginGame();
+            this.beginGame(isFirstGame);
         }
 
         public stopGame(): void
         {
-
+            this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
         }
 
 
-        beginGame()
+        beginGame(isFirstGame: boolean)
         {
-            this.firstPlayer.setScore(0);
-            this.secondPlayer.setScore(0);
-
-            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
+            if (isFirstGame) {
+                this.firstPlayer.setScore(0);
+                this.secondPlayer.setScore(0);
+            }
+            
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
 
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
+            
 
             //console.log("Playing the game");
 
@@ -139,6 +147,10 @@ module dominox
         playGame(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData): void {
 
             var gameEngineSelf: GameEngine = this;
+            if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
+                return;
+            if (this.dominoTilesProvider.getTilesLeft().length == 0)
+                this.stopGame();
             //console.log("In playGame");
             this.startNewTurn(currentPlayerTurnData, otherPlayerTurnData, function ()
             {
@@ -154,9 +166,11 @@ module dominox
         startNewTurn(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData,
             callbackWhenDone: dominox.VoidCallback)
         {
-            this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
+            //this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
             if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
                 return;
+            if (this.dominoTilesProvider.getTilesLeft().length == 0)
+                this.stopGame();
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
 
@@ -226,7 +240,7 @@ module dominox
         createPlayerWithNameAndProvider(name: string, tileProvider: dominox.DominoTileProvider):
             dominox.Player
         {
-            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(5);
+            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(7);
             return new dominox.Player(name, randomTiles);
         }
 

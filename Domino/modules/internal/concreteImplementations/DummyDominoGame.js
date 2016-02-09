@@ -29,6 +29,7 @@ var dominox;
         DummyDominoGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
         };
         DummyDominoGame.prototype.final = function (firstPlayer, secondPlayer, board) {
+            return false;
         };
         return DummyDominoGame;
     })();

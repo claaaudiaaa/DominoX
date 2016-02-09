@@ -17,12 +17,20 @@ var dominox;
                 var tile = externalTiles[i];
                 var orientation = tile.getOrientation();
                 if (tile == spinner) {
-                    if (tile.getLeftNeighbour() == null && tile.getUpNeighbour() == null) {
-                        points += (tile.getBone().getSecond().valueOf() + tile.getBone().getFirst().valueOf());
+                    if (tile.getLeftNeighbour() != null && tile.getRightNeighbour() != null) {
+                        if (tile.getUpNeighbour() != null && tile.getDownNeighbour() != null) {
+                            continue;
+                        }
+                        else if ((tile.getUpNeighbour() == null && tile.getDownNeighbour() != null) || (tile.getUpNeighbour() != null && tile.getDownNeighbour() == null)) {
+                            points += tile.getBone().getSecond().valueOf();
+                            continue;
+                        }
+                        else if (tile.getDownNeighbour() == null && tile.getUpNeighbour() == null) {
+                            points += (tile.getBone().getSecond().valueOf() * 2);
+                            continue;
+                        }
                     }
-                    else {
-                        points += tile.getBone().getFirst().valueOf();
-                    }
+                    points += (tile.getBone().getSecond().valueOf() * 2);
                 }
                 else {
                     if (orientation == dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight) {
@@ -76,7 +84,8 @@ var dominox;
             var externalTiles = board.getExternalTiles();
             var points = this.countPoints(externalTiles, board.getSpinner());
             if (points % 5 == 0 && points != 0) {
-                player.setScore(player.getScore() + points);
+                points += player.getScore();
+                player.setScore(points);
                 console.log(player.getName() + " has " + player.getScore());
             }
         };
@@ -109,38 +118,47 @@ var dominox;
             return points;
         };
         MugginsGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
-            if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
-                var pointsSecondPlayer = this.calculateSumOfBones(secondPlayer);
-                var pointsFirstPlayer = this.calculateSumOfBones(firstPlayer);
-                if (pointsFirstPlayer < pointsSecondPlayer) {
-                    pointsSecondPlayer = Math.ceil(pointsSecondPlayer / 5) * 5;
-                    firstPlayer.setScore(firstPlayer.getScore() + pointsSecondPlayer);
-                }
-                else {
-                    pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
-                    secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
-                }
+            console.log("END OF GAME");
+            // if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
+            var pointsSecondPlayer = this.calculateSumOfBones(secondPlayer);
+            var pointsFirstPlayer = this.calculateSumOfBones(firstPlayer);
+            if (pointsFirstPlayer < pointsSecondPlayer) {
+                pointsSecondPlayer = Math.ceil(pointsSecondPlayer / 5) * 5;
+                firstPlayer.setScore(firstPlayer.getScore() + pointsSecondPlayer);
+            }
+            else {
+                pointsFirstPlayer = Math.ceil(pointsFirstPlayer / 5) * 5;
+                secondPlayer.setScore(secondPlayer.getScore() + pointsFirstPlayer);
+                //   }     
+                //and now start a new game 
+                console.log("fiiiirst gaaaaaaaaaaaaaaaaaaaaaaaaaaaame" + $("#firstGame"));
+                $("#firstGame").text("0");
+                //$("#firstGame").contents(':contains("1")')[0].nodeValue = '"0"';
+                //var isFirstGame;
+                $('.backgroundImage').load("gamePage.html", { isFirstGame: 0 });
             }
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
-            if (firstPlayer.getScore() >= 50) {
+            if (firstPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
                 $("#msgFb").text(msgFB.valueOf());
                 var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+                var key = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
+                localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
-            else if (secondPlayer.getScore() >= 50) {
+            if (secondPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";
                 $("#msgFb").append(msgFB.valueOf());
                 var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                localStorage.setItem(Math.random().toString(), score.toString().valueOf());
+                var key = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
+                localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
             return false;

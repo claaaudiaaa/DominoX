@@ -13,6 +13,8 @@ var dominox;
             console.log("Player " + player.getName() + " does not have enough tiles.");
             var helperSelf = this;
             var newTile = tileProvider.getRandomTile();
+            if (typeof newTile === "undefined")
+                return;
             player.addTile(newTile);
             playerTileListView.addTile(newTile, function () {
                 dominox.callPseudoAsync(function () {

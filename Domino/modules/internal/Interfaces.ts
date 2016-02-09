@@ -51,7 +51,7 @@ module dominox {
 
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void;
 
-        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): any;
+        final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean;
     }
 
     export interface VoidCallback {
@@ -71,6 +71,9 @@ module dominox {
     export interface DominoTileProvider {
         getListOfRandomTilesOfCount(count: Number): dominox.DominoTile[];
         getRandomTile(): dominox.DominoTile;
+        getFirstTile(): dominox.DominoTile;
+        createAllDominoTiles();
+        getTilesLeft(): dominox.DominoTile[];
     }
 
     export interface AlertHelper {
@@ -84,7 +87,7 @@ module dominox {
             dominoGame: DominoGame,
             tileBoard: TileBoard,
             tileProvider: DominoTileProvider,
-            callbackWhenDone: VoidCallback): void;
+            callbackWhenDone: VoidCallback): any;
 
     }
 

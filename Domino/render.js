@@ -14,9 +14,9 @@ function restore() {
 function viewScores() {
     var scoresBtn = document.getElementById('viewScores');
     document.getElementById('scoresList').innerHTML = '';
-
+ 
     for (var i = 0; i < localStorage.length; i++) {
-        
+        console.log("key = " + localStorage.key(i));
         var li = document.createElement('li');
         li.innerHTML = localStorage.getItem(localStorage.key(i));
         document.getElementById('scoresList').appendChild(li);
