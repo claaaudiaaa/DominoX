@@ -134,6 +134,8 @@ var dominox;
             var bool = "false";
             $('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
+            var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
+            localStorage.setItem("score", score.toString().valueOf());
             //}
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {

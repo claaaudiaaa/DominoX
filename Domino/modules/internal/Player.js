@@ -5,7 +5,7 @@ var dominox;
         function Player(name, tileList) {
             this.tileList = tileList;
             this.name = name;
-            this.score = 0;
+            // this.score = 0;
         }
         Player.prototype.getName = function () {
             return this.name;
