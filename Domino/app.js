@@ -68,7 +68,7 @@
     console.log(document.getElementById("firstGame").innerText);
     console.log($("#firstGame"));
     console.log($("#msgFb"));
-    console.log(isFirstGame);
+    //console.log(isFirstGame);
     if (document.getElementById("firstGame").innerHTML == "false")
         gameEngine.runWithParameters(gameEngineParameters, false);
     else
