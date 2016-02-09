@@ -75,9 +75,12 @@ var dominox;
                 var parts = score.split("<br>");
                 var scores = parts[1].split("/");
                 this.firstPlayer.setScore(Number(scores[0]));
-                console.log("first player score = " + this.firstPlayer.getScore() + (scores[0]));
-                console.log("sec player score = " + this.secondPlayer.getScore() + (scores[1].split("<")));
-                this.firstPlayer.setScore(Number(scores[1].split("<")));
+                console.log("first player score = " + this.firstPlayer.getScore() + Number(scores[0]));
+                var secondPlayerScore;
+                var partsScore = scores[1].split("<");
+                secondPlayerScore = Number(partsScore[0]);
+                this.secondPlayer.setScore(secondPlayerScore);
+                console.log("sec player score = " + this.secondPlayer.getScore());
                 localStorage.removeItem("score");
                 localStorage.removeItem("isFirstGame");
             }
@@ -128,6 +131,28 @@ var dominox;
                 currentPlayerTurnData.playerTileListView.setVisible(null);
                 gameEngineSelf.playerTurnHelper.replenishTilesSoPlayerCanMakeMove(currentPlayerTurnData.player, currentPlayerTurnData.playerTileListView, gameEngineSelf.dominoGame, gameEngineSelf.tileBoard, gameEngineSelf.dominoTilesProvider, function () {
                     gameEngineSelf.playUseCaseTillCompleted(currentPlayerTurnData, callbackWhenDone);
+                }, function () {
+                    var message = "" + currentPlayerTurnData.player.getName() + ", there \
+                        are no more tiles available, so ";
+                    if (currentPlayerTurnData.player.getTileList().length == 0) {
+                        message = message + " the round has ended :D";
+                        gameEngineSelf.alertHelper.displayOkAlertWithMessage(message, null);
+                        gameEngineSelf.stopGame();
+                        return;
+                    }
+                    if (gameEngineSelf.dominoGame.canPlayerMakeMoveWithTileListOnBoard(otherPlayerTurnData.player.getTileList(), gameEngineSelf.tileBoard) == false) {
+                        //both player cannot make a move anymore
+                        gameEngineSelf.stopGame();
+                        return;
+                    }
+                    else {
+                        message = message + " we will let " + otherPlayerTurnData.player.getName() + " play one \
+                            more round and then finish the game :D ";
+                        gameEngineSelf.alertHelper.displayOkAlertWithMessage(message, null);
+                        gameEngineSelf.playUseCaseTillCompleted(otherPlayerTurnData, function () {
+                            gameEngineSelf.stopGame();
+                        });
+                    }
                 });
             });
         };

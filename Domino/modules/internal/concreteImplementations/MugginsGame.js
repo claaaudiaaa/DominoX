@@ -11,6 +11,8 @@ var dominox;
         MugginsGame.prototype.getNeighbourListForTileFromBoard = function (tile, board) {
             return board.getExternalTilesListMatchingTile(tile);
         };
+        MugginsGame.prototype.setOnGameRequireCallback = function (onRequireReloadCallbac) {
+        };
         MugginsGame.prototype.countPoints = function (externalTiles, spinner) {
             var points = 0;
             for (var i = 0; i < externalTiles.length; i++) {

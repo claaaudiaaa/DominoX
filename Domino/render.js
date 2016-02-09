@@ -72,3 +72,8 @@ function startGame() {
     document.getElementById('insertPlayers').style.visibility = "hidden";
     $('.backgroundImage').load("gamePage.html?firstPlayerName=Costin&secondPlayerName=Claudia&dominoGameName=Muggins");
 }
+
+function showAbout() {
+    document.getElementById('mainMenu').style.visibility = "hidden";
+    document.getElementById('about').style.visibility = "visible";
+}

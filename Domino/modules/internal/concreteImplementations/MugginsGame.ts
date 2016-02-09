@@ -18,6 +18,9 @@ module dominox {
             return board.getExternalTilesListMatchingTile(tile);
         }
 
+        setOnGameRequireCallback(onRequireReloadCallbac: VoidCallback): void {
+        }
+
         countPoints(externalTiles: dominox.DominoTile[], spinner: dominox.DominoTile): number {
             var points: number = 0;
             for (var i = 0; i < externalTiles.length; i++) {
