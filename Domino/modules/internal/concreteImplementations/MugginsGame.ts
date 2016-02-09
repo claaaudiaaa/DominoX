@@ -10,17 +10,10 @@ module dominox {
         static winnerName: String;
         static loserName: String;
 
-        onGameRequireReload: VoidCallback;
-
         constructor() {
             console.log("MugginsGame CREATED SUCCESFULLY");
         }
 
-        setOnGameRequireCallback(onRequireReloadCallbac: VoidCallback): void
-        {
-            this.onGameRequireReload = onRequireReloadCallbac;
-        }
-        
         getNeighbourListForTileFromBoard(tile: dominox.DominoTile, board: TileBoard): dominox.DominoTile[] {
             return board.getExternalTilesListMatchingTile(tile);
         }
@@ -144,7 +137,6 @@ module dominox {
 
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
             console.log("END OF GAME");
-            // if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
             var pointsSecondPlayer: number = this.calculateSumOfBones(secondPlayer);
             var pointsFirstPlayer: number = this.calculateSumOfBones(firstPlayer);
             if (pointsFirstPlayer < pointsSecondPlayer) {
@@ -158,15 +150,10 @@ module dominox {
             }     
             //and now start a new game 
             var bool: String = "false";
-           // $('.backgroundImage').load("gamePage.html");
-
+            $('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
             var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
             localStorage.setItem("score", score.toString().valueOf());
-
-            callIfNotNull(this.onGameRequireReload);
-
-        //}
         }
 
         final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {

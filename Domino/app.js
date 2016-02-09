@@ -59,9 +59,8 @@
 
     window.gameEngine = gameEngine;
     var gameEngineParameters = new dominox.GameEngineParameters();
-    gameEngineParameters.firstPlayerName = firstName;//getUrlParameter("firstPlayerName");
-    gameEngineParameters.secondPlayerName = secondName;//getUrlParameter("secondPlayerName");
-    gameEngineParameters.dominoGameName = "Muggins";//getUrlParameter("dominoGameName");
-    //localStorage.removeItem("isFirstGame");
+    gameEngineParameters.firstPlayerName = firstName;
+    gameEngineParameters.secondPlayerName = secondName;
+    gameEngineParameters.dominoGameName = "Muggins";
     gameEngine.runWithParameters(gameEngineParameters);
 })();

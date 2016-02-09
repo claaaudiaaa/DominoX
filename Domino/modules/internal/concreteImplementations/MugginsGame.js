@@ -8,9 +8,6 @@ var dominox;
         function MugginsGame() {
             console.log("MugginsGame CREATED SUCCESFULLY");
         }
-        MugginsGame.prototype.setOnGameRequireCallback = function (onRequireReloadCallbac) {
-            this.onGameRequireReload = onRequireReloadCallbac;
-        };
         MugginsGame.prototype.getNeighbourListForTileFromBoard = function (tile, board) {
             return board.getExternalTilesListMatchingTile(tile);
         };
@@ -122,7 +119,6 @@ var dominox;
         };
         MugginsGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
             console.log("END OF GAME");
-            // if (this.isGameOverWithPlayersAndBoard(firstPlayer, secondPlayer, board)) {
             var pointsSecondPlayer = this.calculateSumOfBones(secondPlayer);
             var pointsFirstPlayer = this.calculateSumOfBones(firstPlayer);
             if (pointsFirstPlayer < pointsSecondPlayer) {
@@ -135,12 +131,10 @@ var dominox;
             }
             //and now start a new game 
             var bool = "false";
-            // $('.backgroundImage').load("gamePage.html");
+            $('.backgroundImage').load("gamePage.html");
             localStorage.setItem("isFirstGame", "false");
             var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
             localStorage.setItem("score", score.toString().valueOf());
-            dominox.callIfNotNull(this.onGameRequireReload);
-            //}
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 100) {

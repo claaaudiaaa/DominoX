@@ -223,6 +223,7 @@ module dominox
         }
 
 
+
         playUseCaseTillCompleted(currentPlayerTurnData: PlayerTurnData, callbackWhenDone: dominox.VoidCallback): void
         {
             var gameEngineSelf: GameEngine = this;
@@ -267,7 +268,7 @@ module dominox
         createPlayerWithNameAndProvider(name: string, tileProvider: dominox.DominoTileProvider):
             dominox.Player
         {
-            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(7);
+            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(3);
             return new dominox.Player(name, randomTiles);
         }
 

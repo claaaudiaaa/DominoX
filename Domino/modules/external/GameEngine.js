@@ -161,7 +161,7 @@ var dominox;
             });
         };
         GameEngine.prototype.createPlayerWithNameAndProvider = function (name, tileProvider) {
-            var randomTiles = tileProvider.getListOfRandomTilesOfCount(7);
+            var randomTiles = tileProvider.getListOfRandomTilesOfCount(3);
             return new dominox.Player(name, randomTiles);
         };
         GameEngine.prototype.createTileView = function () {

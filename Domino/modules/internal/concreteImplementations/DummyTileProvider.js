@@ -49,8 +49,8 @@ var dominox;
         };
         DummyTileProvider.prototype.createAllDominoTiles = function () {
             this.allDominoTiles = [];
-            for (var i = 0; i < 7; i++) {
-                for (var j = i; j < 7; j++) {
+            for (var i = 0; i < 4; i++) {
+                for (var j = i; j < 4; j++) {
                     var bone = new dominox.DominoBone(i, j);
                     var tile = new dominox.DominoTile(bone, dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
                     this.allDominoTiles.push(tile);

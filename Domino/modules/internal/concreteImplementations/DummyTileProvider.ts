@@ -63,8 +63,8 @@ module dominox {
         }
         createAllDominoTiles() {
             this.allDominoTiles = [];
-            for (var i = 0; i < 7; i++) {
-                for (var j = i; j < 7; j++) {
+            for (var i = 0; i < 4; i++) {
+                for (var j = i; j < 4; j++) {
                     var bone: dominox.DominoBone = new dominox.DominoBone(i, j);
                     var tile: dominox.DominoTile = new dominox.DominoTile(bone,
                         dominox.DominoTileOrientation.HorizontalFirstLeftSecondRight);
