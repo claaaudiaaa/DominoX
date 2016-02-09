@@ -240,7 +240,7 @@ module dominox
         createPlayerWithNameAndProvider(name: string, tileProvider: dominox.DominoTileProvider):
             dominox.Player
         {
-            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(7);
+            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(2);
             return new dominox.Player(name, randomTiles);
         }
 

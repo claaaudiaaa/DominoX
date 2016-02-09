@@ -68,9 +68,10 @@
     console.log(document.getElementById("firstGame").innerText);
     console.log($("#firstGame"));
     console.log($("#msgFb"));
-    //console.log(isFirstGame);
-    if (document.getElementById("firstGame").innerHTML == "false")
+    console.log(localStorage.getItem("isFirstGame"));
+    if (localStorage.getItem("isFirstGame") == "false")
         gameEngine.runWithParameters(gameEngineParameters, false);
     else
         gameEngine.runWithParameters(gameEngineParameters, true);
+    localStorage.removeItem("isFirstGame");
 })();
