@@ -103,6 +103,10 @@ var dominox;
             this.currentPlayerTurnData.playerTileListView = this.firstPlayerTileListView;
             this.otherPlayerTurnData.player = this.secondPlayer;
             this.otherPlayerTurnData.playerTileListView = this.secondPlayerTileListView;
+            var self = this;
+            this.alertHelper.displayOkAlertWithMessage("Beginning a new round :D", function () {
+                self.playGame(self.currentPlayerTurnData, self.otherPlayerTurnData);
+            });
             this.playGame(this.currentPlayerTurnData, this.otherPlayerTurnData);
         };
         GameEngine.prototype.playGame = function (currentPlayerTurnData, otherPlayerTurnData) {
