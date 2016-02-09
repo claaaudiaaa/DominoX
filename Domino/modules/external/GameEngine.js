@@ -125,6 +125,7 @@ var dominox;
                 input.tileBoard = gameEngineSelf.tileBoard;
                 input.tile = selectedTile;
                 input.playerTileListView = currentPlayerTurnData.playerTileListView;
+                input.tileBoardView = gameEngineSelf.tileBoardView;
                 gameEngineSelf.playTileUseCase.beginWithInputAndCallback(input, function (output) {
                     if (output.resultOfUseCase ===
                         dominox.PlayTileUseCaseResult.Completed) {
