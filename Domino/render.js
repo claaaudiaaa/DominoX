@@ -2,12 +2,17 @@
     localStorage.removeItem("isFirstGame");
 })();
 
-function play() {
-    var playBtn = document.getElementById('play');
+function play() {   
     document.getElementById('mainMenu').style.visibility = "hidden";
     document.getElementById('newGame').style.visibility = "visible";
 };
 
+
+function showAbout() {
+    console.log("sunt in about");
+    document.getElementById('mainMenu').style.visibility = "hidden";
+    document.getElementById('about').style.visibility = "visible";
+}
 
 function restore() {
     var resumeBtn = document.getElementById('resume');
@@ -62,6 +67,7 @@ function goToMainMenu() {
     document.getElementById('newGame').style.visibility = "hidden";
     document.getElementById('resumeGame').style.visibility = "hidden";
     document.getElementById('insertPlayers').style.visibility = "hidden";
+    document.getElementById('about').style.visibility = "hidden";
 }
 
 function startGame() {
@@ -71,9 +77,4 @@ function startGame() {
     document.getElementById('resumeGame').style.visibility = "hidden";
     document.getElementById('insertPlayers').style.visibility = "hidden";
     $('.backgroundImage').load("gamePage.html?firstPlayerName=Costin&secondPlayerName=Claudia&dominoGameName=Muggins");
-}
-
-function showAbout() {
-    document.getElementById('mainMenu').style.visibility = "hidden";
-    document.getElementById('about').style.visibility = "visible";
 }

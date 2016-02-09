@@ -26,6 +26,27 @@ module dominox {
             console.log("The table is " + table);
         }
 
+        getWindowWidth(): number {
+            var mq = window.matchMedia("(min-width: 500px)");
+            var dimCell: number;
+            if (mq.matches)
+                dimCell = 40;
+            else
+                dimCell = 20;
+            return dimCell;
+        }
+
+        getWindowHeigth(): number {
+            var mq = window.matchMedia("(min-higth: 700px)");
+            var dimCell: number;
+            if (mq.matches)
+                dimCell = 40;
+            else
+                dimCell = 20;
+            return dimCell;
+        }
+
+
         drawTileAsNeighbourOfTileFromBoard(tile: dominox.DominoTile, neighbour: dominox.DominoTile,
             board: TileBoard, callbackWhenDone: VoidCallback)
         {
@@ -45,7 +66,7 @@ module dominox {
 
         highlightImage(img: HTMLImageElement)
         {
-            img.style.borderRadius = "50%";
+            img.style.borderRadius = "30%";
             img.style.borderColor = "blue";
         }
 
@@ -74,8 +95,8 @@ module dominox {
                 for (var j = 0; j < matrix[i].length; j++)
                 {
                     var cell = <HTMLTableCellElement>row.insertCell(-1);
-                    cell.width = "40";
-                    cell.height = "40";
+                    cell.width = this.getWindowWidth().toString();
+                    cell.height = this.getWindowHeigth().toString();
 
                     if (matrix[i][j] != null) {
                         var image = this.getImageForTile(matrix[i][j]);

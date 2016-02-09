@@ -11,6 +11,24 @@ var dominox;
             this.matrixPresenter = new dominox.SimpleTileMatrixPresenter();
             console.log("The table is " + table);
         }
+        TableTileBoardView.prototype.getWindowWidth = function () {
+            var mq = window.matchMedia("(min-width: 500px)");
+            var dimCell;
+            if (mq.matches)
+                dimCell = 40;
+            else
+                dimCell = 20;
+            return dimCell;
+        };
+        TableTileBoardView.prototype.getWindowHeigth = function () {
+            var mq = window.matchMedia("(min-higth: 700px)");
+            var dimCell;
+            if (mq.matches)
+                dimCell = 40;
+            else
+                dimCell = 20;
+            return dimCell;
+        };
         TableTileBoardView.prototype.drawTileAsNeighbourOfTileFromBoard = function (tile, neighbour, board, callbackWhenDone) {
         };
         TableTileBoardView.prototype.highlightListOfTilesFromBoard = function (tiles, board, callbackWhenDone) {
@@ -22,7 +40,7 @@ var dominox;
             }
         };
         TableTileBoardView.prototype.highlightImage = function (img) {
-            img.style.borderRadius = "50%";
+            img.style.borderRadius = "30%";
             img.style.borderColor = "blue";
         };
         TableTileBoardView.prototype.displayAsNormalTileBoard = function (tileBoard, callbackWhenDone) {
@@ -40,8 +58,8 @@ var dominox;
                 this.imagesMatrix.push(imagesRow);
                 for (var j = 0; j < matrix[i].length; j++) {
                     var cell = row.insertCell(-1);
-                    cell.width = "40";
-                    cell.height = "40";
+                    cell.width = this.getWindowWidth().toString();
+                    cell.height = this.getWindowHeigth().toString();
                     if (matrix[i][j] != null) {
                         var image = this.getImageForTile(matrix[i][j]);
                         this.rotateImageToDegrees(image, dominox.getRotationAngleInDegreesForTile(matrix[i][j]));

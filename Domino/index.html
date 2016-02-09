@@ -24,7 +24,7 @@
                     <br>
                     <button id="viewScores" type="button" onclick="viewScores()"><strong>View scores</strong></button>
                     <br>
-                    <button type="button" onlick()="showAbout()"><strong>About</strong></button>
+                    <button id ="aboutBtn" type="button" onclick="showAbout()"><strong>About</strong></button>
                 </div>
 
             </div>
@@ -66,11 +66,25 @@
                 </div>
             </div>
 
-            <div id="about" style="visibility: hidden">
-                <h2>Setup</h2>
-                <p>Each player receives 7 tiles that he is going to play. On the board is already place one double tile. This one is calles spinner. The spinner is open on all 4 margins, which means that tiles can be places not only in the right and left of it, but also on it and under.</p>
+            <div id="about">
+                <button class="back" type="button" onclick="goToMainMenu()"><strong><</strong></button>
+                <br>
 
-            </div>
+                <div class="menuBox">
+                    <div id="aboutText" class="options">
+                        <h2>Setup</h2>
+                        <p>Each player receives 7 tiles that he is going to play. On the board is already place one double tile. This one is calles spinner. The spinner is open on all 4 margins, which means that tiles can be places not only in the right and left of it, but also on it and under.</p>
+                        <h2>Gameplay</h2>
+                        <p>The first player whose name was inserted starts the game. Until a blocking situation appears, one player at a time will place a tile on the board.</p>
+                        <h2>Blocking situations</h2>
+                        <p>If a player finished all his tiles, then the current round is over and another one beggins. If a player does not have any tile that matches with the open ones from the board, then he will receive as many tiles necessary until he has one move available. If all the tiles have been used, then it will be the other user turn. When all the tiles have been used, the current turn is over.</p>
+                        <h2>Scoring</h2>
+                        <p>The object of the game is to sum up multiple of 5 white the points from the open tiles from the board. If you manage to do that, then you will receive those points. When some blocking situation occurs, the one with less points in his hand wins the other one points rounded to 5.</p>
+                        <h2>Winning</h2>
+                        <p>The game is played until someone won 150 points. That one is the winner and he can share his result on Facebook.</p>
+                     </div>
+                </div>
+                </div>
 
 
             <div id="resumeGame">

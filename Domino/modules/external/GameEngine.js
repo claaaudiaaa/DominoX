@@ -75,7 +75,7 @@ var dominox;
                 var parts = score.split("<br>");
                 var scores = parts[1].split("/");
                 this.firstPlayer.setScore(Number(scores[0]));
-                console.log("first player score = " + this.firstPlayer.getScore() + Number(scores[0]));
+                console.log("first player score = " + this.firstPlayer.getScore());
                 var secondPlayerScore;
                 var partsScore = scores[1].split("<");
                 secondPlayerScore = Number(partsScore[0]);
