@@ -26,6 +26,7 @@ module dominox {
             this.onRequireReloadCallback = onRequireReloadCallbac;
         }
 
+        //Counts all the points on the open tiles from the board after a player made a move.
         countPoints(externalTiles: dominox.DominoTile[], spinner: dominox.DominoTile): number {
             var points: number = 0;
             for (var i = 0; i < externalTiles.length; i++) {
@@ -92,7 +93,7 @@ module dominox {
                     }
                 }
             }
-            console.log("points = " + points);
+            console.log("User won " + points + " this round.");
             return points;
         }
 
@@ -101,10 +102,10 @@ module dominox {
             tile: dominox.DominoTile, board: TileBoard) {
             var externalTiles: dominox.DominoTile[] = board.getExternalTiles();
             var points: number = this.countPoints(externalTiles, board.getSpinner());
+            //If the points from the open tiles from the board is multiple of 5, then the score of the player it is increased with that value
             if (points % 5 == 0 && points != 0) {
                 points += player.getScore();
                 player.setScore(points);
-                console.log(player.getName() + " has " + player.getScore());
             }
         }
 
@@ -117,14 +118,11 @@ module dominox {
             return true;
         }
 
-        
-
         canPlayerMakeMoveWithTileListOnBoard(playerTileList: dominox.DominoTile[], board: TileBoard): boolean {
             var anyMatchFound: boolean = false;
             for (var i = 0; i < playerTileList.length; i++) {
                 var iTile = playerTileList[i];
                 var matchableTiles: dominox.DominoTile[] = board.getExternalTilesListMatchingTile(iTile);
-                //console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + stringifyTileList(matchableTiles));
                 if (matchableTiles.length > 0)
                     return true;
             }
@@ -132,6 +130,7 @@ module dominox {
             return anyMatchFound;
         }
 
+        //Calculates the sum of all tiles of a user.
         calculateSumOfBones(player: Player): number {
             var points: number = 0;
             var playerTiles: DominoTile[] = player.getTileList();
@@ -143,6 +142,7 @@ module dominox {
             return points;
         }
 
+        //This is called when a round is over
         endOfGame(firstPlayer: Player, secondPlayer: Player, board: TileBoard): void {
             console.log("END OF GAME");
             var pointsSecondPlayer: number = this.calculateSumOfBones(secondPlayer);
@@ -167,6 +167,7 @@ module dominox {
             this.onRequireReloadCallback();
         }
 
+        //Check if one of the players reached the maximum of points, in which case creates an informative message
         final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean
         {
           
@@ -184,7 +185,7 @@ module dominox {
                 localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
-            if (secondPlayer.getScore() >= 100) {
+            else if (secondPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
                 $('#myModal').modal();

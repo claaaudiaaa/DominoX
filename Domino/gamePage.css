@@ -1,5 +1,4 @@
 ﻿html {
-    overflow-x: scroll;
     overflow-y: scroll;
 }
 
@@ -12,23 +11,23 @@
 }
 
 #FirstPlayerContainer {
-   padding-left:5%;
-   padding-top: 3%;
+   padding-left:2%;
+   padding-top: 1%;
 }
 
 #SecondPlayerContainer {
-    padding-right: 15%;
+    padding-left: 80%;
+    padding-top:1%;
 }
 
+
 #TableContainer {
-    height:60%;
+    height:80%;
     position: fixed;
-    overflow-x: scroll;
-    overflow-y: scroll;
+    width: 95%;
 }
 
 .TilesTable{
-    position: fixed; 
-    top:30%; 
-    left:25%
+    position: relative; 
+    top:40%;   
 }

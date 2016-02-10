@@ -335,7 +335,7 @@ module dominox
         createPlayerWithNameAndProvider(name: string, tileProvider: dominox.DominoTileProvider):
             dominox.Player
         {
-            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(3);
+            var randomTiles: dominox.DominoTile[] = tileProvider.getListOfRandomTilesOfCount(7);
             return new dominox.Player(name, randomTiles);
         }
 
