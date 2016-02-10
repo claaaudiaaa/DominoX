@@ -141,7 +141,6 @@ var dominox;
             localStorage.setItem("score", score.toString().valueOf());
             console.log("Calling onrequire callback " + this.onRequireReloadCallback);
             this.onRequireReloadCallback();
-            //callIfNotNull(this.onRequireReloadCallback);
         };
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 100) {

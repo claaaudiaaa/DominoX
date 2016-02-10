@@ -11,12 +11,24 @@
     padding-left:3%;
 }
 
-.PlayerTiles {
-   padding-left:45%;
+#FirstPlayerContainer {
+   padding-left:5%;
    padding-top: 3%;
+}
+
+#SecondPlayerContainer {
+    padding-right: 15%;
 }
 
 #TableContainer {
     height:60%;
     position: fixed;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.TilesTable{
+    position: fixed; 
+    top:30%; 
+    left:25%
 }
