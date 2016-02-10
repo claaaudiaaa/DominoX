@@ -15,6 +15,7 @@ var dominox;
             console.log("Setting on reload callback " + onRequireReloadCallbac);
             this.onRequireReloadCallback = onRequireReloadCallbac;
         };
+        //Counts all the points on the open tiles from the board after a player made a move.
         MugginsGame.prototype.countPoints = function (externalTiles, spinner) {
             var points = 0;
             for (var i = 0; i < externalTiles.length; i++) {
@@ -81,16 +82,16 @@ var dominox;
                     }
                 }
             }
-            console.log("points = " + points);
+            console.log("User won " + points + " this round.");
             return points;
         };
         MugginsGame.prototype.playerDidAddTileAsNeighbourToTileInBoard = function (player, neighbour, tile, board) {
             var externalTiles = board.getExternalTiles();
             var points = this.countPoints(externalTiles, board.getSpinner());
+            //If the points from the open tiles from the board is multiple of 5, then the score of the player it is increased with that value
             if (points % 5 == 0 && points != 0) {
                 points += player.getScore();
                 player.setScore(points);
-                console.log(player.getName() + " has " + player.getScore());
             }
         };
         MugginsGame.prototype.isGameOverWithPlayersAndBoard = function (firstPlayer, secondPlayer, board) {
@@ -105,12 +106,12 @@ var dominox;
             for (var i = 0; i < playerTileList.length; i++) {
                 var iTile = playerTileList[i];
                 var matchableTiles = board.getExternalTilesListMatchingTile(iTile);
-                //console.log("canPlayerMakeMove, matchable tiles for tile " + iTile + " are " + stringifyTileList(matchableTiles));
                 if (matchableTiles.length > 0)
                     return true;
             }
             return anyMatchFound;
         };
+        //Calculates the sum of all tiles of a user.
         MugginsGame.prototype.calculateSumOfBones = function (player) {
             var points = 0;
             var playerTiles = player.getTileList();
@@ -121,6 +122,7 @@ var dominox;
             }
             return points;
         };
+        //This is called when a round is over
         MugginsGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
             console.log("END OF GAME");
             var pointsSecondPlayer = this.calculateSumOfBones(secondPlayer);
@@ -142,6 +144,7 @@ var dominox;
             console.log("Calling onrequire callback " + this.onRequireReloadCallback);
             this.onRequireReloadCallback();
         };
+        //Check if one of the players reached the maximum of points, in which case creates an informative message
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
@@ -156,7 +159,7 @@ var dominox;
                 localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
-            if (secondPlayer.getScore() >= 100) {
+            else if (secondPlayer.getScore() >= 100) {
                 $("#myModal").css("visibility", "visible");
                 $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
                 $('#myModal').modal();
