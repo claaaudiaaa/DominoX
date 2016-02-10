@@ -1,4 +1,5 @@
 ﻿/// <reference path= "../Interfaces.ts"/>
+/// <reference path="../../external/localstorageparametersrepository.ts" />
 
 module dominox {
 
@@ -43,6 +44,37 @@ module dominox {
         }
 
         final(firstPlayer: Player, secondPlayer: Player, board: TileBoard): boolean {
+
+            if (firstPlayer.getScore() >= 2) {
+
+                dominox.savePlayerScores(firstPlayer, secondPlayer);
+
+
+                $("#myModal").css("visibility", "visible");
+                $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
+                $('#myModal').modal();
+                var msgFB: String = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
+                var bool: String = "false";
+                $("#msgFb").text(msgFB.valueOf());
+                $("#firstGame").text(bool.valueOf());
+
+
+                return true;
+            }
+            else if (secondPlayer.getScore() >= 2) {
+
+                dominox.savePlayerScores(secondPlayer, firstPlayer);
+
+
+                $("#myModal").css("visibility", "visible");
+                $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
+                $('#myModal').modal();
+                var msgFB: String = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";
+                $("#msgFb").append(msgFB.valueOf());
+
+
+                return true;
+            }
             return false;
         }
 

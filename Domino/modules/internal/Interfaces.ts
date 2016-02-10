@@ -217,5 +217,50 @@ module dominox {
             elem.removeChild(elem.lastChild);
     }
 
+    export function getCurrentDateAsString(): string {
+
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getDate() + "/"
+            + (currentdate.getMonth() + 1) + "/"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds();
+
+        return datetime;
+    }
+
+
+    export function fadeOutWithCallback(element: HTMLElement, callback: VoidCallback)
+    {
+        var op = 1;  // initial opacity
+        var timer = setInterval(function () {
+            if (op <= 0.1)
+            {
+                clearInterval(timer);
+                //element.style.display = 'none';
+                callIfNotNull(callback);
+            }
+            element.style.opacity = op+"";
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+        }, 10);
+    }
+
+
+    export function unfadeWithCallback(element: HTMLElement, callback: VoidCallback) {
+        var op = 0.1;  // initial opacity
+        element.style.display = 'block';
+        var timer = setInterval(function () {
+            if (op >= 1) {
+                callIfNotNull(callback);
+                clearInterval(timer);
+            }
+            element.style.opacity = op + "";
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * 0.1;
+            //alert("here");
+        }, 10);
+    }
 
 }

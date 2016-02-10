@@ -84,11 +84,11 @@ var dominox;
             dominox.callIfNotNull(callbackWhenDone);
         };
         DivPlayerTileListView.prototype.setInvisible = function (callbackWhenDone) {
-            this.mainContainerForAll.hidden = true;
+            this.playerImagesContainer.hidden = true;
             dominox.callIfNotNull(callbackWhenDone);
         };
         DivPlayerTileListView.prototype.setVisible = function (callbackWhenDone) {
-            this.mainContainerForAll.hidden = false;
+            this.playerImagesContainer.hidden = false;
             dominox.callIfNotNull(callbackWhenDone);
         };
         DivPlayerTileListView.prototype.findImgForTileFromContainer = function (tile, inList, imagesContainer) {

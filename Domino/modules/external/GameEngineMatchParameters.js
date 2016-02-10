@@ -15,11 +15,23 @@ var dominox;
             ob.secondPlayerTiles = this.createSimpleTilesFrom(this.secondPlayerTileS);
             ob.boardTiles = this.createSimpleTilesFrom(this.boardTiles);
             ob.boardHasFirstTileSpinner = this.boardHasFirstTileSpinner;
+            ob.timeAndDate = this.timeAndDate;
+            ob.gameName = this.gameName;
             return JSON.stringify(ob);
         };
         GameEngineMatchDeserializedParams.prototype.initWithJSONString = function (jsonString) {
             var ob = JSON.parse(jsonString);
             console.log("inited with JSON object " + ob);
+            this.firstPlayerName = ob.firstPlayerName;
+            this.firstPlayerScore = ob.firstPlayerScore;
+            this.secondPlayerName = ob.secondPlayerName;
+            this.secondPlayerScore = ob.secondPlayerScore;
+            this.whichPlayer = ob.whichPlayer;
+            this.boardHasFirstTileSpinner = ob.boardHasFirstTileSpinner;
+            this.gameName = ob.gameName;
+            this.firstPlayerTiles = this.deserializeSimpleTilesIntoDominoTileArray(ob.firstPlayerTiles);
+            this.secondPlayerTileS = this.deserializeSimpleTilesIntoDominoTileArray(ob.secondPlayerTiles);
+            this.boardTiles = this.deserializeSimpleTilesIntoDominoTileArray(ob.boardTiles);
         };
         GameEngineMatchDeserializedParams.prototype.createSimpleTilesFrom = function (tileList) {
             var objectsArray = [];

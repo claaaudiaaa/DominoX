@@ -29,7 +29,7 @@
             return this.secondPlayerScore;
         }
 
-        public toString(): String {
+        public toString(): string {
             return "<strong>" + this.firstPlayerName + " vs " + this.secondPlayerName + "<br>" + this.firstPlayerScore + "/" + this.secondPlayerScore + "</strong>";
         }
     }

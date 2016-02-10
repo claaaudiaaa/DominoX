@@ -18,6 +18,9 @@ module dominox
 
         public whichPlayer: string; // "first" "second" 
 
+        public timeAndDate: string;
+        public gameName: string;
+
         public stringify(): string
         {
             var ob: any = {};
@@ -35,6 +38,9 @@ module dominox
             ob.boardTiles = this.createSimpleTilesFrom(this.boardTiles);
 
             ob.boardHasFirstTileSpinner = this.boardHasFirstTileSpinner;
+            ob.timeAndDate = this.timeAndDate;
+            ob.gameName = this.gameName;
+
 
             return JSON.stringify(ob);
         }
@@ -44,6 +50,18 @@ module dominox
 
             var ob: any = JSON.parse(jsonString);
             console.log("inited with JSON object " + ob);
+
+            this.firstPlayerName = ob.firstPlayerName;
+            this.firstPlayerScore = ob.firstPlayerScore;
+            this.secondPlayerName = ob.secondPlayerName;
+            this.secondPlayerScore = ob.secondPlayerScore;
+            this.whichPlayer = ob.whichPlayer;
+            this.boardHasFirstTileSpinner = ob.boardHasFirstTileSpinner;
+            this.gameName = ob.gameName;
+
+            this.firstPlayerTiles = this.deserializeSimpleTilesIntoDominoTileArray(ob.firstPlayerTiles);
+            this.secondPlayerTileS = this.deserializeSimpleTilesIntoDominoTileArray(ob.secondPlayerTiles);
+            this.boardTiles = this.deserializeSimpleTilesIntoDominoTileArray(ob.boardTiles);
         }
 
         createSimpleTilesFrom(tileList: DominoTile[]): any[]

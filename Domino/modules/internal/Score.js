@@ -26,4 +26,4 @@ var dominox;
     })();
     dominox.Score = Score;
 })(dominox || (dominox = {}));
-//# sourceMappingURL=Score.js.map
+//# sourceMappingURL=score.js.map

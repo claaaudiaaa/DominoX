@@ -21,6 +21,7 @@
 /// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
 /// <reference path = "../internal/concreteImplementations/GlobalUserInteractionsObserver.ts"/>
 /// <reference path = "GameEngineMatchParameters.ts"/>
+/// <reference path = "LocalStorageParametersRepository.ts"/>
 
 module dominox
 {
@@ -46,6 +47,7 @@ module dominox
         firstPlayerTurnData: PlayerTurnData;
         secondPlayerTurnData: PlayerTurnData;
 
+        shouldSaveGame: boolean = true;
 
         firstPlayerTileListView: dominox.PlayerTileListView;
         secondPlayerTileListView: dominox.PlayerTileListView;
@@ -69,6 +71,17 @@ module dominox
         constructor() {
             
             //console.log("GAME ENGINE CREATED SUCCESFULLY");
+
+            var self = this;
+
+            window.onbeforeunload = function ()
+            {
+                
+                    dominox.registerStateInLocalStorage(self.serializeCurrentStateIntoString());
+                
+            };
+
+
         }
 
 
@@ -128,7 +141,8 @@ module dominox
 
         beginGame()
         {
-            
+            this.shouldSaveGame = true;
+
             if (localStorage.getItem("isFirstGame") == null) {
                 this.firstPlayer.setScore(0);
                 this.secondPlayer.setScore(0);
@@ -228,9 +242,14 @@ module dominox
             console.log(this.serializeCurrentStateIntoString());
 
             if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
+            {
+                this.shouldSaveGame = false;
                 return;
+            }
             if (this.dominoTilesProvider.getTilesLeft().length == 0)
                 this.stopGame();
+
+
             this.tileBoardView.displayAsNormalTileBoard(this.tileBoard, null);
             //this.userIntentionsObserver.currentPlayer = currentPlayerTurnData.player;
 
@@ -369,7 +388,13 @@ module dominox
 
         createDominoGameBasedOnName(name: String): dominox.DominoGame
         {
-            var game = new dominox.MugginsGame();
+            var game: DominoGame = null;
+
+            if (name == "Muggins")
+                game = new MugginsGame();
+            else
+                game = new DummyDominoGame();
+
             var self = this;
 
             game.setOnGameRequireReloadCallback(function ()
@@ -432,6 +457,71 @@ module dominox
             return imagesContainer;
         }
 
+        public runWithSerializedState(state: string)
+        {
+            this.shouldSaveGame = true;
+
+            var gameParams = new GameEngineMatchDeserializedParams();
+            gameParams.initWithJSONString(state);
+
+            this.tileBoard = this.createTileBoard();
+            var spinner: DominoTile = null;
+            if (gameParams.boardHasFirstTileSpinner == "yes")
+                spinner = gameParams.boardTiles[0];
+
+            this.tileBoard.setTileListWithSpinner(gameParams.boardTiles, spinner);
+
+
+            this.firstPlayer = new Player(gameParams.firstPlayerName, gameParams.firstPlayerTiles);
+            this.secondPlayer = new Player(gameParams.secondPlayerName, gameParams.secondPlayerTileS);
+
+            this.firstPlayer.setScore(gameParams.firstPlayerScore);
+            this.secondPlayer.setScore(gameParams.secondPlayerScore);
+
+
+            this.firstPlayerTileListView = this.createPlayerTileViewWithPlayer(this.firstPlayer,
+                "FirstPlayerContainer");
+            this.secondPlayerTileListView = this.createPlayerTileViewWithPlayer(this.secondPlayer,
+                "SecondPlayerContainer");
+
+            this.firstPlayerTileListView.setPlayerScore(this.firstPlayer.getScore());
+            this.secondPlayerTileListView.setPlayerScore(this.secondPlayer.getScore());
+
+            this.tileBoardView = this.createTileView();
+
+            this.userIntentionsObserver = this.createUserIntentionsObserver();
+            this.alertHelper = this.createAlertHelper();
+
+            this.playerTurnHelper = this.createPlayerTurnHelper();
+            this.playTileUseCase = this.createPlayTileUseCase();
+
+
+            this.dominoGame = this.createDominoGameBasedOnName(gameParams.gameName);
+            this.dominoTilesProvider = this.createDominoTileProvider();
+
+           
+
+            //3. Create the turn datas
+            this.firstPlayerTurnData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
+            this.secondPlayerTurnData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
+
+
+            var currentPlayerData: PlayerTurnData;
+            var otherPlayerData: PlayerTurnData;
+
+            if (gameParams.whichPlayer == "first") {
+                currentPlayerData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
+                otherPlayerData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
+            } else
+            {
+                currentPlayerData = new PlayerTurnData(this.secondPlayer, this.secondPlayerTileListView);
+                otherPlayerData = new PlayerTurnData(this.firstPlayer, this.firstPlayerTileListView);
+            }
+
+            this.playGame(currentPlayerData, otherPlayerData);
+        }
+
+
         public serializeCurrentStateIntoString(): string
         {
             var obj = new GameEngineMatchDeserializedParams();
@@ -459,6 +549,7 @@ module dominox
             }
 
             obj.boardHasFirstTileSpinner = boardHasFirstTileSpinner;
+            obj.timeAndDate = dominox.getCurrentDateAsString();
 
             return obj.stringify();
         }

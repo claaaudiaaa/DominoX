@@ -1,4 +1,5 @@
 /// <reference path= "../Interfaces.ts"/>
+/// <reference path="../../external/localstorageparametersrepository.ts" />
 var dominox;
 (function (dominox) {
     var DummyDominoGame = (function () {
@@ -31,6 +32,26 @@ var dominox;
         DummyDominoGame.prototype.endOfGame = function (firstPlayer, secondPlayer, board) {
         };
         DummyDominoGame.prototype.final = function (firstPlayer, secondPlayer, board) {
+            if (firstPlayer.getScore() >= 5) {
+                dominox.savePlayerScores(firstPlayer, secondPlayer);
+                $("#myModal").css("visibility", "visible");
+                $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
+                $('#myModal').modal();
+                var msgFB = " " + firstPlayer.getName() + " and " + secondPlayer.getName() + " played DominoX and " + firstPlayer.getName() + " won!";
+                var bool = "false";
+                $("#msgFb").text(msgFB.valueOf());
+                $("#firstGame").text(bool.valueOf());
+                return true;
+            }
+            else if (secondPlayer.getScore() >= 5) {
+                dominox.savePlayerScores(secondPlayer, firstPlayer);
+                $("#myModal").css("visibility", "visible");
+                $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
+                $('#myModal').modal();
+                var msgFB = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";
+                $("#msgFb").append(msgFB.valueOf());
+                return true;
+            }
             return false;
         };
         return DummyDominoGame;

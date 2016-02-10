@@ -105,5 +105,45 @@ var dominox;
             elem.removeChild(elem.lastChild);
     }
     dominox.removeAllChildNodesOfElement = removeAllChildNodesOfElement;
+    function getCurrentDateAsString() {
+        var currentdate = new Date();
+        var datetime = "" + currentdate.getDate() + "/"
+            + (currentdate.getMonth() + 1) + "/"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds();
+        return datetime;
+    }
+    dominox.getCurrentDateAsString = getCurrentDateAsString;
+    function fadeOutWithCallback(element, callback) {
+        var op = 1; // initial opacity
+        var timer = setInterval(function () {
+            if (op <= 0.1) {
+                clearInterval(timer);
+                //element.style.display = 'none';
+                callIfNotNull(callback);
+            }
+            element.style.opacity = op + "";
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op -= op * 0.1;
+        }, 10);
+    }
+    dominox.fadeOutWithCallback = fadeOutWithCallback;
+    function unfadeWithCallback(element, callback) {
+        var op = 0.1; // initial opacity
+        element.style.display = 'block';
+        var timer = setInterval(function () {
+            if (op >= 1) {
+                callIfNotNull(callback);
+                clearInterval(timer);
+            }
+            element.style.opacity = op + "";
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * 0.1;
+            //alert("here");
+        }, 10);
+    }
+    dominox.unfadeWithCallback = unfadeWithCallback;
 })(dominox || (dominox = {}));
 //# sourceMappingURL=Interfaces.js.map

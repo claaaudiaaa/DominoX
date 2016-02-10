@@ -173,6 +173,8 @@ module dominox {
           
             if (firstPlayer.getScore() >= 100)
             {
+                dominox.savePlayerScores(firstPlayer, secondPlayer);
+
                 $("#myModal").css("visibility", "visible");
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
@@ -180,20 +182,23 @@ module dominox {
                 var bool: String = "false";
                 $("#msgFb").text(msgFB.valueOf());
                 $("#firstGame").text(bool.valueOf());
-                var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                var key: String = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
-                localStorage.setItem(key.valueOf(), score.toString().valueOf());
+
+                
+
                 return true;
             }
             else if (secondPlayer.getScore() >= 100) {
+
+                dominox.savePlayerScores(secondPlayer, firstPlayer);
+
+
                 $("#myModal").css("visibility", "visible");
                 $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB: String = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";  
                 $("#msgFb").append(msgFB.valueOf());         
-                var score: dominox.Score = new Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                var key: String = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
-                localStorage.setItem(key.valueOf(), score.toString().valueOf());
+
+
                 return true;
             }
             return false;   

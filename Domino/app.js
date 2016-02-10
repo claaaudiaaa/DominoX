@@ -34,6 +34,7 @@
         FB.login(function () {
             FB.api('/me/feed', 'post', { message: msgFB });
         }, { scope: 'publish_actions' });
+
         $('.backgroundImage').load('index.html');
     });
 
@@ -59,8 +60,16 @@
 
     window.gameEngine = gameEngine;
     var gameEngineParameters = new dominox.GameEngineParameters();
-    gameEngineParameters.firstPlayerName = firstName;
-    gameEngineParameters.secondPlayerName = secondName;
-    gameEngineParameters.dominoGameName = "Muggins";
-    gameEngine.runWithParameters(gameEngineParameters);
+
+    if (window.startWithSessionState != undefined)
+    {
+        gameEngine.runWithSerializedState(window.startWithSessionState);
+    }
+    else {
+
+        gameEngineParameters.firstPlayerName = window.firstName;
+        gameEngineParameters.secondPlayerName = window.secondName;
+        gameEngineParameters.dominoGameName = window.gameName;
+        gameEngine.runWithParameters(gameEngineParameters);
+    }
 })();

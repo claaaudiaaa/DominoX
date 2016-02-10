@@ -75,7 +75,21 @@ module dominox {
             var matrix = this.matrixPresenter.presentTileBoardAsTileMatrix(tileBoard);
             this.displayedMatrixOfTiles = matrix;
 
+            var self = this;
+
+/*            dominox.fadeOutWithCallback(this.table, function () {
+                self.buildTableAccordingToMatrix(self.table, matrix);
+
+                dominox.unfadeWithCallback(self.table, function ()
+                {
+                    alert(callbackWhenDone);
+                    callIfNotNull(callbackWhenDone);
+                });
+
+            });*/
+
             this.buildTableAccordingToMatrix(this.table, matrix);
+            callIfNotNull(callbackWhenDone);
         }
 
        

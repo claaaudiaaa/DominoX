@@ -147,6 +147,7 @@ var dominox;
         //Check if one of the players reached the maximum of points, in which case creates an informative message
         MugginsGame.prototype.final = function (firstPlayer, secondPlayer, board) {
             if (firstPlayer.getScore() >= 100) {
+                dominox.savePlayerScores(firstPlayer, secondPlayer);
                 $("#myModal").css("visibility", "visible");
                 $("#winner").append("The winner of this game is " + firstPlayer.getName() + "!");
                 $('#myModal').modal();
@@ -154,20 +155,15 @@ var dominox;
                 var bool = "false";
                 $("#msgFb").text(msgFB.valueOf());
                 $("#firstGame").text(bool.valueOf());
-                var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                var key = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
-                localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
             else if (secondPlayer.getScore() >= 100) {
+                dominox.savePlayerScores(secondPlayer, firstPlayer);
                 $("#myModal").css("visibility", "visible");
                 $("#winner").text("The winner of this game is " + secondPlayer.getName() + "!");
                 $('#myModal').modal();
                 var msgFB = " " + secondPlayer.getName() + " and " + firstPlayer.getName() + " played DominoX and " + secondPlayer.getName() + " won!";
                 $("#msgFb").append(msgFB.valueOf());
-                var score = new dominox.Score(firstPlayer.getName(), secondPlayer.getName(), firstPlayer.getScore(), secondPlayer.getScore());
-                var key = (Number(localStorage.key(localStorage.length - 1)) + 1).toString();
-                localStorage.setItem(key.valueOf(), score.toString().valueOf());
                 return true;
             }
             return false;
