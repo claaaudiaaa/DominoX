@@ -168,9 +168,9 @@ module dominox
             this.dominoTilesProvider = new DummyTileProvider();
             this.tileBoard = new ConcreteTileBoard();
 
-            this.firstPlayer.setTileList(this.dominoTilesProvider.getListOfRandomTilesOfCount(3));
-            this.secondPlayer.setTileList(this.dominoTilesProvider.getListOfRandomTilesOfCount(3));
-            this.tileBoard.addFirstTile(this.dominoTilesProvider.getRandomTile());
+            this.firstPlayer.setTileList(this.dominoTilesProvider.getListOfRandomTilesOfCount(7));
+            this.secondPlayer.setTileList(this.dominoTilesProvider.getListOfRandomTilesOfCount(7));
+            this.tileBoard.addFirstTile(this.dominoTilesProvider.getFirstTile());
 
             this.firstPlayerTileListView.setAndDisplayOverallTileList(this.firstPlayer.getTileList(), null);
             this.secondPlayerTileListView.setAndDisplayOverallTileList(this.secondPlayer.getTileList(), null);
