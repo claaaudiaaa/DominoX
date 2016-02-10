@@ -6,6 +6,10 @@ var dominox;
         function ConcreteTileBoard() {
             this.dominoTileList = new Array();
         }
+        ConcreteTileBoard.prototype.setTileListWithSpinner = function (tileList, spinner) {
+            this.dominoTileList = tileList;
+            this.spinner = spinner;
+        };
         ConcreteTileBoard.prototype.setTileList = function (tileList) {
             this.dominoTileList = tileList;
         };

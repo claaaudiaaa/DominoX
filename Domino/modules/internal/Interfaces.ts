@@ -37,6 +37,8 @@ module dominox {
         getExternalTilesListMatchingTile(tile: dominox.DominoTile): dominox.DominoTile[];
         getExternalTiles(): dominox.DominoTile[];
         getSpinner(): dominox.DominoTile;
+
+        setTileListWithSpinner(tileList: DominoTile[], spinner: DominoTile);
     }
 
     export interface DominoGame {

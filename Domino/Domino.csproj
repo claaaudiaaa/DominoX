@@ -99,7 +99,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="mainGameEngine.ts" />
     <TypeScriptCompile Include="modules\external\GameEngine.ts" />
+    <TypeScriptCompile Include="modules\external\GameEngineMatchParameters.ts" />
     <TypeScriptCompile Include="modules\external\GameEngineParameters.ts" />
+    <TypeScriptCompile Include="modules\external\LocalStorageParametersRepository.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\ConcreteTileBoard.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\ConsoleTileBoardView.ts" />
     <TypeScriptCompile Include="modules\internal\concreteImplementations\ConsolePlayerTileListView.ts" />

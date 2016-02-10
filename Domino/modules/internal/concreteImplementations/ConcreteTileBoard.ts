@@ -14,6 +14,13 @@ module dominox
             this.dominoTileList = new Array<dominox.DominoTile>();
         }
 
+        setTileListWithSpinner(tileList: DominoTile[], spinner: DominoTile)
+        {
+            this.dominoTileList = tileList;
+            this.spinner = spinner;
+
+        }
+
         public setTileList(tileList: DominoTile[]) {
             this.dominoTileList = tileList;
         }
@@ -40,7 +47,8 @@ module dominox
             this.checkListEmptyOrThrow(); 
             this.setOrientationOfFirstTile(tile);
             this.dominoTileList.push(tile);
-            if (tile.isDoubleTile()) {
+            if (tile.isDoubleTile())
+            {
                 this.spinner = tile;
             }
             else {

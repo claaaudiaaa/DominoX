@@ -20,6 +20,7 @@
 /// <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
 /// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
 /// <reference path = "../internal/concreteImplementations/GlobalUserInteractionsObserver.ts"/>
+/// <reference path = "GameEngineMatchParameters.ts"/>
 
 module dominox
 {
@@ -62,6 +63,8 @@ module dominox
         playTileUseCase: dominox.PlayTileUseCase;
 
         matrixPresenter: dominox.SimpleTileMatrixPresenter;
+
+        currentActivePlayer: Player;
 
         constructor() {
             
@@ -158,6 +161,8 @@ module dominox
             this.setupTileListViewForPlayer(this.secondPlayerTileListView, this.secondPlayer);
 
             this.playGame(this.firstPlayerTurnData, this.secondPlayerTurnData);
+
+
         }
 
 
@@ -217,7 +222,11 @@ module dominox
         startNewTurn(currentPlayerTurnData: PlayerTurnData, otherPlayerTurnData: PlayerTurnData,
             callbackWhenDone: dominox.VoidCallback)
         {
-            //this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
+            this.currentActivePlayer = currentPlayerTurnData.player;
+
+            console.log("CURRENT STATE AS STRING");
+            console.log(this.serializeCurrentStateIntoString());
+
             if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
                 return;
             if (this.dominoTilesProvider.getTilesLeft().length == 0)
@@ -422,5 +431,37 @@ module dominox
 
             return imagesContainer;
         }
+
+        public serializeCurrentStateIntoString(): string
+        {
+            var obj = new GameEngineMatchDeserializedParams();
+
+            obj.firstPlayerScore = this.firstPlayer.getScore();
+            obj.firstPlayerName = this.firstPlayer.getName();
+
+            obj.secondPlayerName = this.secondPlayer.getName();
+            obj.secondPlayerScore = this.secondPlayer.getScore();
+
+            obj.boardTiles = this.tileBoard.getTileList();
+            obj.firstPlayerTiles = this.firstPlayer.getTileList();
+            obj.secondPlayerTileS = this.secondPlayer.getTileList();
+
+            var whichPlayer: string = "first";
+            if (this.currentActivePlayer == this.secondPlayer)
+                whichPlayer = "second";
+
+            obj.whichPlayer = whichPlayer;
+
+            var boardHasFirstTileSpinner: string = "yes";
+            if (this.tileBoard.getSpinner() == null ||
+                this.tileBoard.getSpinner() == undefined) {
+                boardHasFirstTileSpinner = "no";
+            }
+
+            obj.boardHasFirstTileSpinner = boardHasFirstTileSpinner;
+
+            return obj.stringify();
+        }
+
     }
 }

@@ -19,6 +19,7 @@
 /// <reference path = "../internal/concreteImplementations/TableTileBoardView.ts"/>
 /// <reference path = "../internal/concreteImplementations/DivPlayerTileListView.ts"/>
 /// <reference path = "../internal/concreteImplementations/GlobalUserInteractionsObserver.ts"/>
+/// <reference path = "GameEngineMatchParameters.ts"/>
 var dominox;
 (function (dominox) {
     var PlayerTurnData = (function () {
@@ -129,7 +130,9 @@ var dominox;
             });
         };
         GameEngine.prototype.startNewTurn = function (currentPlayerTurnData, otherPlayerTurnData, callbackWhenDone) {
-            //this.dominoGame.endOfGame(this.firstPlayer, this.secondPlayer, this.tileBoard);
+            this.currentActivePlayer = currentPlayerTurnData.player;
+            console.log("CURRENT STATE AS STRING");
+            console.log(this.serializeCurrentStateIntoString());
             if (this.dominoGame.final(this.firstPlayer, this.secondPlayer, this.tileBoard))
                 return;
             if (this.dominoTilesProvider.getTilesLeft().length == 0)
@@ -264,6 +267,27 @@ var dominox;
             if (imagesContainer == null || imagesContainer == undefined)
                 throw "Could not find ImagesContainer";
             return imagesContainer;
+        };
+        GameEngine.prototype.serializeCurrentStateIntoString = function () {
+            var obj = new dominox.GameEngineMatchDeserializedParams();
+            obj.firstPlayerScore = this.firstPlayer.getScore();
+            obj.firstPlayerName = this.firstPlayer.getName();
+            obj.secondPlayerName = this.secondPlayer.getName();
+            obj.secondPlayerScore = this.secondPlayer.getScore();
+            obj.boardTiles = this.tileBoard.getTileList();
+            obj.firstPlayerTiles = this.firstPlayer.getTileList();
+            obj.secondPlayerTileS = this.secondPlayer.getTileList();
+            var whichPlayer = "first";
+            if (this.currentActivePlayer == this.secondPlayer)
+                whichPlayer = "second";
+            obj.whichPlayer = whichPlayer;
+            var boardHasFirstTileSpinner = "yes";
+            if (this.tileBoard.getSpinner() == null ||
+                this.tileBoard.getSpinner() == undefined) {
+                boardHasFirstTileSpinner = "no";
+            }
+            obj.boardHasFirstTileSpinner = boardHasFirstTileSpinner;
+            return obj.stringify();
         };
         return GameEngine;
     })();
